@@ -1,23 +1,28 @@
 FROM php:8.2-apache
 
-# Installe l’extension PDO MySQL
-RUN docker-php-ext-install pdo pdo_mysql
+# Installer dépendances système et extensions PHP
+RUN apt-get update && apt-get install -y \
+    unzip libzip-dev git && \
+    docker-php-ext-install pdo pdo_mysql
 
-# Active le module de réécriture d’URL
+# Activer mod_rewrite
 RUN a2enmod rewrite
 
-# Copie le code du backend dans le conteneur
-COPY . /var/www/html
+# Définir le dossier de travail
+WORKDIR /var/www/html
 
-# Change le DocumentRoot pour Apache
-RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' /etc/apache2/sites-enabled/000-default.conf
+# Copier tous les fichiers du backend dans le conteneur
+COPY . .
 
-# Autorise les .htaccess
-RUN sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
-RUN sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/sites-enabled/000-default.conf
+# Installer Composer (à partir de l'image officielle)
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Définit le répertoire de travail
-WORKDIR /var/www/html/public
+# Exécuter composer install et forcer le téléchargement des dépendances
+RUN composer install --no-interaction --no-dev --prefer-dist
 
-# Corrige les permissions
-RUN chown -R www-data:www-data /var/www/html
+# Configurer Apache pour pointer vers /public
+RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
+RUN echo '<Directory /var/www/html/public>\nAllowOverride All\nRequire all granted\nFallbackResource /index.php\n</Directory>' >> /etc/apache2/apache2.conf
+
+EXPOSE 80
+CMD ["apache2-foreground"]

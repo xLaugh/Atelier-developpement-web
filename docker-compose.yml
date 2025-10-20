@@ -1,6 +1,4 @@
-networks:
-  outils.net:
-    driver: bridge
+version: "3.9"
 
 services:
   backend:
@@ -8,7 +6,6 @@ services:
     container_name: sae_backend
     ports:
       - "8080:80"
-
     depends_on:
       - db
     environment:
@@ -16,6 +13,8 @@ services:
       - MYSQL_DATABASE=charlymatloc
       - MYSQL_USER=root
       - MYSQL_PASSWORD=
+    networks:
+      - outils_net
 
   db:
     image: mysql:8.0
@@ -25,10 +24,17 @@ services:
       MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_DATABASE: charlymatloc
-    volumes:
-      - db_data:/var/lib/mysql
     ports:
       - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./sql/bdd.sql:/docker-entrypoint-initdb.d/bdd.sql
+    networks:
+      - outils_net
+
+networks:
+  outils_net:
+    driver: bridge
 
 volumes:
   db_data:
