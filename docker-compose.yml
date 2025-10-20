@@ -1,0 +1,39 @@
+networks:
+  outils.net:
+    driver: bridge
+
+services:
+
+  api.outils:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - ./backend:/var/www/html
+    depends_on:
+      - outils.db
+    env_file:
+      - .env
+    command: sh -c "composer install && php -S 0.0.0.0:80 -t public"
+
+  outils.db:
+    image: mariadb:latest
+    env_file:
+      - .env
+    volumes:
+      - ./sql/bdd.sql:/docker-entrypoint-initdb.d/bdd.sql
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  adminer:
+    image: adminer
+    ports:
+      - "8081:8080"
+    depends_on:
+      - outils.db
+
+volumes:
+  db_data:
