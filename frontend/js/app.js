@@ -39,5 +39,19 @@ async function chargerCategories() {
   }
 }
 
+function initCart() {
+  const nav = document.querySelector('nav') || document.body;
+  const existingCartLink = nav.querySelector('a[href*="panier"]');
+  
+  if (!existingCartLink) {
+    const cartLink = document.createElement('a');
+    cartLink.href = 'page/panier.html';
+    cartLink.innerHTML = 'Panier';
+    cartLink.className = 'btn-cart';
+    nav.appendChild(cartLink);
+  }
+}
+
 chargerCategories();
 chargerCatalogue();
+initCart();
