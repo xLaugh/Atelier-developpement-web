@@ -14,6 +14,7 @@ CREATE TABLE models (
     category_id INT NOT NULL,
     name VARCHAR(150) NOT NULL,
     brand VARCHAR(100),
+    image_url VARCHAR(255),
     description TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
@@ -55,11 +56,11 @@ INSERT INTO categories (id, name, description) VALUES
 ON DUPLICATE KEY UPDATE name = VALUES(name);
 
 -- Données de test (modèles)
-INSERT INTO models (id, category_id, name, brand, description) VALUES
-  (1, 1, 'Perceuse percussion 18V', 'Makita', 'Perceuse sans fil avec 2 batteries'),
-  (2, 2, 'Scie sauteuse 750W', 'Bosch', 'Précise, pour bois et métal'),
-  (3, 3, 'Ponceuse excentrique 125mm', 'DeWalt', 'Avec aspiration intégrée')
-ON DUPLICATE KEY UPDATE name = VALUES(name);
+INSERT INTO models (id, category_id, name, brand, image_url, description) VALUES
+  (1, 1, 'Perceuse percussion 18V', 'Makita', 'https://via.placeholder.com/300x200?text=Perceuse', 'Perceuse sans fil avec 2 batteries'),
+  (2, 2, 'Scie sauteuse 750W', 'Bosch', 'https://via.placeholder.com/300x200?text=Scie+sauteuse', 'Précise, pour bois et métal'),
+  (3, 3, 'Ponceuse excentrique 125mm', 'DeWalt', 'https://via.placeholder.com/300x200?text=Ponceuse', 'Avec aspiration intégrée')
+ON DUPLICATE KEY UPDATE name = VALUES(name), image_url = VALUES(image_url);
 
 -- Données de test (exemplaires)
 INSERT INTO items (id, model_id, status) VALUES
