@@ -57,7 +57,7 @@ return function ($app, $db) {
 
             if ($categoryId) {
                 $stmt = $pdo->prepare(
-                    "SELECT m.id, m.name, m.brand, m.image_url, m.description, c.name AS category, COUNT(i.id) AS exemplaires
+                    "SELECT m.id, m.name, m.brand, m.image_url, m.price_per_day, m.description, c.name AS category, COUNT(i.id) AS exemplaires
                      FROM models m
                      JOIN categories c ON c.id = m.category_id
                      LEFT JOIN items i ON i.model_id = m.id
@@ -67,7 +67,7 @@ return function ($app, $db) {
                 $stmt->execute(['cid' => $categoryId]);
             } else {
                 $stmt = $pdo->query(
-                    "SELECT m.id, m.name, m.brand, m.image_url, m.description, c.name AS category, COUNT(i.id) AS exemplaires
+                    "SELECT m.id, m.name, m.brand, m.image_url, m.price_per_day, m.description, c.name AS category, COUNT(i.id) AS exemplaires
                      FROM models m
                      JOIN categories c ON c.id = m.category_id
                      LEFT JOIN items i ON i.model_id = m.id
@@ -83,6 +83,7 @@ return function ($app, $db) {
                     'name' => $row['name'],
                     'brand' => $row['brand'],
                     'image_url' => $row['image_url'],
+                    'price_per_day' => $row['price_per_day'] ? (float)$row['price_per_day'] : null,
                     'description' => $row['description'],
                     'category' => $row['category'],
                     'exemplaires' => (int)$row['exemplaires'],
@@ -119,7 +120,7 @@ return function ($app, $db) {
 
             $pdo = $db->getConnection();
             $stmt = $pdo->prepare(
-                "SELECT m.id, m.name, m.brand, m.image_url, m.description, c.name AS category, COUNT(i.id) AS exemplaires
+                "SELECT m.id, m.name, m.brand, m.image_url, m.price_per_day, m.description, c.name AS category, COUNT(i.id) AS exemplaires
                  FROM models m
                  JOIN categories c ON c.id = m.category_id
                  LEFT JOIN items i ON i.model_id = m.id
@@ -142,6 +143,7 @@ return function ($app, $db) {
                 'name' => $row['name'],
                 'brand' => $row['brand'],
                 'image_url' => $row['image_url'],
+                'price_per_day' => $row['price_per_day'] ? (float)$row['price_per_day'] : null,
                 'description' => $row['description'],
                 'category' => $row['category'],
                 'exemplaires' => (int)$row['exemplaires'],
