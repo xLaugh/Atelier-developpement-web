@@ -41,3 +41,24 @@ CREATE TABLE logs (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
     FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE
 );
+
+-- Données de test (catégories)
+INSERT INTO categories (id, name, description) VALUES
+  (1, 'Perçage', 'Outils de perçage et trépan'),
+  (2, 'Sciage', 'Scies et lames'),
+  (3, 'Ponçage', 'Ponceuses et abrasifs')
+ON DUPLICATE KEY UPDATE name = VALUES(name);
+
+-- Données de test (modèles)
+INSERT INTO models (id, category_id, name, brand, description) VALUES
+  (1, 1, 'Perceuse percussion 18V', 'Makita', 'Perceuse sans fil avec 2 batteries'),
+  (2, 2, 'Scie sauteuse 750W', 'Bosch', 'Précise, pour bois et métal'),
+  (3, 3, 'Ponceuse excentrique 125mm', 'DeWalt', 'Avec aspiration intégrée')
+ON DUPLICATE KEY UPDATE name = VALUES(name);
+
+-- Données de test (exemplaires)
+INSERT INTO items (id, model_id, status) VALUES
+  (1, 1, 0),
+  (2, 2, 0),
+  (3, 3, 0)
+ON DUPLICATE KEY UPDATE status = VALUES(status);
