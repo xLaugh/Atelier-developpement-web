@@ -4,8 +4,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 return function ($app, $db) {
     $app->get('/api/health', function (Request $request, Response $response) {
-        $response->getBody()->write(json_encode(['status' => 'ok']));
-        return $response->withHeader('Content-Type', 'application/json');
+        $response->getBody()->write(json_encode(['status' => 'ok'], JSON_UNESCAPED_UNICODE));
+        return $response->withHeader('Content-Type', 'application/json; charset=utf-8');
     });
 
     $app->get('/api/categories', function (Request $request, Response $response) use ($db) {
@@ -32,11 +32,11 @@ return function ($app, $db) {
                 '_links' => ['self' => ['href' => '/api/categories']],
             ];
 
-            $response->getBody()->write(json_encode($payload));
-            return $response->withHeader('Content-Type', 'application/json');
+            $response->getBody()->write(json_encode($payload, JSON_UNESCAPED_UNICODE));
+            return $response->withHeader('Content-Type', 'application/json; charset=utf-8');
         } catch (Exception $e) {
-            $response->getBody()->write(json_encode(['error' => $e->getMessage()]));
-            return $response->withStatus(500)->withHeader('Content-Type', 'application/json');
+            $response->getBody()->write(json_encode(['error' => $e->getMessage()], JSON_UNESCAPED_UNICODE));
+            return $response->withStatus(500)->withHeader('Content-Type', 'application/json; charset=utf-8');
         }
     });
 
@@ -97,11 +97,11 @@ return function ($app, $db) {
                 '_links' => ['self' => ['href' => '/api/outils']],
             ];
 
-            $response->getBody()->write(json_encode($payload));
-            return $response->withHeader('Content-Type', 'application/json');
+            $response->getBody()->write(json_encode($payload, JSON_UNESCAPED_UNICODE));
+            return $response->withHeader('Content-Type', 'application/json; charset=utf-8');
         } catch (Exception $e) {
-            $response->getBody()->write(json_encode(['error' => $e->getMessage()]));
-            return $response->withStatus(500)->withHeader('Content-Type', 'application/json');
+            $response->getBody()->write(json_encode(['error' => $e->getMessage()], JSON_UNESCAPED_UNICODE));
+            return $response->withStatus(500)->withHeader('Content-Type', 'application/json; charset=utf-8');
         }
     });
 
@@ -112,8 +112,8 @@ return function ($app, $db) {
                 $response->getBody()->write(json_encode([
                     'error' => 'invalid_id',
                     'message' => 'Identifiant invalide'
-                ]));
-                return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
+                ], JSON_UNESCAPED_UNICODE));
+                return $response->withStatus(400)->withHeader('Content-Type', 'application/json; charset=utf-8');
             }
 
             $pdo = $db->getConnection();
@@ -129,11 +129,11 @@ return function ($app, $db) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if (!$row) {
-                $response->getBody()->write(json_encode([
+            $response->getBody()->write(json_encode([
                     'error' => 'not_found',
                     'message' => 'Outil introuvable'
-                ]));
-                return $response->withStatus(404)->withHeader('Content-Type', 'application/json');
+            ], JSON_UNESCAPED_UNICODE));
+            return $response->withStatus(404)->withHeader('Content-Type', 'application/json; charset=utf-8');
             }
 
             $item = [
@@ -149,8 +149,8 @@ return function ($app, $db) {
                 ],
             ];
 
-            $response->getBody()->write(json_encode($item));
-            return $response->withHeader('Content-Type', 'application/json');
+            $response->getBody()->write(json_encode($item, JSON_UNESCAPED_UNICODE));
+            return $response->withHeader('Content-Type', 'application/json; charset=utf-8');
         } catch (Exception $e) {
             $response->getBody()->write(json_encode(['error' => $e->getMessage()]));
             return $response->withStatus(500)->withHeader('Content-Type', 'application/json');
