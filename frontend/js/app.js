@@ -8,12 +8,10 @@ async function chargerCatalogue(categoryId) {
     const outils = Array.isArray(data) ? data : (data.items || []);
 
     div.innerHTML = outils.map(o => `
-      <div class="outil">
+      <a class="outil" href="page/detail.html?id=${o.id}">
+        <img src="${o.image_url || 'https://via.placeholder.com/300x200?text=Outil'}" alt="${o.name}" style="width:100%;height:auto;display:block;border-radius:6px;" />
         <h3>${o.name}</h3>
-        <p>Catégorie : ${o.category}</p>
-        <p>Marque : ${o.brand ?? "Non spécifiée"}</p>
-        <p>Exemplaires : ${o.exemplaires}</p>
-      </div>
+      </a>
     `).join("");
   } catch (e) {
     div.innerHTML = `<p>Erreur de chargement: ${e.message}</p>`;
