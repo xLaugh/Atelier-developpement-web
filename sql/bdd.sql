@@ -15,6 +15,7 @@ CREATE TABLE models (
     name VARCHAR(150) NOT NULL,
     brand VARCHAR(100),
     image_url VARCHAR(255),
+    price_per_day DECIMAL(10,2),
     description TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
@@ -56,11 +57,11 @@ INSERT INTO categories (id, name, description) VALUES
 ON DUPLICATE KEY UPDATE name = VALUES(name);
 
 -- Données de test (modèles)
-INSERT INTO models (id, category_id, name, brand, image_url, description) VALUES
-  (1, 1, 'Perceuse percussion 18V', 'Makita', 'https://via.placeholder.com/300x200?text=Perceuse', 'Perceuse sans fil avec 2 batteries'),
-  (2, 2, 'Scie sauteuse 750W', 'Bosch', 'https://via.placeholder.com/300x200?text=Scie+sauteuse', 'Précise, pour bois et métal'),
-  (3, 3, 'Ponceuse excentrique 125mm', 'DeWalt', 'https://via.placeholder.com/300x200?text=Ponceuse', 'Avec aspiration intégrée')
-ON DUPLICATE KEY UPDATE name = VALUES(name), image_url = VALUES(image_url);
+INSERT INTO models (id, category_id, name, brand, image_url, price_per_day, description) VALUES
+  (1, 1, 'Perceuse percussion 18V', 'Makita', 'https://via.placeholder.com/300x200?text=Perceuse', 10, 'Perceuse sans fil avec 2 batteries'),
+  (2, 2, 'Scie sauteuse 750W', 'Bosch', 'https://via.placeholder.com/300x200?text=Scie+sauteuse', 5, 'Précise, pour bois et métal'),
+  (3, 3, 'Ponceuse excentrique 125mm', 'DeWalt', 'https://via.placeholder.com/300x200?text=Ponceuse', 25, 'Avec aspiration intégrée')
+ON DUPLICATE KEY UPDATE name = VALUES(name), image_url = VALUES(image_url), price_per_day = VALUES(price_per_day);
 
 -- Données de test (exemplaires)
 INSERT INTO items (id, model_id, status) VALUES
