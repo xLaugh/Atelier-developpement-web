@@ -1,9 +1,9 @@
 <?php
 return [
   'db' => [
-    'host' => 'localhost',
+    'host' => 'db',
     'dbname' => 'charlymatloc',
-    'user' => 'charly',
-    'pass' => 'charly123'
+    'user' => 'root',
+    'pass' => ''
   ]
 ];

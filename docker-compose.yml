@@ -3,37 +3,32 @@ networks:
     driver: bridge
 
 services:
-
-  api.outils:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+  backend:
+    build: ./backend
+    container_name: sae_backend
     ports:
       - "8080:80"
-    volumes:
-      - ./backend:/var/www/html
-    depends_on:
-      - outils.db
-    env_file:
-      - .env
-    command: sh -c "composer install && php -S 0.0.0.0:80 -t public"
 
-  outils.db:
-    image: mariadb:latest
-    env_file:
-      - .env
+    depends_on:
+      - db
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_DATABASE=charlymatloc
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=
+
+  db:
+    image: mysql:8.0
+    container_name: sae_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: charlymatloc
     volumes:
-      - ./sql/bdd.sql:/docker-entrypoint-initdb.d/bdd.sql
       - db_data:/var/lib/mysql
     ports:
       - "3306:3306"
-
-  adminer:
-    image: adminer
-    ports:
-      - "8081:8080"
-    depends_on:
-      - outils.db
 
 volumes:
   db_data:
