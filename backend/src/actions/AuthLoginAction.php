@@ -2,14 +2,19 @@
 declare(strict_types=1);
 
 namespace App\actions;
-use PDO;
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use App\application\ports\api\ServiceUserInterface;
 use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
+use App\domain\exceptions\UserNotFoundException;
 
 class AuthLoginAction
 {
+    public function __construct(
+        private ServiceUserInterface $serviceUser
+    ) {}
+
     public function __invoke(Request $request, Response $response): Response
     {
         try {
@@ -25,50 +30,44 @@ class AuthLoginAction
                 return $response->withStatus(400)->withHeader('Content-Type', 'application/json; charset=utf-8');
             }
 
-            $pdo = $GLOBALS['db']->getConnection();
-            $stmt = $pdo->prepare("SELECT id, prenom, nom, email, password FROM users WHERE email = :email");
-            $stmt->execute(['email' => $email]);
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            $user = $this->serviceUser->authenticate($email, $password);
 
-            if ($user && password_verify($password, $user['password'])) {
-                $settings = require __DIR__ . '/../../config/Settings.php';
-                $jwtConfig = $settings['jwt'];
-                
-                $payload = [
-                    'iss' => 'charlymatloc',
-                    'aud' => 'charlymatloc',
-                    'iat' => time(),
-                    'exp' => time() + $jwtConfig['expiration'],
-                    'sub' => $user['id'],
-                    'data' => [
-                        'id' => $user['id'],
-                        'prenom' => $user['prenom'],
-                        'nom' => $user['nom'],
-                        'email' => $user['email']
-                    ]
-                ];
-                
-                $token = JWT::encode($payload, $jwtConfig['secret'], $jwtConfig['algorithm']);
-
-                $response->getBody()->write(json_encode([
-                    'success' => true,
-                    'token' => $token,
-                    'user' => [
-                        'id' => (int)$user['id'],
-                        'prenom' => $user['prenom'],
-                        'nom' => $user['nom'],
-                        'email' => $user['email']
-                    ]
-                ], JSON_UNESCAPED_UNICODE));
-                return $response->withHeader('Content-Type', 'application/json; charset=utf-8');
-            } else {
+            if (!$user) {
                 $response->getBody()->write(json_encode([
                     'error' => 'invalid_credentials',
                     'message' => 'Email ou mot de passe incorrect'
                 ], JSON_UNESCAPED_UNICODE));
                 return $response->withStatus(401)->withHeader('Content-Type', 'application/json; charset=utf-8');
             }
-        } catch (Exception $e) {
+
+            // Génération du JWT
+            $settings = require __DIR__ . '/../../config/Settings.php';
+            $jwtConfig = $settings['jwt'];
+            
+            $payload = [
+                'iss' => 'charlymatloc',
+                'aud' => 'charlymatloc',
+                'iat' => time(),
+                'exp' => time() + $jwtConfig['expiration'],
+                'sub' => $user->getId(),
+                'data' => $user->toArray()
+            ];
+            
+            $token = JWT::encode($payload, $jwtConfig['secret'], $jwtConfig['algorithm']);
+
+            $response->getBody()->write(json_encode([
+                'success' => true,
+                'token' => $token,
+                'user' => $user->toArray()
+            ], JSON_UNESCAPED_UNICODE));
+            return $response->withHeader('Content-Type', 'application/json; charset=utf-8');
+        } catch (UserNotFoundException $e) {
+            $response->getBody()->write(json_encode([
+                'error' => 'user_not_found',
+                'message' => $e->getMessage()
+            ], JSON_UNESCAPED_UNICODE));
+            return $response->withStatus(404)->withHeader('Content-Type', 'application/json; charset=utf-8');
+        } catch (\Exception $e) {
             $response->getBody()->write(json_encode([
                 'error' => 'server_error',
                 'message' => 'Erreur serveur'

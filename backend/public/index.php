@@ -8,15 +8,21 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use Slim\Factory\AppFactory;
 use App\middleware\CorsMiddleware;
-use App\db\Database; 
+use DI\ContainerBuilder;
 
-// === CONFIG & DATABASE ===
-$settings = require __DIR__ . '/../src/config/Settings.php';
+// === CONFIGURATION ===
+$settings = require __DIR__ . '/../src/config/settings.php';
 
-$db = new Database($settings['db']);
-$GLOBALS['db'] = $db;
+// === CONTAINER DI ===
+$containerBuilder = new ContainerBuilder();
+$containerBuilder->useAutowiring(true);
+$containerBuilder->addDefinitions(['settings' => $settings]);
+$containerBuilder->addDefinitions(require __DIR__ . '/../src/config/services.php');
 
-// === CRÉATION DE L’APP ===
+$container = $containerBuilder->build();
+
+// === CRÉATION DE L'APP ===
+AppFactory::setContainer($container);
 $app = AppFactory::create();
 
 // === AJOUT DU MIDDLEWARE CORS ===

@@ -12,17 +12,20 @@ class CorsMiddleware
 {
     public function __invoke(Request $request, RequestHandler $handler): Response
     {
+        // Gérer les requêtes OPTIONS (preflight)
         if ($request->getMethod() === 'OPTIONS') {
             $response = new SlimResponse(200);
         } else {
             $response = $handler->handle($request);
         }
 
+        // Ajouter les headers CORS
         return $response
-            ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
-            ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
+            ->withHeader('Access-Control-Allow-Origin', '*')
+            ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin')
             ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
             ->withHeader('Access-Control-Max-Age', '86400')
+            ->withHeader('Access-Control-Allow-Credentials', 'true')
             ->withHeader('Vary', 'Origin');
     }
 }

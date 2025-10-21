@@ -2,17 +2,20 @@
 declare(strict_types=1);
 
 namespace App\actions;
-use PDO;
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use App\application\ports\api\ServiceOutilInterface;
 
 class ListOutilsAction
 {
+    public function __construct(
+        private ServiceOutilInterface $serviceOutil
+    ) {}
+
     public function __invoke(Request $request, Response $response): Response
     {
         try {
-            $pdo = $GLOBALS['db']->getConnection();
-
             $queryParams = $request->getQueryParams();
             $categoryId = isset($queryParams['category_id']) ? (int)$queryParams['category_id'] : null;
 
@@ -20,47 +23,19 @@ class ListOutilsAction
                 $response->getBody()->write(json_encode([
                     'error' => 'invalid_category_id',
                     'message' => 'Paramètre category_id invalide'
-                ]));
-                return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
+                ], JSON_UNESCAPED_UNICODE));
+                return $response->withStatus(400)->withHeader('Content-Type', 'application/json; charset=utf-8');
             }
 
             if ($categoryId) {
-                $stmt = $pdo->prepare(
-                    "SELECT m.id, m.name, m.brand, m.image_url, m.price_per_day, m.description, c.name AS category, COUNT(i.id) AS exemplaires
-                     FROM models m
-                     JOIN categories c ON c.id = m.category_id
-                     LEFT JOIN items i ON i.model_id = m.id
-                     WHERE c.id = :cid
-                     GROUP BY m.id"
-                );
-                $stmt->execute(['cid' => $categoryId]);
+                $outils = $this->serviceOutil->listerOutilsParCategorie($categoryId);
             } else {
-                $stmt = $pdo->query(
-                    "SELECT m.id, m.name, m.brand, m.image_url, m.price_per_day, m.description, c.name AS category, COUNT(i.id) AS exemplaires
-                     FROM models m
-                     JOIN categories c ON c.id = m.category_id
-                     LEFT JOIN items i ON i.model_id = m.id
-                     GROUP BY m.id"
-                );
+                $outils = $this->serviceOutil->listerOutils();
             }
 
-            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            $items = array_map(function ($row) {
-                return [
-                    'id' => (int)$row['id'],
-                    'name' => $row['name'],
-                    'brand' => $row['brand'],
-                    'image_url' => $row['image_url'],
-                    'price_per_day' => $row['price_per_day'] ? (float)$row['price_per_day'] : null,
-                    'description' => $row['description'],
-                    'category' => $row['category'],
-                    'exemplaires' => (int)$row['exemplaires'],
-                    '_links' => [
-                        'self' => ['href' => '/api/outils/' . $row['id']],
-                    ],
-                ];
-            }, $rows);
+            $items = array_map(function ($outil) {
+                return $outil->toArray();
+            }, $outils);
 
             $payload = [
                 'count' => count($items),
@@ -70,8 +45,11 @@ class ListOutilsAction
 
             $response->getBody()->write(json_encode($payload, JSON_UNESCAPED_UNICODE));
             return $response->withHeader('Content-Type', 'application/json; charset=utf-8');
-        } catch (Exception $e) {
-            $response->getBody()->write(json_encode(['error' => $e->getMessage()], JSON_UNESCAPED_UNICODE));
+        } catch (\Exception $e) {
+            $response->getBody()->write(json_encode([
+                'error' => 'server_error',
+                'message' => $e->getMessage()
+            ], JSON_UNESCAPED_UNICODE));
             return $response->withStatus(500)->withHeader('Content-Type', 'application/json; charset=utf-8');
         }
     }

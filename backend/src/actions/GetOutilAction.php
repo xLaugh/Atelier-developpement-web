@@ -2,12 +2,18 @@
 declare(strict_types=1);
 
 namespace App\actions;
-use PDO;
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use App\application\ports\api\ServiceOutilInterface;
+use App\domain\exceptions\OutilsNotFoundException;
 
 class GetOutilAction
 {
+    public function __construct(
+        private ServiceOutilInterface $serviceOutil
+    ) {}
+
     public function __invoke(Request $request, Response $response, array $args): Response
     {
         try {
@@ -20,19 +26,9 @@ class GetOutilAction
                 return $response->withStatus(400)->withHeader('Content-Type', 'application/json; charset=utf-8');
             }
 
-            $pdo = $GLOBALS['db']->getConnection();
-            $stmt = $pdo->prepare(
-                "SELECT m.id, m.name, m.brand, m.image_url, m.price_per_day, m.description, c.name AS category, COUNT(i.id) AS exemplaires
-                 FROM models m
-                 JOIN categories c ON c.id = m.category_id
-                 LEFT JOIN items i ON i.model_id = m.id
-                 WHERE m.id = :id
-                 GROUP BY m.id"
-            );
-            $stmt->execute(['id' => $id]);
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $outil = $this->serviceOutil->obtenirOutil($id);
 
-            if (!$row) {
+            if (!$outil) {
                 $response->getBody()->write(json_encode([
                     'error' => 'not_found',
                     'message' => 'Outil introuvable'
@@ -40,26 +36,20 @@ class GetOutilAction
                 return $response->withStatus(404)->withHeader('Content-Type', 'application/json; charset=utf-8');
             }
 
-            $item = [
-                'id' => (int)$row['id'],
-                'name' => $row['name'],
-                'brand' => $row['brand'],
-                'image_url' => $row['image_url'],
-                'price_per_day' => $row['price_per_day'] ? (float)$row['price_per_day'] : null,
-                'description' => $row['description'],
-                'category' => $row['category'],
-                'exemplaires' => (int)$row['exemplaires'],
-                '_links' => [
-                    'self' => ['href' => '/api/outils/' . $row['id']],
-                    'collection' => ['href' => '/api/outils'],
-                ],
-            ];
-
-            $response->getBody()->write(json_encode($item, JSON_UNESCAPED_UNICODE));
+            $response->getBody()->write(json_encode($outil->toArray(), JSON_UNESCAPED_UNICODE));
             return $response->withHeader('Content-Type', 'application/json; charset=utf-8');
-        } catch (Exception $e) {
-            $response->getBody()->write(json_encode(['error' => $e->getMessage()]));
-            return $response->withStatus(500)->withHeader('Content-Type', 'application/json');
+        } catch (OutilsNotFoundException $e) {
+            $response->getBody()->write(json_encode([
+                'error' => 'not_found',
+                'message' => $e->getMessage()
+            ], JSON_UNESCAPED_UNICODE));
+            return $response->withStatus(404)->withHeader('Content-Type', 'application/json; charset=utf-8');
+        } catch (\Exception $e) {
+            $response->getBody()->write(json_encode([
+                'error' => 'server_error',
+                'message' => $e->getMessage()
+            ], JSON_UNESCAPED_UNICODE));
+            return $response->withStatus(500)->withHeader('Content-Type', 'application/json; charset=utf-8');
         }
     }
 }
