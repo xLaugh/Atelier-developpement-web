@@ -87,6 +87,10 @@ return [
         return new ServiceCategory($container->get(ListCategoriesUseCase::class));
     },
 
+    \App\actions\CreateReservationAction::class => function ($container) {
+        return new \App\actions\CreateReservationAction($container->get(ItemRepositoryInterface::class));
+    },
+
     // PDO Connection
     PDO::class => function ($container) {
         $settings = $container->get('settings');
