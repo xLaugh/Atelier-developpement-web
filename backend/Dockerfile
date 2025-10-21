@@ -17,8 +17,8 @@ COPY . .
 # Installer Composer (à partir de l'image officielle)
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Exécuter composer install et forcer le téléchargement des dépendances
-RUN composer install --no-interaction --no-dev --prefer-dist
+# Mettre à jour composer.lock et installer les dépendances
+RUN composer update --no-interaction --no-dev --prefer-dist
 
 # Configurer Apache pour pointer vers /public
 RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf

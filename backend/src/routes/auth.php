@@ -1,8 +1,12 @@
 <?php
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 return function ($app, $db) {
+    $settings = require __DIR__ . '/../config/Settings.php';
+    $jwtConfig = $settings['jwt'];
     $app->post('/api/auth/login', function (Request $request, Response $response) use ($db) {
         try {
             $data = $request->getParsedBody();
@@ -23,12 +27,21 @@ return function ($app, $db) {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($user && password_verify($password, $user['password'])) {
-                $token = base64_encode(json_encode([
-                    'id' => $user['id'],
-                    'prenom' => $user['prenom'],
-                    'nom' => $user['nom'],
-                    'exp' => time() + 3600 // 1 heure
-                ]));
+                $payload = [
+                    'iss' => 'charlymatloc', // Issuer
+                    'aud' => 'charlymatloc', // Audience
+                    'iat' => time(), // Issued at
+                    'exp' => time() + $jwtConfig['expiration'], // Expiration
+                    'sub' => $user['id'], // Subject (user ID)
+                    'data' => [
+                        'id' => $user['id'],
+                        'prenom' => $user['prenom'],
+                        'nom' => $user['nom'],
+                        'email' => $user['email']
+                    ]
+                ];
+                
+                $token = JWT::encode($payload, $jwtConfig['secret'], $jwtConfig['algorithm']);
 
                 $response->getBody()->write(json_encode([
                     'success' => true,
@@ -113,7 +126,7 @@ return function ($app, $db) {
         }
     });
 
-    $app->get('/api/auth/me', function (Request $request, Response $response) use ($db) {
+    $app->get('/api/auth/me', function (Request $request, Response $response) use ($db, $jwtConfig) {
         try {
             $authHeader = $request->getHeaderLine('Authorization');
             if (!$authHeader || !str_starts_with($authHeader, 'Bearer ')) {
@@ -125,24 +138,27 @@ return function ($app, $db) {
             }
 
             $token = substr($authHeader, 7);
-            $decoded = json_decode(base64_decode($token), true);
             
-            if (!$decoded || $decoded['exp'] < time()) {
+            try {
+                $decoded = JWT::decode($token, new Key($jwtConfig['secret'], $jwtConfig['algorithm']));
+                
+                $response->getBody()->write(json_encode([
+                    'user' => [
+                        'id' => $decoded->data->id,
+                        'prenom' => $decoded->data->prenom,
+                        'nom' => $decoded->data->nom,
+                        'email' => $decoded->data->email
+                    ]
+                ], JSON_UNESCAPED_UNICODE));
+                return $response->withHeader('Content-Type', 'application/json; charset=utf-8');
+                
+            } catch (Exception $e) {
                 $response->getBody()->write(json_encode([
                     'error' => 'invalid_token',
                     'message' => 'Token invalide ou expiré'
                 ], JSON_UNESCAPED_UNICODE));
                 return $response->withStatus(401)->withHeader('Content-Type', 'application/json; charset=utf-8');
             }
-
-            $response->getBody()->write(json_encode([
-                'user' => [
-                    'id' => $decoded['id'],
-                    'prenom' => $decoded['prenom'],
-                    'nom' => $decoded['nom']
-                ]
-            ], JSON_UNESCAPED_UNICODE));
-            return $response->withHeader('Content-Type', 'application/json; charset=utf-8');
 
         } catch (Exception $e) {
             $response->getBody()->write(json_encode([

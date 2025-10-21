@@ -20,7 +20,8 @@ $app->add(function ($request, $handler) {
             ->withHeader('Access-Control-Allow-Origin', '*')
             ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
             ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
-            ->withHeader('Access-Control-Max-Age', '86400');
+            ->withHeader('Access-Control-Max-Age', '86400')
+            ->withHeader('Content-Length', '0');
     }
 
     $response = $handler->handle($request);
@@ -34,6 +35,15 @@ $app->add(function ($request, $handler) {
 $app->addBodyParsingMiddleware();
 $app->addRoutingMiddleware();
 $app->addErrorMiddleware(true, true, true);
+
+// === Routes OPTIONS pour CORS ===
+$app->options('/{routes:.+}', function ($request, $response) {
+    return $response
+        ->withHeader('Access-Control-Allow-Origin', '*')
+        ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
+        ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
+        ->withHeader('Access-Control-Max-Age', '86400');
+});
 
 // === Routes API ===
 (require __DIR__ . '/../src/routes/outils.php')($app, $db);
