@@ -1,11 +1,6 @@
-function getParam(name) {
-  const url = new URL(location.href);
-  return url.searchParams.get(name);
-}
-
 async function chargerDetail() {
   const div = document.getElementById('detail');
-  const id = getParam('id');
+  const id = new URLSearchParams(window.location.search).get('id');
   if (!id) {
     div.innerHTML = '<p>ID manquant</p>';
     return;

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Connexion / Inscription</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <button onclick="history.back()">Retour</button>
+  <div class="form-container">
+    <div id="messageBox"></div>
+    
+    <form id="loginForm">
+      <h2>Connexion</h2>
+      <input type="email" name="email" placeholder="Adresse e-mail" required />
+      <input type="password" name="password" placeholder="Mot de passe" required />
+      <button type="submit">Se connecter</button>
+      <p>Pas encore de compte ? <a href="#" onclick="showRegister()">S'inscrire</a></p>
+    </form>
+
+    <form id="registerForm" style="display: none;">
+      <h2>Inscription</h2>
+      <input type="text" name="prenom" placeholder="Prénom" required />
+      <input type="text" name="nom" placeholder="Nom" required />
+      <input type="email" name="email" placeholder="Adresse e-mail" required />
+      <input type="password" name="password" placeholder="Mot de passe" required />
+      <button type="submit">S'inscrire</button>
+      <p>Déjà un compte ? <a href="#" onclick="showLogin()">Se connecter</a></p>
+    </form>
+  </div>
+
+  <script>
+    function showRegister() {
+      document.getElementById('loginForm').style.display = 'none';
+      document.getElementById('registerForm').style.display = 'block';
+    }
+    
+    function showLogin() {
+      document.getElementById('registerForm').style.display = 'none';
+      document.getElementById('loginForm').style.display = 'block';
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData);
+
+      try {
+        const response = await fetch('http://localhost:8080/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        
+        if (result.success) {
+          localStorage.setItem('token', result.token);
+          localStorage.setItem('user', JSON.stringify(result.user));
+          window.location.href = '../index.html';
+        } else {
+          alert(result.message || 'Erreur de connexion');
+        }
+      } catch (error) {
+        alert('Erreur de connexion');
+      }
+    });
+
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData);
+      try {
+        const response = await fetch('http://localhost:8080/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        if (result.success) {
+          alert('Compte créé');
+          showLogin();
+        } else {
+          alert(result.message || 'Erreur d\'inscription');
+        }
+      } catch (error) {
+        alert('Erreur d\'inscription');
+      }
+    });
+  </script>
+</body>
+</html>

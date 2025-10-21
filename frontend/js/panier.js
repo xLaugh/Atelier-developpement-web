@@ -31,18 +31,9 @@ window.supprimerArticle = function(index) {
     panier.splice(index, 1);
     localStorage.setItem('panier', JSON.stringify(panier));
     chargerPanier();
-    updateCartCounter();
-  }
-}
-
-function updateCartCounter() {
-  const panier = JSON.parse(localStorage.getItem('panier') || '[]');
-  const totalItems = panier.reduce((sum, item) => sum + item.quantite, 0);
-  
-  let cartCounter = document.getElementById('cart-counter');
-  if (cartCounter) {
-    cartCounter.textContent = totalItems;
-    cartCounter.style.display = totalItems > 0 ? 'inline' : 'none';
+    if (typeof updateCartCounter === 'function') {
+      updateCartCounter();
+    }
   }
 }
 

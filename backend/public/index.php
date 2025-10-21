@@ -12,12 +12,32 @@ $db = new Database($settings['db']);
 
 // === App Slim ===
 $app = AppFactory::create();
+
+$app->add(function ($request, $handler) {
+    if ($request->getMethod() === 'OPTIONS') {
+        $response = new \Slim\Psr7\Response(200);
+        return $response
+            ->withHeader('Access-Control-Allow-Origin', '*')
+            ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
+            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
+            ->withHeader('Access-Control-Max-Age', '86400');
+    }
+
+    $response = $handler->handle($request);
+    return $response
+        ->withHeader('Access-Control-Allow-Origin', '*')
+        ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
+        ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
+        ->withHeader('Vary', 'Origin');
+});
+
 $app->addBodyParsingMiddleware();
 $app->addRoutingMiddleware();
 $app->addErrorMiddleware(true, true, true);
 
 // === Routes API ===
 (require __DIR__ . '/../src/routes/outils.php')($app, $db);
+(require __DIR__ . '/../src/routes/auth.php')($app, $db);
 
 // === Route pour servir le frontend ===
 $app->get('/', function ($request, $response) {
@@ -51,20 +71,10 @@ $app->get('/{path:.*}', function ($request, $response, $args) {
     return $response->withStatus(404)->write('File not found');
 })->add(function ($request, $response, $next) {
     // Skip cette route si c'est une route API
-    $path = $request->getUri()->getPath();
     if (str_starts_with($path, '/api/')) {
         return $next($request, $response);
     }
     return $response;
 });
 
-$app->add(function ($request, $handler) {
-    $response = $handler->handle($request);
-    return $response
-        ->withHeader('Access-Control-Allow-Origin', '*')
-        ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-        ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-});
-
-// === Run ===
 $app->run();

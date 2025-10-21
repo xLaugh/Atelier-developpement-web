@@ -52,6 +52,24 @@ function initCart() {
   }
 }
 
+function checkAuth() {
+  const token = localStorage.getItem('token');
+  const user = localStorage.getItem('user');
+  if (token && user) {
+    const userData = JSON.parse(user);
+    document.getElementById('login-btn').style.display = 'none';
+    document.getElementById('user-info').style.display = 'block';
+    document.getElementById('username').textContent = `Bonjour ${userData.prenom} ${userData.nom}`;
+  }
+}
+
+function logout() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  location.reload();
+}
+
 chargerCategories();
 chargerCatalogue();
 initCart();
+checkAuth();
