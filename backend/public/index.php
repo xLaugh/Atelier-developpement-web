@@ -14,6 +14,7 @@ $GLOBALS['db'] = $db;
 // === App Slim ===
 $app = AppFactory::create();
 
+// === Middleware CORS ===
 $app->add(function ($request, $handler) {
     if ($request->getMethod() === 'OPTIONS') {
         $response = new \Slim\Psr7\Response(200);
@@ -37,16 +38,16 @@ $app->addBodyParsingMiddleware();
 $app->addRoutingMiddleware();
 $app->addErrorMiddleware(true, true, true);
 
-// === Routes OPTIONS pour CORS ===
-$app->options('/{routes:.+}', function ($request, $response) {
-    return $response
-        ->withHeader('Access-Control-Allow-Origin', '*')
-        ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
-        ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
-        ->withHeader('Access-Control-Max-Age', '86400');
-});
-
 // === Routes API ===
+// Inclure toutes les classes Action
+require __DIR__ . '/../src/actions/HealthAction.php';
+require __DIR__ . '/../src/actions/ListCategoriesAction.php';
+require __DIR__ . '/../src/actions/ListOutilsAction.php';
+require __DIR__ . '/../src/actions/GetOutilAction.php';
+require __DIR__ . '/../src/actions/AuthLoginAction.php';
+require __DIR__ . '/../src/actions/AuthRegisterAction.php';
+require __DIR__ . '/../src/actions/AuthMeAction.php';
+
 require __DIR__ . '/../src/routes.php';
 
 $app->run();
