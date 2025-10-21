@@ -1,8 +1,15 @@
 <?php
+declare(strict_types=1);
+
+namespace App\db;
+
+use PDO;              // ✅ important
+use PDOException;     // ✅ important
+
 class Database {
     private $connection;
 
-    public function __construct($settings) {
+    public function __construct(array $settings) {
         $host = $settings['host'];
         $dbname = $settings['dbname'];
         $username = $settings['user'] ?? $settings['username'] ?? '';
@@ -20,7 +27,7 @@ class Database {
         }
     }
 
-    public function getConnection() {
+    public function getConnection(): PDO {
         return $this->connection;
     }
 }

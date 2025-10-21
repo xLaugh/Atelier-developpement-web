@@ -5,13 +5,13 @@ use Slim\App;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
-use App\Actions\HealthAction;
-use App\Actions\ListCategoriesAction;
-use App\Actions\ListOutilsAction;
-use App\Actions\GetOutilAction;
-use App\Actions\AuthLoginAction;
-use App\Actions\AuthRegisterAction;
-use App\Actions\AuthMeAction;
+use App\actions\HealthAction;
+use App\actions\ListCategoriesAction;
+use App\actions\ListOutilsAction;
+use App\actions\GetOutilAction;
+use App\actions\AuthLoginAction;
+use App\actions\AuthRegisterAction;
+use App\actions\AuthMeAction;
 
 $app->get('/api/health', HealthAction::class)->setName('health');
 
