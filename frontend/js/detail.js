@@ -6,7 +6,7 @@ async function chargerDetail() {
     return;
   }
   try {
-    const res = await fetch(`http://localhost:8080/api/outils/${encodeURIComponent(id)}`);
+    const res = await fetch(`http://localhost:13013/api/outils/${encodeURIComponent(id)}`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const o = await res.json();
     const today = new Date().toISOString().split('T')[0];

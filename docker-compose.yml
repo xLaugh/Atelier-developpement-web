@@ -3,7 +3,7 @@ services:
     build: ./backend
     container_name: sae_backend
     ports:
-      - "8080:80"
+      - "13013:80"
     depends_on:
       - db
     environment:
@@ -18,7 +18,7 @@ services:
     image: nginx:alpine
     container_name: sae_frontend
     ports:
-      - "3000:80"
+      - "13014:80"
     volumes:
       - ./frontend:/usr/share/nginx/html
     networks:

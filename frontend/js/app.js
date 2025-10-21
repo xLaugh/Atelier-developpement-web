@@ -1,7 +1,7 @@
 async function chargerCatalogue(categoryId) {
   const div = document.getElementById("catalogue");
   try {
-    const url = categoryId ? `http://localhost:8080/api/outils?category_id=${encodeURIComponent(categoryId)}` : `http://localhost:8080/api/outils`;
+    const url = categoryId ? `http://localhost:13013/api/outils?category_id=${encodeURIComponent(categoryId)}` : `http://localhost:13013/api/outils`;
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
@@ -21,7 +21,7 @@ async function chargerCatalogue(categoryId) {
 async function chargerCategories() {
   const nav = document.getElementById('categories');
   try {
-    const res = await fetch('http://localhost:8080/api/categories');
+    const res = await fetch('http://localhost:13013/api/categories');
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     const cats = Array.isArray(data) ? data : (data.items || []);
