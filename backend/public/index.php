@@ -39,42 +39,4 @@ $app->addErrorMiddleware(true, true, true);
 (require __DIR__ . '/../src/routes/outils.php')($app, $db);
 (require __DIR__ . '/../src/routes/auth.php')($app, $db);
 
-// === Route pour servir le frontend ===
-$app->get('/', function ($request, $response) {
-    $frontendPath = __DIR__ . '/../../frontend/index.html';
-    if (file_exists($frontendPath)) {
-        return $response->withHeader('Content-Type', 'text/html')
-                       ->write(file_get_contents($frontendPath));
-    }
-    return $response->withStatus(404)->write('Frontend not found');
-});
-
-// === Servir les fichiers statiques (CSS, JS) ===
-$app->get('/{path:.*}', function ($request, $response, $args) {
-    $path = $args['path'];
-    $filePath = __DIR__ . '/../../frontend/' . $path;
-    
-    if (file_exists($filePath) && is_file($filePath)) {
-        $extension = pathinfo($filePath, PATHINFO_EXTENSION);
-        $contentType = match($extension) {
-            'css' => 'text/css',
-            'js' => 'application/javascript',
-            'html' => 'text/html',
-            'json' => 'application/json',
-            default => 'text/plain'
-        };
-        
-        return $response->withHeader('Content-Type', $contentType)
-                       ->write(file_get_contents($filePath));
-    }
-    
-    return $response->withStatus(404)->write('File not found');
-})->add(function ($request, $response, $next) {
-    // Skip cette route si c'est une route API
-    if (str_starts_with($path, '/api/')) {
-        return $next($request, $response);
-    }
-    return $response;
-});
-
 $app->run();
