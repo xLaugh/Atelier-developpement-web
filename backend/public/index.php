@@ -9,6 +9,7 @@ use Slim\Factory\AppFactory;
 $settings = require __DIR__ . '/../src/config/Settings.php';
 require __DIR__ . '/../src/db/Database.php';
 $db = new Database($settings['db']);
+$GLOBALS['db'] = $db;
 
 // === App Slim ===
 $app = AppFactory::create();
@@ -36,7 +37,6 @@ $app->addRoutingMiddleware();
 $app->addErrorMiddleware(true, true, true);
 
 // === Routes API ===
-(require __DIR__ . '/../src/routes/outils.php')($app, $db);
-(require __DIR__ . '/../src/routes/auth.php')($app, $db);
+require __DIR__ . '/../src/routes.php';
 
 $app->run();

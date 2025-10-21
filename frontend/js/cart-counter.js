@@ -11,7 +11,7 @@ function updateCartCounter() {
     document.body.appendChild(cartCounter);
   }
   
-  // Afficher "0" quand le panier est vide, sinon affiche n nombre n outils + possible d'aller sur le panier
+  // Afficher "0" quand le panier est vide, sinon affiche n nombre n outils 
   if (totalItems === 0) {
     cartCounter.textContent = '0';
     cartCounter.className = 'cart-counter';
@@ -20,6 +20,7 @@ function updateCartCounter() {
     cartCounter.className = 'cart-counter clickable';
   }
   
+  // possible d'aller sur le panier
   cartCounter.onclick = () => {
     const currentPath = window.location.pathname;
     if (currentPath.includes('/page/')) {
