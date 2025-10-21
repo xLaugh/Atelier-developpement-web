@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\actions;
+namespace App\api\actions;
 use PDO;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -25,7 +25,7 @@ class AuthMeAction
             $token = substr($authHeader, 7);
             
             try {
-                $settings = require __DIR__ . '/../../config/Settings.php';
+                $settings = require __DIR__ . '/../../../../config/Settings.php';
                 $jwtConfig = $settings['jwt'];
                 $decoded = JWT::decode($token, new Key($jwtConfig['secret'], $jwtConfig['algorithm']));
                 

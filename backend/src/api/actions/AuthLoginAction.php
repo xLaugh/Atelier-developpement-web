@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\actions;
+namespace App\api\actions;
 use PDO;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -31,7 +31,7 @@ class AuthLoginAction
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($user && password_verify($password, $user['password'])) {
-                $settings = require __DIR__ . '/../../config/Settings.php';
+                $settings = require __DIR__ . '/../../../../config/Settings.php';
                 $jwtConfig = $settings['jwt'];
                 
                 $payload = [

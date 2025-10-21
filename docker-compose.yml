@@ -1,6 +1,8 @@
 services:
   backend:
-    build: ./backend
+    build: 
+      context: ./backend
+      dockerfile: build/Dockerfile
     container_name: sae_backend
     ports:
       - "8080:80"
