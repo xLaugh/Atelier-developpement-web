@@ -1,12 +1,8 @@
 <?php
 declare(strict_types=1);
 
-<<<<<<< HEAD
 namespace App\actions;
 use PDO;
-=======
-
->>>>>>> a7b62f9192b9f3d2faf0fd595221cf4c5e8aa7e6
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
