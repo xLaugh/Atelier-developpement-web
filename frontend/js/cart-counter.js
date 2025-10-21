@@ -25,7 +25,9 @@ function updateCartCounter() {
     const currentPath = window.location.pathname;
     if (currentPath.includes('/page/')) {
       window.location.href = 'panier.html';
-    } 
+    } else {
+      window.location.href = 'page/panier.html';
+    }
   };
 }
 

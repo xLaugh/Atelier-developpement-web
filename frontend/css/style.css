@@ -28,6 +28,10 @@ body {
   cursor: pointer;
 }
 
+.cart-counter {
+  cursor: pointer;
+}
+
 .btn-cart {
   display: inline-block;
   padding: 10px 15px;

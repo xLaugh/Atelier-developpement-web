@@ -69,6 +69,8 @@ function logout() {
   location.reload();
 }
 
+window.logout = logout;
+
 chargerCategories();
 chargerCatalogue();
 initCart();
