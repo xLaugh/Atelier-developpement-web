@@ -1,7 +1,4 @@
-CAZOTTES Alexandre 
-HAYRAPETYAN Arman 
-DELABORDE Baptiste 
-SORET Mathias
+Alexandre Arman Baptiste Mathias
 
 API :
 http://localhost:8080/api/health, 
