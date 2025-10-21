@@ -5,6 +5,8 @@ namespace App\Actions;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class AuthMeAction
 {
@@ -21,23 +23,28 @@ class AuthMeAction
             }
 
             $token = substr($authHeader, 7);
-            $decoded = json_decode(base64_decode($token), true);
             
-            if (!$decoded || $decoded['exp'] < time()) {
+            try {
+                $settings = require __DIR__ . '/../../config/Settings.php';
+                $jwtConfig = $settings['jwt'];
+                $decoded = JWT::decode($token, new Key($jwtConfig['secret'], $jwtConfig['algorithm']));
+                
+                $response->getBody()->write(json_encode([
+                    'user' => [
+                        'id' => $decoded->data->id,
+                        'prenom' => $decoded->data->prenom,
+                        'nom' => $decoded->data->nom,
+                        'email' => $decoded->data->email
+                    ]
+                ], JSON_UNESCAPED_UNICODE));
+                
+            } catch (Exception $e) {
                 $response->getBody()->write(json_encode([
                     'error' => 'invalid_token',
                     'message' => 'Token invalide ou expiré'
                 ], JSON_UNESCAPED_UNICODE));
                 return $response->withStatus(401)->withHeader('Content-Type', 'application/json; charset=utf-8');
             }
-
-            $response->getBody()->write(json_encode([
-                'user' => [
-                    'id' => $decoded['id'],
-                    'prenom' => $decoded['prenom'],
-                    'nom' => $decoded['nom']
-                ]
-            ], JSON_UNESCAPED_UNICODE));
             return $response->withHeader('Content-Type', 'application/json; charset=utf-8');
 
         } catch (Exception $e) {

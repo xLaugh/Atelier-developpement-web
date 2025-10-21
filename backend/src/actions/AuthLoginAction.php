@@ -5,6 +5,8 @@ namespace App\Actions;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class AuthLoginAction
 {
@@ -29,12 +31,24 @@ class AuthLoginAction
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($user && password_verify($password, $user['password'])) {
-                $token = base64_encode(json_encode([
-                    'id' => $user['id'],
-                    'prenom' => $user['prenom'],
-                    'nom' => $user['nom'],
-                    'exp' => time() + 3600 // 1 heure
-                ]));
+                $settings = require __DIR__ . '/../../config/Settings.php';
+                $jwtConfig = $settings['jwt'];
+                
+                $payload = [
+                    'iss' => 'charlymatloc',
+                    'aud' => 'charlymatloc',
+                    'iat' => time(),
+                    'exp' => time() + $jwtConfig['expiration'],
+                    'sub' => $user['id'],
+                    'data' => [
+                        'id' => $user['id'],
+                        'prenom' => $user['prenom'],
+                        'nom' => $user['nom'],
+                        'email' => $user['email']
+                    ]
+                ];
+                
+                $token = JWT::encode($payload, $jwtConfig['secret'], $jwtConfig['algorithm']);
 
                 $response->getBody()->write(json_encode([
                     'success' => true,
