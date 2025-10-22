@@ -11,7 +11,7 @@ function updateCartCounter() {
     document.body.appendChild(cartCounter);
   }
   
-  // Afficher "0" quand le panier est vide, sinon affiche n nombre n outils 
+  // Afficher 0 quand le panier est vide, sinon affiche n nombre n outils 
   if (totalItems === 0) {
     cartCounter.textContent = '0';
     cartCounter.className = 'cart-counter';
