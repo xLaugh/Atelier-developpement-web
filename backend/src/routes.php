@@ -9,6 +9,7 @@ use App\actions\AuthLoginAction;
 use App\actions\AuthRegisterAction;
 use App\actions\AuthMeAction;
 use App\actions\CreateReservationAction;
+use App\actions\CreatePeriodReservationAction;
 use App\actions\CreateCategoryAction;
 use App\actions\CreateModelAction;
 use App\actions\CreateOutilAction;
@@ -26,6 +27,7 @@ $app->post('/api/auth/login', AuthLoginAction::class)->setName('auth_login');
 $app->post('/api/auth/register', AuthRegisterAction::class)->setName('auth_register');
 $app->get('/api/auth/me', AuthMeAction::class)->setName('auth_me');
 $app->post('/api/reservations', CreateReservationAction::class)->setName('create_reservation');
+$app->post('/api/reservations/period', CreatePeriodReservationAction::class)->setName('create_period_reservation');
 
 $app->get('/api/models', ListModelsAction::class)->setName('list_models');
 $app->post('/api/admin/categories', CreateCategoryAction::class)->setName('create_category');

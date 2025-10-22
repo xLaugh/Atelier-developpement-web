@@ -14,7 +14,7 @@ function chargerPanier() {
   }
   
   // Calculer le total
-  const total = panier.reduce((sum, item) => sum + (item.prixUnitaire * item.quantite), 0);
+  const total = panier.reduce((sum, item) => sum + (item.prixTotal ? item.prixTotal : (item.prixUnitaire * item.quantite)), 0);
   
   cartContent.innerHTML = `
     <div class="cart-items">
@@ -22,10 +22,15 @@ function chargerPanier() {
         <div class="cart-item">
           <div class="item-info">
             <h3>${item.outil.name}</h3>
-            <p><strong>Date:</strong> ${new Date(item.date).toLocaleDateString('fr-FR')}</p>
+            ${item.startDate && item.endDate ? `
+              <p><strong>Période:</strong> ${new Date(item.startDate).toLocaleDateString('fr-FR')} - ${new Date(item.endDate).toLocaleDateString('fr-FR')}</p>
+              <p><strong>Durée:</strong> ${item.duration || 1} jour${(item.duration||1)>1?'s':''}</p>
+            ` : `
+              <p><strong>Date:</strong> ${new Date(item.date).toLocaleDateString('fr-FR')}</p>
+            `}
             <p><strong>Quantité:</strong> ${item.quantite}</p>
             <p><strong>Prix unitaire:</strong> ${item.prixUnitaire}€/jour</p>
-            <p><strong>Sous-total:</strong> ${(item.prixUnitaire * item.quantite).toFixed(2)}€</p>
+            <p><strong>Sous-total:</strong> ${(item.prixTotal ? item.prixTotal : (item.prixUnitaire * item.quantite)).toFixed(2)}€</p>
           </div>
           <button class="btn-remove" onclick="supprimerArticle(${index})">Supprimer</button>
         </div>
@@ -91,12 +96,15 @@ window.confirmerReservation = async function() {
     const reservationData = {
       items: panier.map(item => ({
         outil_id: item.outil.id,
-        date: item.date,
-        quantite: item.quantite
+        start_date: item.startDate || item.date,
+        end_date: item.endDate || item.date,
+        quantite: item.quantite,
+        duration: item.duration || 1,
+        prix_total: item.prixTotal || (item.prixUnitaire * item.quantite)
       }))
     };
     
-    const response = await fetch(`${API_BASE_URL}/api/reservations`, {
+    const response = await fetch(`${API_BASE_URL}/api/reservations/period`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

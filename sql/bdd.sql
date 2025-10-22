@@ -50,6 +50,20 @@ CREATE TABLE logs (
     FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE
 ) DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
+CREATE TABLE reservations (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    model_id INT NOT NULL,
+    quantity INT NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    status ENUM('pending', 'confirmed', 'cancelled') DEFAULT 'pending',
+    total_price DECIMAL(10,2),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (model_id) REFERENCES models(id) ON DELETE CASCADE
+) DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
 -- Données de test (catégories)
 INSERT INTO categories (id, name, description) VALUES
   (1, 'Perçage', 'Outils de perçage et trépan'),

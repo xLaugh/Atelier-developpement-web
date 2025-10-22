@@ -27,12 +27,24 @@ async function chargerDetail() {
           <h3>Réserver cet outil</h3>
           <form id="reservationForm">
             <div class="form-group">
-              <label for="date">Date de location :</label>
-              <input type="date" id="date" name="date" min="${today}" required>
+              <label for="startDate">Date de début :</label>
+              <input type="date" id="startDate" name="startDate" min="${today}" required>
+            </div>
+            <div class="form-group">
+              <label for="endDate">Date de fin :</label>
+              <input type="date" id="endDate" name="endDate" min="${today}" required>
             </div>
             <div class="form-group">
               <label for="quantity">Quantité :</label>
               <input type="number" id="quantity" name="quantity" min="1" max="${o.exemplaires}" value="1" required>
+            </div>
+            <div class="form-group">
+              <label for="duration">Durée (jours) :</label>
+              <input type="number" id="duration" readonly>
+            </div>
+            <div class="form-group">
+              <label for="totalPrice">Prix total :</label>
+              <input type="text" id="totalPrice" readonly>
             </div>
             <button type="submit" class="btn-add-cart">Ajouter au panier</button>
           </form>
@@ -40,9 +52,33 @@ async function chargerDetail() {
       </div>
     `;
 
+    function updateDurationAndPrice() {
+      const startDate = document.getElementById('startDate').value;
+      const endDate = document.getElementById('endDate').value;
+      const quantity = parseInt(document.getElementById('quantity').value) || 1;
+      if (startDate && endDate) {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        const duration = Math.max(1, Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1);
+        document.getElementById('duration').value = duration;
+        if (o.price_per_day) {
+          const totalPrice = duration * quantity * o.price_per_day;
+          document.getElementById('totalPrice').value = totalPrice.toFixed(2) + ' €';
+        }
+      }
+    }
+    document.getElementById('startDate').addEventListener('change', updateDurationAndPrice);
+    document.getElementById('endDate').addEventListener('change', updateDurationAndPrice);
+    document.getElementById('quantity').addEventListener('input', updateDurationAndPrice);
+
     document.getElementById('reservationForm').addEventListener('submit', (e) => {
       e.preventDefault();
-      ajouterAuPanier(o, document.getElementById('date').value, parseInt(document.getElementById('quantity').value));
+      const startDate = document.getElementById('startDate').value;
+      const endDate = document.getElementById('endDate').value;
+      const quantity = parseInt(document.getElementById('quantity').value);
+      if (!startDate || !endDate) { alert('Veuillez sélectionner les dates'); return; }
+      if (new Date(endDate) < new Date(startDate)) { alert('La date de fin doit être postérieure à la date de début'); return; }
+      ajouterAuPanier(o, startDate, endDate, quantity);
     });
     
   } catch (e) {
@@ -50,29 +86,24 @@ async function chargerDetail() {
   }
 }
 
-function ajouterAuPanier(outil, date, quantite) {
+function ajouterAuPanier(outil, startDate, endDate, quantite) {
   let panier = JSON.parse(localStorage.getItem('panier') || '[]');
-  const existingIndex = panier.findIndex(item => 
-    item.outil.id === outil.id && item.date === date
-  );
-  
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const duration = Math.max(1, Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1);
+  const prixUnitaire = outil.price_per_day || 0;
+  const prixTotal = duration * quantite * prixUnitaire;
+  const existingIndex = panier.findIndex(item => item.outil.id === outil.id && item.startDate === startDate && item.endDate === endDate);
   if (existingIndex >= 0) {
     panier[existingIndex].quantite += quantite;
+    panier[existingIndex].prixTotal = panier[existingIndex].duration * panier[existingIndex].quantite * prixUnitaire;
   } else {
-    panier.push({
-      outil: outil,
-      date: date,
-      quantite: quantite,
-      prixUnitaire: outil.price_per_day || 0
-    });
+    panier.push({ outil: outil, startDate, endDate, quantite, duration, prixUnitaire, prixTotal });
   }
-  
   localStorage.setItem('panier', JSON.stringify(panier));
-  alert(`Ajouté au panier : ${quantite}x ${outil.name} pour le ${new Date(date).toLocaleDateString('fr-FR')}`);
+  alert(`Ajouté au panier : ${quantite}x ${outil.name} du ${new Date(startDate).toLocaleDateString('fr-FR')} au ${new Date(endDate).toLocaleDateString('fr-FR')} (${duration} jour${duration>1?'s':''})`);
   updateCartCounter();
 }
-
-// Attendre que le DOM soit chargé
-document.addEventListener('DOMContentLoaded', chargerDetail);
+chargerDetail();
 
 

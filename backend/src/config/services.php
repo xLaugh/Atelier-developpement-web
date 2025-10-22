@@ -7,6 +7,7 @@ use App\application\ports\spi\UserRepositoryInterface;
 use App\application\ports\spi\OutilRepositoryInterface;
 use App\application\ports\spi\CategoryRepositoryInterface;
 use App\application\ports\spi\ItemRepositoryInterface;
+use App\application\ports\spi\ReservationRepositoryInterface;
 use App\application\ports\spi\ModelRepositoryInterface;
 
 use App\application\services\ServiceUser;
@@ -25,6 +26,7 @@ use App\infrastructure\repositories\PDOUserRepository;
 use App\infrastructure\repositories\PDOOutilRepository;
 use App\infrastructure\repositories\PDOCategoryRepository;
 use App\infrastructure\repositories\PDOItemRepository;
+use App\infrastructure\repositories\PDOReservationRepository;
 use App\infrastructure\repositories\ModelRepository;
 
 return [
@@ -43,6 +45,10 @@ return [
     
     ItemRepositoryInterface::class => function ($container) {
         return new PDOItemRepository($container->get(PDO::class));
+    },
+    
+    ReservationRepositoryInterface::class => function ($container) {
+        return new PDOReservationRepository($container->get(PDO::class));
     },
     
     ModelRepositoryInterface::class => function ($container) {
@@ -105,6 +111,13 @@ return [
 
     \App\actions\CreateReservationAction::class => function ($container) {
         return new \App\actions\CreateReservationAction($container->get(ItemRepositoryInterface::class));
+    },
+    
+    \App\actions\CreatePeriodReservationAction::class => function ($container) {
+        return new \App\actions\CreatePeriodReservationAction(
+            $container->get(ReservationRepositoryInterface::class),
+            $container->get(ItemRepositoryInterface::class)
+        );
     },
 
     // PDO Connection
