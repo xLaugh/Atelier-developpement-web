@@ -9,6 +9,13 @@ require __DIR__ . '/../vendor/autoload.php';
 use Slim\Factory\AppFactory;
 use App\middleware\CorsMiddleware;
 use DI\ContainerBuilder;
+use Dotenv\Dotenv;
+
+// === ENV ===
+if (file_exists(__DIR__ . '/../.env')) {
+    $dotenv = Dotenv::createImmutable(dirname(__DIR__));
+    $dotenv->safeLoad();
+}
 
 // === CONFIGURATION ===
 $settings = require __DIR__ . '/../src/config/settings.php';

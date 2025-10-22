@@ -41,7 +41,7 @@ class AuthLoginAction
             }
 
             // Génération du JWT
-            $settings = require __DIR__ . '/../../config/Settings.php';
+            $settings = require __DIR__ . '/../../config/settings.php';
             $jwtConfig = $settings['jwt'];
             
             $payload = [

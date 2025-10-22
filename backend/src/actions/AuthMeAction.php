@@ -2,7 +2,6 @@
 declare(strict_types=1);
 
 namespace App\actions;
-use PDO;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Firebase\JWT\JWT;
@@ -25,7 +24,7 @@ class AuthMeAction
             $token = substr($authHeader, 7);
             
             try {
-                $settings = require __DIR__ . '/../../config/Settings.php';
+                $settings = require __DIR__ . '/../../config/settings.php';
                 $jwtConfig = $settings['jwt'];
                 $decoded = JWT::decode($token, new Key($jwtConfig['secret'], $jwtConfig['algorithm']));
                 
@@ -38,7 +37,7 @@ class AuthMeAction
                     ]
                 ], JSON_UNESCAPED_UNICODE));
                 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $response->getBody()->write(json_encode([
                     'error' => 'invalid_token',
                     'message' => 'Token invalide ou expiré'
@@ -47,7 +46,7 @@ class AuthMeAction
             }
             return $response->withHeader('Content-Type', 'application/json; charset=utf-8');
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response->getBody()->write(json_encode([
                 'error' => 'server_error',
                 'message' => 'Erreur serveur'

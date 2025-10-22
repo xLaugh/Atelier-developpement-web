@@ -18,7 +18,7 @@ async function chargerDetail() {
           <img src="${o.image_url || 'https://via.placeholder.com/800x400?text=Outil'}" alt="${o.name}" class="w-full max-h-[420px] object-contain bg-white" />
         </div>
         <div class="text-sm space-y-1">
-          <p><span class="font-semibold">Catégorie:</span> ${o.category}</p>
+          <p><span class="font-semibold">Catégorie:</span> ${o.category_id ?? 'N/A'}</p>
           <p><span class="font-semibold">Marque:</span> ${o.brand ?? 'Non spécifiée'}</p>
           <p><span class="font-semibold">Exemplaires:</span> ${o.exemplaires}</p>
           <p><span class="font-semibold">Prix/jour:</span> ${o.price_per_day ? o.price_per_day + ' €' : 'N/A'}</p>

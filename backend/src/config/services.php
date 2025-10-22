@@ -14,6 +14,7 @@ use App\application\services\ServiceCategory;
 
 use App\application\usecases\AuthenticateUserUseCase;
 use App\application\usecases\CreateUserUseCase;
+use App\application\usecases\FindUserByIdUseCase;
 use App\application\usecases\ListOutilsUseCase;
 use App\application\usecases\GetOutilUseCase;
 use App\application\usecases\ListCategoriesUseCase;
@@ -49,6 +50,10 @@ return [
     CreateUserUseCase::class => function ($container) {
         return new CreateUserUseCase($container->get(UserRepositoryInterface::class));
     },
+
+    FindUserByIdUseCase::class => function ($container) {
+        return new FindUserByIdUseCase($container->get(UserRepositoryInterface::class));
+    },
     
     ListOutilsUseCase::class => function ($container) {
         return new ListOutilsUseCase(
@@ -72,7 +77,8 @@ return [
     ServiceUserInterface::class => function ($container) {
         return new ServiceUser(
             $container->get(AuthenticateUserUseCase::class),
-            $container->get(CreateUserUseCase::class)
+            $container->get(CreateUserUseCase::class),
+            $container->get(FindUserByIdUseCase::class)
         );
     },
     

@@ -12,9 +12,6 @@ class HealthAction
     {
         $response->getBody()->write(json_encode(['status' => 'ok'], JSON_UNESCAPED_UNICODE));
         return $response
-            ->withHeader('Content-Type', 'application/json; charset=utf-8')
-            ->withHeader('Access-Control-Allow-Origin', '*')
-            ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
-            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+            ->withHeader('Content-Type', 'application/json; charset=utf-8');
     }
 }

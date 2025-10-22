@@ -32,8 +32,8 @@ CREATE TABLE items (
 
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    prenom VARCHAR(50) NOT NULL UNIQUE,
-    nom VARCHAR(50) NOT NULL UNIQUE,
+    prenom VARCHAR(50) NOT NULL,
+    nom VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     role ENUM('user', 'admin') DEFAULT 'user',
@@ -62,7 +62,7 @@ ON DUPLICATE KEY UPDATE name = VALUES(name);
 
 -- Données de test (modèles)
 INSERT INTO models (id, category_id, name, brand, image_url, price_per_day, description) VALUES
-  (1, 1, 'Perceuse percussion 18V', 'Makita', 'https://imgs.search.brave.com/wWyDVT8dcsxMPT8zGgWiy-a5vuDqb10QFWkMR7vztWY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/Y290ZWJyaWNvLmZy/LzQ5OTctcHJvZHVj/dF9zbWFsbC9wZXJj/ZXVzZS1wZXJjdXNz/aW9uLW1ha2l0YS1k/aHA0ODJydGouanBn', 10, 'Perceuse sans fil avec 2 batteries'),
+  (1, 1, 'Perceuse percussion 18V', 'Makita', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_bTfemPHfHmxcNoaLLO3hbxaaMU1npXHsPw&s', 10, 'Perceuse sans fil avec 2 batteries'),
   (2, 2, 'Scie sauteuse 750W', 'Bosch', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_bTfemPHfHmxcNoaLLO3hbxaaMU1npXHsPw&s', 5, 'Précise, pour bois et métal'),
   (3, 3, 'Ponceuse excentrique 125mm', 'DeWalt', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_bTfemPHfHmxcNoaLLO3hbxaaMU1npXHsPw&s', 25, 'Avec aspiration intégrée'),
   (4, 1, 'Visseuse compacte 12V', 'Makita', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_bTfemPHfHmxcNoaLLO3hbxaaMU1npXHsPw&s', 8, 'Légère et maniable'),

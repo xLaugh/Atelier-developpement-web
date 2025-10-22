@@ -95,6 +95,7 @@ class Outil
     {
         return [
             'id' => $this->id,
+            'category_id' => $this->categoryId,
             'name' => $this->name,
             'brand' => $this->brand,
             'image_url' => $this->imageUrl,
