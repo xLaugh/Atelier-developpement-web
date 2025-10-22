@@ -1,5 +1,5 @@
 // Détection automatique de l'environnement
-const API_BASE_URL = "http://docketu.iutnc.univ-lorraine.fr:13013";
+const API_BASE_URL = "localhost:13013";
 
 
 async function chargerCatalogue(categoryId) {
