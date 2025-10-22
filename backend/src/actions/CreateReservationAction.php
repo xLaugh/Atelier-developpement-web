@@ -6,8 +6,6 @@ namespace App\actions;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\application\ports\spi\ItemRepositoryInterface;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 
 class CreateReservationAction
 {
@@ -18,30 +16,8 @@ class CreateReservationAction
     public function __invoke(Request $request, Response $response): Response
     {
         try {
-            // Vérifier l'authentification
-            $authHeader = $request->getHeaderLine('Authorization');
-            if (!$authHeader || !str_starts_with($authHeader, 'Bearer ')) {
-                $response->getBody()->write(json_encode([
-                    'error' => 'no_token',
-                    'message' => 'Token manquant'
-                ], JSON_UNESCAPED_UNICODE));
-                return $response->withStatus(401)->withHeader('Content-Type', 'application/json; charset=utf-8');
-            }
-
-            $token = substr($authHeader, 7);
-            $settings = require __DIR__ . '/../../config/settings.php';
-            $jwtConfig = $settings['jwt'];
-            
-            try {
-                $decoded = JWT::decode($token, new Key($jwtConfig['secret'], $jwtConfig['algorithm']));
-                $userId = $decoded->data->id;
-            } catch (\Exception $e) {
-                $response->getBody()->write(json_encode([
-                    'error' => 'invalid_token',
-                    'message' => 'Token invalide'
-                ], JSON_UNESCAPED_UNICODE));
-                return $response->withStatus(401)->withHeader('Content-Type', 'application/json; charset=utf-8');
-            }
+            // Mode sans JWT: utiliser un userId par défaut (ex: 1) ou null
+            $userId = 1;
 
             // Récupérer les données de la réservation
             $data = $request->getParsedBody();
