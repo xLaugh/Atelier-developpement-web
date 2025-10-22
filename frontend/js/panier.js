@@ -28,9 +28,10 @@ function chargerPanier() {
             ` : `
               <p><strong>Date:</strong> ${new Date(item.date).toLocaleDateString('fr-FR')}</p>
             `}
-            <p><strong>Quantité:</strong> ${item.quantite}</p>
+            <p><strong>Quantité:</strong> ${item.quantite} exemplaire${item.quantite > 1 ? 's' : ''}</p>
             <p><strong>Prix unitaire:</strong> ${item.prixUnitaire}€/jour</p>
-            <p><strong>Sous-total:</strong> ${(item.prixTotal ? item.prixTotal : (item.prixUnitaire * item.quantite)).toFixed(2)}€</p>
+            <p><strong>Prix total:</strong> ${(item.prixTotal ? item.prixTotal : (item.prixUnitaire * item.quantite)).toFixed(2)}€</p>
+            ${item.duration && item.duration > 1 ? `<p><strong>Prix par exemplaire:</strong> ${(item.prixTotal / item.quantite).toFixed(2)}€</p>` : ''}
           </div>
           <button class="btn-remove" onclick="supprimerArticle(${index})">Supprimer</button>
         </div>

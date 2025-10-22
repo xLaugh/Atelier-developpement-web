@@ -35,8 +35,9 @@ async function chargerDetail() {
               <input type="date" id="endDate" name="endDate" min="${today}" required>
             </div>
             <div class="form-group">
-              <label for="quantity">Quantité :</label>
+              <label for="quantity">Quantité (Stock disponible: ${o.exemplaires}) :</label>
               <input type="number" id="quantity" name="quantity" min="1" max="${o.exemplaires}" value="1" required>
+              <small class="text-muted">Vous pouvez réserver jusqu'à ${o.exemplaires} exemplaire${o.exemplaires > 1 ? 's' : ''}</small>
             </div>
             <div class="form-group">
               <label for="duration">Durée (jours) :</label>
@@ -46,11 +47,37 @@ async function chargerDetail() {
               <label for="totalPrice">Prix total :</label>
               <input type="text" id="totalPrice" readonly>
             </div>
+            <div class="form-group">
+              <div id="availability-status"></div>
+            </div>
             <button type="submit" class="btn-add-cart">Ajouter au panier</button>
           </form>
         </div>
       </div>
     `;
+
+    async function checkAvailability() {
+      const startDate = document.getElementById('startDate').value;
+      const endDate = document.getElementById('endDate').value;
+      const quantity = parseInt(document.getElementById('quantity').value) || 1;
+      
+      if (!startDate || !endDate) return;
+      
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/availability?model_id=${o.id}&start_date=${startDate}&end_date=${endDate}&quantity=${quantity}`);
+        const data = await response.json();
+        
+        if (data.available) {
+          document.getElementById('quantity').style.borderColor = '';
+          document.getElementById('availability-status').innerHTML = `<span style="color: green;">✓ Disponible (${data.available_for_period} exemplaires libres)</span>`;
+        } else {
+          document.getElementById('quantity').style.borderColor = 'red';
+          document.getElementById('availability-status').innerHTML = `<span style="color: red;">✗ Non disponible (${data.available_for_period} exemplaires libres, ${quantity} demandés)</span>`;
+        }
+      } catch (error) {
+        console.error('Erreur lors de la vérification de disponibilité:', error);
+      }
+    }
 
     function updateDurationAndPrice() {
       const startDate = document.getElementById('startDate').value;
@@ -65,6 +92,9 @@ async function chargerDetail() {
           const totalPrice = duration * quantity * o.price_per_day;
           document.getElementById('totalPrice').value = totalPrice.toFixed(2) + ' €';
         }
+        
+        // Vérifier la disponibilité
+        checkAvailability();
       }
     }
     document.getElementById('startDate').addEventListener('change', updateDurationAndPrice);
@@ -76,8 +106,27 @@ async function chargerDetail() {
       const startDate = document.getElementById('startDate').value;
       const endDate = document.getElementById('endDate').value;
       const quantity = parseInt(document.getElementById('quantity').value);
-      if (!startDate || !endDate) { alert('Veuillez sélectionner les dates'); return; }
-      if (new Date(endDate) < new Date(startDate)) { alert('La date de fin doit être postérieure à la date de début'); return; }
+      
+      if (!startDate || !endDate) { 
+        alert('Veuillez sélectionner les dates'); 
+        return; 
+      }
+      
+      if (new Date(endDate) < new Date(startDate)) { 
+        alert('La date de fin doit être postérieure à la date de début'); 
+        return; 
+      }
+      
+      if (quantity > o.exemplaires) {
+        alert(`Quantité demandée (${quantity}) supérieure au stock disponible (${o.exemplaires})`);
+        return;
+      }
+      
+      if (quantity < 1) {
+        alert('La quantité doit être d\'au moins 1');
+        return;
+      }
+      
       ajouterAuPanier(o, startDate, endDate, quantity);
     });
     

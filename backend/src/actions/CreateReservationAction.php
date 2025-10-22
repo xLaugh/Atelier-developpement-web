@@ -18,7 +18,7 @@ class CreateReservationAction
     public function __invoke(Request $request, Response $response): Response
     {
         try {
-            // Vérifier l'authentification
+            // test l'authentification
             $authHeader = $request->getHeaderLine('Authorization');
             if (!$authHeader || !str_starts_with($authHeader, 'Bearer ')) {
                 $response->getBody()->write(json_encode([

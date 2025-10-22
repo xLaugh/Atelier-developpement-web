@@ -119,6 +119,13 @@ return [
             $container->get(ItemRepositoryInterface::class)
         );
     },
+    
+    \App\actions\CheckAvailabilityAction::class => function ($container) {
+        return new \App\actions\CheckAvailabilityAction(
+            $container->get(ItemRepositoryInterface::class),
+            $container->get(ReservationRepositoryInterface::class)
+        );
+    },
 
     // PDO Connection
     PDO::class => function ($container) {

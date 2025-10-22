@@ -21,7 +21,7 @@ class CreatePeriodReservationAction
         try {
             $data = $request->getParsedBody();
             $items = $data['items'] ?? [];
-            $userId = 1; // TODO: replace with JWT user id if needed
+            $userId = 1;
 
             if (empty($items)) {
                 $response->getBody()->write(json_encode(['error' => 'no_items', 'message' => 'Aucun article dans la réservation'], JSON_UNESCAPED_UNICODE));
@@ -50,10 +50,19 @@ class CreatePeriodReservationAction
                     continue;
                 }
 
-                $available = $this->itemRepository->countLibresByModelId($modelId);
-                $already = $this->reservationRepository->countOverlappingReservations($modelId, $start, $end);
-                if ($available - $already < $quantity) {
-                    $errors[] = "Pas assez d'exemplaires disponibles pour l'outil ID: $modelId sur la période demandée";
+                // regdrde si la disponibilité pour ce modèle
+                $totalAvailable = $this->itemRepository->countLibresByModelId($modelId);
+                $alreadyReserved = $this->reservationRepository->countOverlappingReservations($modelId, $start, $end);
+                $availableForPeriod = $totalAvailable - $alreadyReserved;
+                
+                if ($availableForPeriod < $quantity) {
+                    $errors[] = "Pas assez d'exemplaires disponibles pour l'outil ID: $modelId. Disponible: $availableForPeriod, Demandé: $quantity";
+                    continue;
+                }
+                
+                // test si la quantité est supérieure au stock 
+                if ($quantity > $totalAvailable) {
+                    $errors[] = "Quantité demandée ($quantity) supérieure au stock total ($totalAvailable) pour l'outil ID: $modelId";
                     continue;
                 }
 
