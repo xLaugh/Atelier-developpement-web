@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\actions;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class AuthMeAction
 {
@@ -19,15 +21,29 @@ class AuthMeAction
                 return $response->withStatus(401)->withHeader('Content-Type', 'application/json; charset=utf-8');
             }
 
-            // Mode dev sans JWT: renvoyer un user mock si token présent
-            $response->getBody()->write(json_encode([
-                'user' => [
-                    'id' => 1,
-                    'prenom' => 'Test',
-                    'nom' => 'User',
-                    'email' => 'test@example.com'
-                ]
-            ], JSON_UNESCAPED_UNICODE));
+            $token = substr($authHeader, 7);
+            
+            try {
+                $settings = require __DIR__ . '/../../config/settings.php';
+                $jwtConfig = $settings['jwt'];
+                $decoded = JWT::decode($token, new Key($jwtConfig['secret'], $jwtConfig['algorithm']));
+                
+                $response->getBody()->write(json_encode([
+                    'user' => [
+                        'id' => $decoded->data->id,
+                        'prenom' => $decoded->data->prenom,
+                        'nom' => $decoded->data->nom,
+                        'email' => $decoded->data->email
+                    ]
+                ], JSON_UNESCAPED_UNICODE));
+                
+            } catch (\Exception $e) {
+                $response->getBody()->write(json_encode([
+                    'error' => 'invalid_token',
+                    'message' => 'Token invalide ou expiré'
+                ], JSON_UNESCAPED_UNICODE));
+                return $response->withStatus(401)->withHeader('Content-Type', 'application/json; charset=utf-8');
+            }
             return $response->withHeader('Content-Type', 'application/json; charset=utf-8');
 
         } catch (\Exception $e) {

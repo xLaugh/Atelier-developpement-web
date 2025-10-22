@@ -50,8 +50,26 @@ function checkAuth() {
     const userData = JSON.parse(user);
     document.getElementById('login-btn').style.display = 'none';
     document.getElementById('user-info').style.display = 'block';
-    document.getElementById('username').textContent = `Bonjour ${userData.prenom} ${userData.nom}`;
+    
+    document.getElementById('user-info').innerHTML = `
+      <div class="user-menu">
+        <button onclick="toggleUserMenu()" class="user-menu-btn">
+          Bonjour ${userData.prenom} ${userData.nom} ▼
+        </button>
+        <div id="user-dropdown-menu" class="user-dropdown-content" style="display: none;">
+          <a href="page/profil.html">Mon Profil</a>
+          <a href="page/parametres.html">Paramètres</a>
+          ${userData.role === 'admin' ? '<a href="page/dashboard.html">Dashboard</a>' : ''}
+          <a href="#" onclick="logout()">Déconnexion</a>
+        </div>
+      </div>
+    `;
   }
+}
+
+function toggleUserMenu() {
+  const menu = document.getElementById('user-dropdown-menu');
+  menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
 }
 
 function logout() {

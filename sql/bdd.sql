@@ -93,3 +93,8 @@ INSERT INTO items (id, model_id, status) VALUES
   (13, 11, 0),
   (14, 12, 0)
 ON DUPLICATE KEY UPDATE status = VALUES(status);
+
+-- Utilisateur de test
+INSERT INTO users (id, prenom, nom, email, password, role)
+VALUES (1, 'Test', 'User', 'test@example.com', '$2y$10$HuZXzXIWS8AqmZZyCfvwNuEsZOXlsou2XC225r.Fg4sNU2yEBKzb6', 'user')
+ON DUPLICATE KEY UPDATE email = VALUES(email);

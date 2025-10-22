@@ -72,6 +72,7 @@ function ajouterAuPanier(outil, date, quantite) {
   updateCartCounter();
 }
 
-chargerDetail();
+// Attendre que le DOM soit chargé
+document.addEventListener('DOMContentLoaded', chargerDetail);
 
 

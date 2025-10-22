@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mon Profil</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/config.js" defer></script>
+  <script src="../js/cart-counter.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <button onclick="history.back()" class="btn-back">Retour</button>
+    
+    <div id="profil-content">
+      <h1>Mon Profil</h1>
+      <div id="user-info" class="user-info-card">
+        <p>Chargement...</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function chargerProfil() {
+      const token = localStorage.getItem('token');
+      const user = localStorage.getItem('user');
+      
+      if (!token || !user) {
+        document.getElementById('user-info').innerHTML = '<p class="text-red-600">Vous devez être connecté pour voir votre profil.</p>';
+        return;
+      }
+
+      const userData = JSON.parse(user);
+      
+      document.getElementById('user-info').innerHTML = `
+        <div class="user-details">
+          <div class="detail-row">
+            <label>Prénom:</label>
+            <span>${userData.prenom}</span>
+          </div>
+          <div class="detail-row">
+            <label>Nom:</label>
+            <span>${userData.nom}</span>
+          </div>
+          <div class="detail-row">
+            <label>Email:</label>
+            <span>${userData.email}</span>
+          </div>
+          <div class="detail-row">
+            <label>Rôle:</label>
+            <span>${userData.role}</span>
+          </div>
+          <div class="detail-row">
+            <label>Membre depuis:</label>
+            <span>${new Date(userData.created_at).toLocaleDateString('fr-FR')}</span>
+          </div>
+        </div>
+      `;
+    }
+
+    chargerProfil();
+  </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard Admin</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/config.js" defer></script>
+  <script src="../js/cart-counter.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <button onclick="history.back()">Retour</button>
+    
+    <div id="dashboard-content">
+      <h1>Dashboard Admin</h1>
+      <div class="admin-panel">
+        <h2>Gestion des utilisateurs</h2>
+        <div id="users-list">
+          <p>Chargement des utilisateurs...</p>
+        </div>
+        
+        <h2>Statistiques</h2>
+        <div id="stats">
+          <div class="stat-item">
+            <span>Total utilisateurs: </span>
+            <span id="total-users">-</span>
+          </div>
+          <div class="stat-item">
+            <span>Outils disponibles: </span>
+            <span id="total-outils">-</span>
+          </div>
+          <div class="stat-item">
+            <span>Réservations actives: </span>
+            <span id="total-reservations">-</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function chargerDashboard() {
+      const token = localStorage.getItem('token');
+      const user = localStorage.getItem('user');
+      
+      if (!token || !user) {
+        document.getElementById('dashboard-content').innerHTML = '<p>Vous devez être connecté.</p>';
+        return;
+      }
+
+      const userData = JSON.parse(user);
+      if (userData.role !== 'admin') {
+        document.getElementById('dashboard-content').innerHTML = '<p>Accès refusé. Droits administrateur requis.</p>';
+        return;
+      }
+
+      // TODO: Charger les vraies données depuis l'API
+      document.getElementById('total-users').textContent = '12';
+      document.getElementById('total-outils').textContent = '24';
+      document.getElementById('total-reservations').textContent = '8';
+    }
+
+    chargerDashboard();
+  </script>
+</body>
+</html>
