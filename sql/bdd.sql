@@ -98,3 +98,8 @@ ON DUPLICATE KEY UPDATE status = VALUES(status);
 INSERT INTO users (id, prenom, nom, email, password, role)
 VALUES (1, 'Test', 'User', 'test@example.com', '$2y$10$HuZXzXIWS8AqmZZyCfvwNuEsZOXlsou2XC225r.Fg4sNU2yEBKzb6', 'user')
 ON DUPLICATE KEY UPDATE email = VALUES(email);
+
+-- Utilisateur admin
+INSERT INTO users (id, prenom, nom, email, password, role)
+VALUES (2, 'Admin', 'System', 'admin@admin.com', '$2y$10$HuZXzXIWS8AqmZZyCfvwNuEsZOXlsou2XC225r.Fg4sNU2yEBKzb6', 'admin')
+ON DUPLICATE KEY UPDATE email = VALUES(email);
