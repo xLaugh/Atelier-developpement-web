@@ -1,23 +1,92 @@
-/* === PAGE CATALOGUE === */
-
-/* Bande du haut */
-.catalogue-header {
+header {
   width: 100%;
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   color: white;
-  padding: 25px 40px;
-  box-shadow: var(--shadow);
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  box-shadow: var(--shadow);
+  position: relative;
 }
 
-.catalogue-header h1 {
+header h1 {
   font-size: 1.8rem;
   font-weight: 700;
 }
 
-/* === FILTRES PAR CATÉGORIE === */
+
+#header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+}
+
+.btn-login {
+  background-color: white;
+  color: var(--primary-dark);
+  border-radius: var(--radius);
+  padding: 8px 16px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 2px solid transparent;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 46px; 
+  box-shadow: var(--shadow);
+}
+
+.btn-login:hover {
+  background-color: var(--primary-dark);
+  color: white;
+  border-color: white;
+}
+
+.btn-login:link,
+.btn-login:visited {
+  color: var(--primary-dark);
+  text-decoration: none;
+}
+
+
+.btn-logout {
+  background-color: white;
+  color: var(--danger);
+  border-radius: var(--radius);
+  padding: 6px 12px;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 600;
+}
+
+.btn-logout:hover {
+  background-color: var(--danger);
+  color: white;
+}
+.cart-counter {
+  background-color: var(--danger);
+  color: white;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: bold;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow);
+}
+
+.cart-counter:hover {
+  background-color: #b02a37;
+  transform: scale(1.1);
+}
+
 #categories {
   display: flex;
   flex-wrap: wrap;
@@ -44,7 +113,6 @@
   transform: translateY(-2px);
 }
 
-/* === GRILLE DU CATALOGUE === */
 #catalogue {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -63,7 +131,6 @@ a.outil {
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow);
-  transition: none; /* Pas d’effet zoom */
 }
 
 a.outil img {
@@ -78,9 +145,27 @@ a.outil h3 {
   text-align: center;
 }
 
-/* === VERSION MOBILE === */
 @media screen and (max-width: 900px) {
-  /* Un seul article par ligne */
+  header {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+    padding: 15px 20px;
+  }
+
+  #header-right {
+    justify-content: center;
+  }
+
+  .btn-login {
+    right: 0;
+  }
+
+  .cart-counter {
+    right: 0;
+  }
+
+  /* Un article par ligne */
   #catalogue {
     display: flex;
     flex-direction: column;
