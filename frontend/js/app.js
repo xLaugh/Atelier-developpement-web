@@ -60,16 +60,7 @@ async function chargerCategories() {
 }
 
 function initCart() {
-  const headerRight = document.getElementById('auth-buttons');
-  const existingCartLink = document.querySelector('a[href*="panier"]');
-  
-  if (!existingCartLink) {
-    const cartLink = document.createElement('a');
-    cartLink.href = 'page/panier.html';
-    cartLink.innerHTML = 'Panier';
-    cartLink.className = 'inline-flex items-center justify-center rounded-md border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-100 transition';
-    headerRight?.appendChild(cartLink);
-  }
+  // Ne rien ajouter: on garde seulement le compteur flottant existant
 }
 
 function checkAuth() {
