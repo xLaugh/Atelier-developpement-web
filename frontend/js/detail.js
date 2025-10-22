@@ -12,32 +12,29 @@ async function chargerDetail() {
     const today = new Date().toISOString().split('T')[0];
     
     div.innerHTML = `
-      <div class="space-y-4">
-        <h1 class="text-2xl sm:text-3xl font-bold">${o.name}</h1>
-        <div class="rounded-lg overflow-hidden bg-white border border-slate-200">
-          <img src="${o.image_url || 'https://via.placeholder.com/800x400?text=Outil'}" alt="${o.name}" class="w-full max-h-[420px] object-contain bg-white" />
-        </div>
-        <div class="text-sm space-y-1">
-          <p><span class="font-semibold">Catégorie:</span> ${o.category_id ?? 'N/A'}</p>
-          <p><span class="font-semibold">Marque:</span> ${o.brand ?? 'Non spécifiée'}</p>
-          <p><span class="font-semibold">Exemplaires:</span> ${o.exemplaires}</p>
-          <p><span class="font-semibold">Prix/jour:</span> ${o.price_per_day ? o.price_per_day + ' €' : 'N/A'}</p>
+      <div class="detail-container">
+        <div class="detail-info">
+          <h1>${o.name}</h1>
+          <img src="${o.image_url || 'https://via.placeholder.com/800x400?text=Outil'}" alt="${o.name}">
+          <p><strong>Catégorie:</strong> ${o.category ?? 'N/A'}</p>
+          <p><strong>Marque:</strong> ${o.brand ?? 'Non spécifiée'}</p>
+          <p><strong>Exemplaires disponibles:</strong> ${o.exemplaires}</p>
+          <p><strong>Prix/jour:</strong> ${o.price_per_day ? o.price_per_day + ' €' : 'N/A'}</p>
           <p>${o.description ?? ''}</p>
         </div>
-      </div>
-      <div class="sticky top-6 self-start">
-        <div class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-          <h3 class="text-lg font-semibold mb-3">Réserver cet outil</h3>
-          <form id="reservationForm" class="space-y-3">
-            <div>
-              <label for="date" class="block text-sm mb-1">Date de location :</label>
-              <input type="date" id="date" name="date" min="${today}" required class="w-full rounded-md border-slate-300">
+        
+        <div class="reservation-form">
+          <h3>Réserver cet outil</h3>
+          <form id="reservationForm">
+            <div class="form-group">
+              <label for="date">Date de location :</label>
+              <input type="date" id="date" name="date" min="${today}" required>
             </div>
-            <div>
-              <label for="quantity" class="block text-sm mb-1">Quantité :</label>
-              <input type="number" id="quantity" name="quantity" min="1" max="${o.exemplaires}" value="1" required class="w-full rounded-md border-slate-300">
+            <div class="form-group">
+              <label for="quantity">Quantité :</label>
+              <input type="number" id="quantity" name="quantity" min="1" max="${o.exemplaires}" value="1" required>
             </div>
-            <button type="submit" class="w-full inline-flex items-center justify-center rounded-md bg-emerald-600 px-4 py-2 text-white font-medium hover:bg-emerald-700 transition">Ajouter au panier</button>
+            <button type="submit" class="btn-add-cart">Ajouter au panier</button>
           </form>
         </div>
       </div>

@@ -8,17 +8,13 @@ async function chargerCatalogue(categoryId) {
     const outils = Array.isArray(data) ? data : (data.items || []);
 
     div.innerHTML = outils.map(o => `
-      <a class="group block rounded-lg overflow-hidden border border-slate-200 bg-white shadow-sm hover:shadow-md transition" href="page/detail.html?id=${o.id}">
-        <div class="aspect-[3/2] overflow-hidden bg-slate-100">
-          <img src="${o.image_url || 'https://via.placeholder.com/300x200?text=Outil'}" alt="${o.name}" class="w-full h-full object-cover group-hover:scale-105 transition" />
-        </div>
-        <div class="p-3">
-          <h3 class="text-sm font-semibold line-clamp-2">${o.name}</h3>
-        </div>
+      <a class="outil" href="page/detail.html?id=${o.id}">
+        <img src="${o.image_url || 'https://via.placeholder.com/300x200?text=Outil'}" alt="${o.name}" />
+        <h3>${o.name}</h3>
       </a>
     `).join("");
   } catch (e) {
-    div.innerHTML = `<p class="text-sm text-red-600">Erreur de chargement: ${e.message}</p>`;
+    div.innerHTML = `<p>Erreur de chargement: ${e.message}</p>`;
   }
 }
 
@@ -29,33 +25,17 @@ async function chargerCategories() {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     const cats = Array.isArray(data) ? data : (data.items || []);
-    nav.innerHTML = ['<button data-cat="" class="btn-cat px-3 py-1.5 rounded-md border border-slate-300 bg-white text-sm hover:bg-slate-100 transition">Tous</button>']
-      .concat(cats.map(c => `<button data-cat="${c.id}" class="btn-cat px-3 py-1.5 rounded-md border border-slate-300 bg-white text-sm hover:bg-slate-100 transition">${c.name}</button>`))
+    nav.innerHTML = ['<button data-cat="">Tous</button>']
+      .concat(cats.map(c => `<button data-cat="${c.id}">${c.name}</button>`))
       .join(' ');
-
-    const setActive = (cid) => {
-      nav.querySelectorAll('.btn-cat').forEach(b => {
-        b.classList.remove('bg-emerald-600','text-white','border-emerald-600');
-        b.classList.add('bg-white','text-slate-800','border-slate-300');
-      });
-      const active = nav.querySelector(`.btn-cat[data-cat="${cid ?? ''}"]`);
-      if (active) {
-        active.classList.remove('bg-white','text-slate-800','border-slate-300');
-        active.classList.add('bg-emerald-600','text-white','border-emerald-600');
-      }
-    };
-
-    setActive('');
-
     nav.addEventListener('click', (e) => {
       const btn = e.target.closest('button[data-cat]');
       if (!btn) return;
       const cid = btn.getAttribute('data-cat');
-      setActive(cid || '');
       chargerCatalogue(cid || undefined);
     });
   } catch (e) {
-    nav.innerHTML = `<p class="text-sm text-red-600">Erreur catégories: ${e.message}</p>`;
+    nav.innerHTML = `<p>Erreur catégories: ${e.message}</p>`;
   }
 }
 
