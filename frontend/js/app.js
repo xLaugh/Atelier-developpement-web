@@ -1,3 +1,5 @@
+import { API_BASE_URL } from './config.js';
+
 async function chargerCatalogue(categoryId) {
   const div = document.getElementById("catalogue");
   try {
