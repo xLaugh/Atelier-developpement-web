@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y \
     docker-php-ext-install pdo pdo_mysql
 
 # Activer mod_rewrite
-RUN a2enmod rewrite
+RUN a2enmod rewrite headers
 
 # Définir le dossier de travail
 WORKDIR /var/www/html

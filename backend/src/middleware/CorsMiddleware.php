@@ -12,19 +12,12 @@ class CorsMiddleware
 {
     public function __invoke(Request $request, RequestHandler $handler): Response
     {
-        // Gérer les requêtes OPTIONS (preflight)
+        // Gérer les requêtes OPTIONS (preflight) sans ajouter d'en-têtes (gérés par Apache)
         if ($request->getMethod() === 'OPTIONS') {
-            $response = new SlimResponse(200);
-        } else {
-            $response = $handler->handle($request);
+            return new SlimResponse(204);
         }
 
-        // Ajouter les headers CORS
-        return $response
-            ->withHeader('Access-Control-Allow-Origin', '*')
-            ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin')
-            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
-            ->withHeader('Access-Control-Max-Age', '86400')
-            ->withHeader('Vary', 'Origin');
+        // Pass-through; les en-têtes CORS sont appliqués par Apache (.htaccess)
+        return $handler->handle($request);
     }
 }
