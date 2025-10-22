@@ -10,15 +10,17 @@
 </head>
 <body>
   <header>
-    <h1>Catalogue</h1>
-    <div id="auth-buttons">
-      <a href="page/auth.html" class="btn-login" id="login-btn">Se connecter</a>
-      <span id="user-info" style="display: none;">
-        <span id="username"></span>
-        <button onclick="logout()" class="btn-logout">Déconnexion</button>
-      </span>
-    </div>
-  </header>
+  <h1>Catalogue</h1>
+
+  <div id="header-right">
+    <a href="page/auth.html" class="btn-login" id="login-btn">Se connecter</a>
+    <div id="cart-counter" class="cart-counter clickable">0</div>
+    <span id="user-info" style="display: none;">
+      <span id="username"></span>
+      <button onclick="logout()" class="btn-logout">Déconnexion</button>
+    </span>
+  </div>
+</header>
   <nav id="categories"></nav>
   <div id="catalogue"></div>
 </body>
