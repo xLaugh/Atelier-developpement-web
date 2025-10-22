@@ -1,0 +1,26 @@
+{
+  "name": "atelier-developpement-web",
+  "version": "1.0.0",
+  "description": "Alexandre Arman Baptiste Mathias",
+  "main": "index.js",
+  "scripts": {
+    "build:css": "tailwindcss -i ./frontend/css/tailwind.css -o ./frontend/css/dist.css --minify",
+    "watch:css": "tailwindcss -i ./frontend/css/tailwind.css -o ./frontend/css/dist.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xLaugh/Atelier-developpement-web.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xLaugh/Atelier-developpement-web/issues"
+  },
+  "homepage": "https://github.com/xLaugh/Atelier-developpement-web#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.15"
+  }
+}

@@ -3,13 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>Détail outil</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="../css/style.css">
-  <script src="../js/config.js"></script>
-  <script src="../js/cart-counter.js"></script>
-  <script type="module" src="../js/detail.js"></script>
+  <script src="../js/cart-counter.js" defer></script>
+  <script src="../js/detail.js" defer></script>
 </head>
-<body>
-  <button onclick="history.back()">Retour</button>
-  <div id="detail"></div>
+<body class="min-h-screen bg-slate-50 text-slate-800">
+  <div class="max-w-6xl mx-auto px-4 py-6">
+    <button onclick="history.back()" class="mb-4 inline-flex items-center rounded-md border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-100">Retour</button>
+    <div id="detail" class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start"></div>
+  </div>
 </body>
 </html>
