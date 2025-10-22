@@ -1,5 +1,3 @@
-// API_BASE_URL is defined in js/config.js
-
 async function chargerCatalogue(categoryId) {
   const div = document.getElementById("catalogue");
   try {
