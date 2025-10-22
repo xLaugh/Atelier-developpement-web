@@ -1,5 +1,11 @@
 // Détection automatique de l'environnement
-const API_BASE_URL = "localhost:13013";
+const API_BASE_URL = (function() {
+  const host = window.location.hostname;
+  if (host && host.includes('docketu.iutnc.univ-lorraine.fr')) {
+    return 'http://docketu.iutnc.univ-lorraine.fr:13013';
+  }
+  return 'http://localhost:13013';
+})();
 
 
 async function chargerCatalogue(categoryId) {
