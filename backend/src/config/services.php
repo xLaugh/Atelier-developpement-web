@@ -7,10 +7,12 @@ use App\application\ports\spi\UserRepositoryInterface;
 use App\application\ports\spi\OutilRepositoryInterface;
 use App\application\ports\spi\CategoryRepositoryInterface;
 use App\application\ports\spi\ItemRepositoryInterface;
+use App\application\ports\spi\ModelRepositoryInterface;
 
 use App\application\services\ServiceUser;
 use App\application\services\ServiceOutil;
 use App\application\services\ServiceCategory;
+use App\application\services\ServiceModel;
 
 use App\application\usecases\AuthenticateUserUseCase;
 use App\application\usecases\CreateUserUseCase;
@@ -23,6 +25,7 @@ use App\infrastructure\repositories\PDOUserRepository;
 use App\infrastructure\repositories\PDOOutilRepository;
 use App\infrastructure\repositories\PDOCategoryRepository;
 use App\infrastructure\repositories\PDOItemRepository;
+use App\infrastructure\repositories\ModelRepository;
 
 return [
     // Repositories
@@ -41,8 +44,11 @@ return [
     ItemRepositoryInterface::class => function ($container) {
         return new PDOItemRepository($container->get(PDO::class));
     },
-
-    // Use Cases
+    
+    ModelRepositoryInterface::class => function ($container) {
+        return new ModelRepository($container->get(PDO::class));
+    },
+    
     AuthenticateUserUseCase::class => function ($container) {
         return new AuthenticateUserUseCase($container->get(UserRepositoryInterface::class));
     },
@@ -91,6 +97,10 @@ return [
     
     ServiceCategoryInterface::class => function ($container) {
         return new ServiceCategory($container->get(ListCategoriesUseCase::class));
+    },
+    
+    ServiceModel::class => function ($container) {
+        return new ServiceModel($container->get(ModelRepositoryInterface::class));
     },
 
     \App\actions\CreateReservationAction::class => function ($container) {
