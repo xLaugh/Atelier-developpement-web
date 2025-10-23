@@ -11,6 +11,10 @@
 <body>
   <header>
     <h1>Catalogue</h1>
+    <div id="search-container">
+      <input type="text" id="search-input" placeholder="Rechercher un outil..." />
+      <button id="search-btn">🔍</button>
+    </div>
     <div id="header-right">
       <a href="page/auth.html" class="btn-login" id="login-btn">Se connecter</a>
       <div id="cart-counter" class="cart-counter clickable">0</div>
@@ -20,6 +24,11 @@
   <main>
     <aside id="categories"></aside>
     <section id="catalogue"></section>
+    <div id="pagination" class="pagination">
+      <button id="prev-page" disabled>← Précédent</button>
+      <span id="page-info">Page 1</span>
+      <button id="next-page">Suivant →</button>
+    </div>
   </main>
 </body>
 </html>

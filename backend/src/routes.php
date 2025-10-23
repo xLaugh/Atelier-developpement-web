@@ -18,6 +18,8 @@ use App\actions\ListModelsAction;
 use App\actions\UpdateCategoryAction;
 use App\actions\UpdateModelAction;
 use App\actions\UpdateOutilAction;
+use App\actions\SearchOutilsAction;
+use App\actions\ListOutilsPaginatedAction;
 
 $app->options('/{routes:.+}', function ($request, $response, $args) {
     return $response;
@@ -26,6 +28,8 @@ $app->options('/{routes:.+}', function ($request, $response, $args) {
 $app->get('/api/health', HealthAction::class)->setName('health');
 $app->get('/api/categories', ListCategoriesAction::class)->setName('list_categories');
 $app->get('/api/outils', ListOutilsAction::class)->setName('list_outils');
+$app->get('/api/outils/paginated', ListOutilsPaginatedAction::class)->setName('list_outils_paginated');
+$app->get('/api/outils/search', SearchOutilsAction::class)->setName('search_outils');
 $app->get('/api/outils/{id}', GetOutilAction::class)->setName('get_outil');
 $app->post('/api/auth/login', AuthLoginAction::class)->setName('auth_login');
 $app->post('/api/auth/register', AuthRegisterAction::class)->setName('auth_register');

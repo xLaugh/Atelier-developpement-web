@@ -22,7 +22,8 @@ header {
   background: linear-gradient(135deg, #1d7a7a, #155d5d);
   color: white;
   padding: 20px 40px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  gap: 1rem; }
   header h1 {
     margin: 0;
     font-size: 2rem;
@@ -624,4 +625,63 @@ body {
   top: 20px;
   right: 20px; }
 
-/*# sourceMappingURL=style.css.map */
+#search-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  max-width: 400px; }
+
+#search-input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: white; }
+
+#search-input::placeholder {
+  color: rgba(255, 255, 255, 0.7); }
+
+#search-btn {
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease; }
+
+#search-btn:hover {
+  background: rgba(255, 255, 255, 0.3); }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+  padding: 1rem; }
+
+.pagination button {
+  padding: 0.5rem 1rem;
+  background: #1d7a7a;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease; }
+
+.pagination button:hover:not(:disabled) {
+  background: #155d5d; }
+
+.pagination button:disabled {
+  background: #ccc;
+  cursor: not-allowed; }
+
+#page-info {
+  font-weight: bold;
+  color: #1d7a7a; }

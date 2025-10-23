@@ -51,4 +51,41 @@ class ServiceOutil implements ServiceOutilInterface
     {
         return $this->updateOutilUseCase->execute($id, $name, $description, $categoryId, $modelId);
     }
+
+    public function searchOutils(string $search, int $page = 1, int $limit = 48): array
+    {
+        // Pour l'instant, on utilise la méthode existante et on filtre côté PHP
+        // Dans une vraie application, on ferait la recherche en base de données
+        $allOutils = $this->listerOutils();
+        $filteredOutils = array_filter($allOutils, function($outil) use ($search) {
+            return stripos($outil->getName(), $search) !== false || 
+                   stripos($outil->getDescription() ?? '', $search) !== false;
+        });
+        
+        $offset = ($page - 1) * $limit;
+        return array_slice($filteredOutils, $offset, $limit);
+    }
+
+    public function countSearchOutils(string $search): int
+    {
+        $allOutils = $this->listerOutils();
+        $filteredOutils = array_filter($allOutils, function($outil) use ($search) {
+            return stripos($outil->getName(), $search) !== false || 
+                   stripos($outil->getDescription() ?? '', $search) !== false;
+        });
+        return count($filteredOutils);
+    }
+
+    public function listerOutilsPaginated(int $page = 1, int $limit = 48, ?int $categoryId = null): array
+    {
+        $allOutils = $categoryId ? $this->listerOutilsParCategorie($categoryId) : $this->listerOutils();
+        $offset = ($page - 1) * $limit;
+        return array_slice($allOutils, $offset, $limit);
+    }
+
+    public function countOutils(?int $categoryId = null): int
+    {
+        $allOutils = $categoryId ? $this->listerOutilsParCategorie($categoryId) : $this->listerOutils();
+        return count($allOutils);
+    }
 }
