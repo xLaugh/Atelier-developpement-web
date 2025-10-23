@@ -2,87 +2,57 @@
 @use "mixins" as *;
 
 .detail-page {
-  background: linear-gradient(135deg, $primary, $primary-dark);
+  background-color: $bg;
   min-height: 100vh;
-  padding: 100px 40px 60px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 80px 40px 60px;
   position: relative;
 }
 
-/* Bouton retour en haut à gauche */
 .back-btn {
-  position: absolute;
-  top: 25px;
-  left: 25px;
-  background: white;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: linear-gradient(135deg, #ffffff, #f8f9fa);
   color: $primary-dark;
-  border: none;
-  border-radius: 30px;
-  padding: 10px 25px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 25px;
+  padding: 10px 22px;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.9rem;
   cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
 
   &:hover {
-    background: $primary-dark;
+    background: linear-gradient(135deg, $primary-dark, $primary);
     color: white;
     transform: translateY(-2px);
   }
 }
 
-/* Panier rouge en haut à droite */
-#cart-counter {
-  position: absolute;
-  top: 25px;
-  right: 25px;
-  background: #dc3545;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: #c82333;
-    transform: scale(1.05);
-  }
-}
-
-#detail {
-  width: 100%;
-  max-width: 1200px;
-  margin-top: 40px;
-}
-
 .detail-container {
-  display: grid;
-  grid-template-columns: 1fr 0.8fr;
-  gap: 40px;
-  width: 100%;
-  background: none;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 50px;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
 }
 
 .detail-info {
+  flex: 1 1 55%;
   background: white;
-  border-radius: $radius;
+  border-radius: 12px;
   box-shadow: $shadow;
-  padding: 35px;
+  padding: 30px;
 
   h1 {
-    color: $primary-dark;
     font-size: 2rem;
-    margin-bottom: 25px;
+    color: $primary-dark;
+    margin-bottom: 20px;
     text-align: center;
   }
 
@@ -90,33 +60,27 @@
     width: 100%;
     height: auto;
     border-radius: 10px;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
   }
 
   p {
-    margin-bottom: 10px;
-    color: $text;
     font-size: 1rem;
-
-    strong {
-      color: $primary-dark;
-    }
+    margin: 6px 0;
   }
 }
 
 .reservation-form {
+  flex: 1 1 35%;
   background: white;
-  border-radius: $radius;
+  border-radius: 12px;
   box-shadow: $shadow;
-  padding: 35px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  padding: 30px;
 
   h3 {
     color: $primary-dark;
-    font-size: 1.4rem;
-    margin-bottom: 10px;
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    text-align: center;
   }
 
   form {
@@ -130,26 +94,19 @@
       gap: 5px;
 
       label {
-        font-weight: 600;
+        font-weight: 500;
         color: $primary-dark;
       }
 
       input {
         padding: 10px;
-        border: 1.5px solid #ccc;
-        border-radius: 8px;
-        font-size: 1rem;
-        transition: border-color 0.3s ease;
-
-        &:focus {
-          border-color: $primary;
-          box-shadow: 0 0 0 2px rgba($primary, 0.1);
-        }
+        border: 1px solid #ccc;
+        border-radius: 6px;
       }
 
       small {
-        color: #666;
         font-size: 0.85rem;
+        color: #666;
       }
     }
 
@@ -158,34 +115,22 @@
       color: white;
       border: none;
       border-radius: 8px;
-      padding: 12px 24px;
+      padding: 12px 20px;
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
-      margin-top: 10px;
 
       &:hover {
         background: linear-gradient(135deg, $primary-dark, $primary);
         transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba($primary, 0.3);
       }
     }
   }
 }
 
-@media screen and (max-width: 900px) {
-  .detail-container {
-    grid-template-columns: 1fr;
-  }
-
-  .back-btn {
-    top: 15px;
-    left: 15px;
-  }
-
-  #cart-counter {
-    top: 15px;
-    right: 15px;
-  }
+.cart-counter {
+  position: fixed;
+  top: 20px;
+  right: 20px;
 }
