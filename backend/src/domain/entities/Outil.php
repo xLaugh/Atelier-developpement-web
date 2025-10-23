@@ -101,10 +101,16 @@ class Outil
         $this->categoryId = $categoryId;
     }
 
+    private ?int $modelId = null;
+
+    public function getModelId(): ?int
+    {
+        return $this->modelId;
+    }
+
     public function setModelId(int $modelId): void
     {
-        // Note: Cette méthode sera utilisée pour la cohérence avec l'API
-        // mais l'entité Outil n'a pas de champ modelId directement
+        $this->modelId = $modelId;
     }
 
     public function isAvailable(): bool

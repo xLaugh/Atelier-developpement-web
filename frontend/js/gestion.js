@@ -75,10 +75,11 @@ async function afficherModels() {
         <div class="item-info">
           <strong>${model.name}</strong>
           <span>ID: ${model.id}</span>
+          <span>Catégorie: ${model.category_id}</span>
           ${model.image_url ? `<span>Image: ${model.image_url}</span>` : ''}
         </div>
         <div class="item-actions">
-          <button onclick="editerModel(${model.id}, '${model.name}', '${model.image_url || ''}')">Modifier</button>
+          <button onclick="editerModel(${model.id}, '${model.name}', '${model.image_url || ''}', ${model.category_id})">Modifier</button>
         </div>
       `;
       container.appendChild(div);
@@ -124,11 +125,12 @@ function editerCategorie(id, name) {
   }
 }
 
-function editerModel(id, name, imageUrl = '') {
+function editerModel(id, name, imageUrl = '', categoryId) {
   const nouveauNom = prompt('Nouveau nom du modèle:', name);
   if (nouveauNom && nouveauNom !== name) {
     const nouvelleImageUrl = prompt('Nouvelle URL de l\'image:', imageUrl || '');
-    modifierModel(id, nouveauNom, nouvelleImageUrl);
+    const nouvelleCategorie = prompt('Nouvelle catégorie ID:', categoryId);
+    modifierModel(id, nouveauNom, nouvelleImageUrl, nouvelleCategorie);
   }
 }
 
@@ -163,12 +165,12 @@ async function modifierCategorie(id, name) {
   }
 }
 
-async function modifierModel(id, name, imageUrl) {
+async function modifierModel(id, name, imageUrl, categoryId) {
   try {
     const response = await fetch(`${API_BASE_URL}/api/admin/models/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, image_url: imageUrl })
+      body: JSON.stringify({ name, image_url: imageUrl, category_id: categoryId })
     });
     const result = await response.json();
     

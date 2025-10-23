@@ -20,6 +20,7 @@ function chargerDashboard() {
   
   chargerCategories();
   chargerModels();
+  chargerCategoriesPourModel();
 }
 
 async function chargerCategories() {
@@ -57,6 +58,25 @@ async function chargerModels() {
     });
   } catch (error) {
     console.error('Erreur lors du chargement des modèles:', error);
+  }
+}
+
+async function chargerCategoriesPourModel() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/categories`);
+    const payload = await response.json();
+    const categories = Array.isArray(payload) ? payload : (payload.items || []);
+    
+    const select = document.getElementById('model-category-select');
+    select.innerHTML = '<option value="">Sélectionner une catégorie</option>';
+    categories.forEach(category => {
+      const option = document.createElement('option');
+      option.value = category.id;
+      option.textContent = category.name;
+      select.appendChild(option);
+    });
+  } catch (error) {
+    console.error('Erreur lors du chargement des catégories pour le modèle:', error);
   }
 }
 

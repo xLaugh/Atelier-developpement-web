@@ -43,7 +43,7 @@ class ServiceOutil implements ServiceOutilInterface
             $outil->getName(),
             $outil->getDescription(),
             $outil->getCategoryId(),
-            1 // modelId par défaut
+            $outil->getModelId() ?? 1 // Utilise le modelId de l'outil ou 1 par défaut
         );
     }
 

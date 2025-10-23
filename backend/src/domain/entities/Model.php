@@ -5,6 +5,7 @@ namespace App\domain\entities;
 class Model
 {
     private ?int $id = null;
+    private int $categoryId;
     private string $name;
     private ?string $imageUrl = null;
 
@@ -38,10 +39,21 @@ class Model
         $this->imageUrl = $imageUrl;
     }
 
+    public function getCategoryId(): int
+    {
+        return $this->categoryId;
+    }
+
+    public function setCategoryId(int $categoryId): void
+    {
+        $this->categoryId = $categoryId;
+    }
+
     public function toArray(): array
     {
         return [
             'id' => $this->id,
+            'category_id' => $this->categoryId,
             'name' => $this->name,
             'image_url' => $this->imageUrl
         ];
