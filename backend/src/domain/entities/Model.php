@@ -6,6 +6,7 @@ class Model
 {
     private ?int $id = null;
     private string $name;
+    private ?string $imageUrl = null;
 
     public function getId(): ?int
     {
@@ -27,11 +28,22 @@ class Model
         $this->name = $name;
     }
 
+    public function getImageUrl(): ?string
+    {
+        return $this->imageUrl;
+    }
+
+    public function setImageUrl(?string $imageUrl): void
+    {
+        $this->imageUrl = $imageUrl;
+    }
+
     public function toArray(): array
     {
         return [
             'id' => $this->id,
-            'name' => $this->name
+            'name' => $this->name,
+            'image_url' => $this->imageUrl
         ];
     }
 }

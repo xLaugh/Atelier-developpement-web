@@ -75,9 +75,10 @@ async function afficherModels() {
         <div class="item-info">
           <strong>${model.name}</strong>
           <span>ID: ${model.id}</span>
+          ${model.image_url ? `<span>Image: ${model.image_url}</span>` : ''}
         </div>
         <div class="item-actions">
-          <button onclick="editerModel(${model.id}, '${model.name}')">Modifier</button>
+          <button onclick="editerModel(${model.id}, '${model.name}', '${model.image_url || ''}')">Modifier</button>
         </div>
       `;
       container.appendChild(div);
@@ -123,10 +124,11 @@ function editerCategorie(id, name) {
   }
 }
 
-function editerModel(id, name) {
+function editerModel(id, name, imageUrl = '') {
   const nouveauNom = prompt('Nouveau nom du modèle:', name);
   if (nouveauNom && nouveauNom !== name) {
-    modifierModel(id, nouveauNom);
+    const nouvelleImageUrl = prompt('Nouvelle URL de l\'image:', imageUrl || '');
+    modifierModel(id, nouveauNom, nouvelleImageUrl);
   }
 }
 
@@ -161,12 +163,12 @@ async function modifierCategorie(id, name) {
   }
 }
 
-async function modifierModel(id, name) {
+async function modifierModel(id, name, imageUrl) {
   try {
     const response = await fetch(`${API_BASE_URL}/api/admin/models/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name })
+      body: JSON.stringify({ name, image_url: imageUrl })
     });
     const result = await response.json();
     

@@ -26,12 +26,7 @@ class ServiceModel
         return $this->modelRepository->findById($id);
     }
 
-    public function create(Model $model): Model
-    {
-        return $this->modelRepository->create($model);
-    }
-
-    public function update(int $id, string $name): Model
+    public function update(int $id, string $name, ?string $imageUrl = null): Model
     {
         $model = $this->modelRepository->findById($id);
         if (!$model) {
@@ -39,6 +34,7 @@ class ServiceModel
         }
 
         $model->setName($name);
+        $model->setImageUrl($imageUrl);
         return $this->modelRepository->update($model);
     }
 }

@@ -27,6 +27,7 @@ class CreateModelAction
 
             $model = new Model();
             $model->setName($data['name']);
+            $model->setImageUrl($data['image_url'] ?? null);
 
             $createdModel = $this->modelService->create($model);
 

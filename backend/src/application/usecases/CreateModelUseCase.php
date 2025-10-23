@@ -12,10 +12,11 @@ class CreateModelUseCase
         private ModelRepositoryInterface $modelRepository
     ) {}
 
-    public function execute(string $name): Model
+    public function execute(string $name, ?string $imageUrl = null): Model
     {
         $model = new Model();
         $model->setName($name);
+        $model->setImageUrl($imageUrl);
         return $this->modelRepository->create($model);
     }
 }

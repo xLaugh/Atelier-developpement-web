@@ -17,16 +17,17 @@ class ListModelsAction
         try {
             $models = $this->modelService->findAll();
 
-            // Normalize to plain arrays for the frontend
             $items = array_map(function ($model) {
-                // Support both entity objects with toArray and associative arrays
                 if (is_object($model) && method_exists($model, 'toArray')) {
                     return $model->toArray();
                 }
                 return $model;
             }, $models);
 
-            $response->getBody()->write(json_encode($items));
+            $response->getBody()->write(json_encode([
+                'success' => true,
+                'items' => $items
+            ]));
             return $response->withHeader('Content-Type', 'application/json');
 
         } catch (\Exception $e) {

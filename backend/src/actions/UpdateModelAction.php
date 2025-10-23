@@ -19,6 +19,7 @@ class UpdateModelAction
             $data = $request->getParsedBody();
             $id = $request->getAttribute('id');
             $name = $data['name'] ?? '';
+            $imageUrl = $data['image_url'] ?? null;
 
             if (empty($name)) {
                 $response->getBody()->write(json_encode([
@@ -28,7 +29,7 @@ class UpdateModelAction
                 return $response->withStatus(400)->withHeader('Content-Type', 'application/json; charset=utf-8');
             }
 
-            $model = $this->modelService->update($id, $name);
+            $model = $this->modelService->update($id, $name, $imageUrl);
 
             $response->getBody()->write(json_encode([
                 'success' => true,

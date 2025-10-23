@@ -14,8 +14,8 @@ class ModelRepository implements ModelRepositoryInterface
 
     public function create(Model $model): Model
     {
-        $stmt = $this->pdo->prepare("INSERT INTO models (name) VALUES (?)");
-        $stmt->execute([$model->getName()]);
+        $stmt = $this->pdo->prepare("INSERT INTO models (name, image_url) VALUES (?, ?)");
+        $stmt->execute([$model->getName(), $model->getImageUrl()]);
         
         $model->setId($this->pdo->lastInsertId());
         return $model;
@@ -30,6 +30,7 @@ class ModelRepository implements ModelRepositoryInterface
             $model = new Model();
             $model->setId($row['id']);
             $model->setName($row['name']);
+            $model->setImageUrl($row['image_url']);
             return $model;
         }, $results);
     }
@@ -47,13 +48,14 @@ class ModelRepository implements ModelRepositoryInterface
         $model = new Model();
         $model->setId($row['id']);
         $model->setName($row['name']);
+        $model->setImageUrl($row['image_url']);
         return $model;
     }
 
     public function update(Model $model): Model
     {
-        $stmt = $this->pdo->prepare("UPDATE models SET name = ? WHERE id = ?");
-        $stmt->execute([$model->getName(), $model->getId()]);
+        $stmt = $this->pdo->prepare("UPDATE models SET name = ?, image_url = ? WHERE id = ?");
+        $stmt->execute([$model->getName(), $model->getImageUrl(), $model->getId()]);
         
         return $model;
     }
