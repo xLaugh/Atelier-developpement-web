@@ -1,12 +1,9 @@
 @import "variables";
 @import "mixins";
 
-body {
-  background: white !important;
-  background-image: none !important;
-}
-
-html {
+html, body {
+  margin: 0; /* Supprime la marge blanche par défaut */
+  padding: 0;
   background: white !important;
   background-image: none !important;
 }
@@ -17,9 +14,9 @@ header {
   align-items: center;
   background: linear-gradient(135deg, $primary, $primary-dark);
   color: white;
-  padding: 20px 40px;
   box-shadow: $shadow;
   width: 100%;
+  margin-bottom: 40px;
   
   h1 {
     margin: 0;
@@ -78,14 +75,84 @@ header {
   }
 }
 
+.user-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.user-menu-btn {
+  all: unset; 
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .arrow {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+  }
+}
+
+.user-menu.open .arrow {
+  transform: rotate(180deg);
+}
+
+.user-dropdown-content {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  min-width: 200px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  padding: 8px 0;
+  margin-top: 8px;
+  z-index: 1000;
+  display: none !important; 
+  border: 1px solid #e0e0e0;
+
+  a {
+    display: block;
+    padding: 12px 16px;
+    color: #333;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid #f0f0f0;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: #f8f9fa;
+      color: $primary;
+    }
+  }
+}
+
+.user-menu.open .user-dropdown-content {
+  display: block !important;
+}
+
 main {
   display: grid;
   grid-template-columns: 220px 1fr;
   gap: 30px;
-  width: 95%;
+  width: 100%; /* Étend le main jusqu’aux bords */
   max-width: 1400px;
-  margin: 40px auto;
-  padding: 20px;
+  margin: 0 auto; /* Supprime le décalage vertical */
+  padding: 0 20px;
   background-color: white !important;
   min-height: calc(100vh - 100px);
 }
@@ -120,7 +187,6 @@ a.outil {
     &:hover {
       background-color: $primary;
       color: white;
-      transform: translateY(-2px);
     }
   }
 }
@@ -142,11 +208,6 @@ a.outil {
   box-shadow: $shadow;
   overflow: hidden;
   transition: $transition;
-
-  &:hover {
-    transform: scale(1.03);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-  }
 
   img {
     width: 100%;
