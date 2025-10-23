@@ -76,17 +76,17 @@ ON DUPLICATE KEY UPDATE name = VALUES(name);
 
 -- Données de test (modèles)
 INSERT INTO models (id, category_id, name, brand, image_url, price_per_day, description) VALUES
-  (1, 1, 'Perceuse percussion 18V', 'Makita', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_bTfemPHfHmxcNoaLLO3hbxaaMU1npXHsPw&s', 10, 'Perceuse sans fil avec 2 batteries'),
+  (1, 1, 'Perceuse percussion 18V', 'Makita', 'https://www.topquincaillerie.fr/43289-large_default/perceuse-visseuse-a-percussion-makita-18-v-li-ion-4-ah-o-13-mm-2-batteries-chargeur-coffret.webp', 10, 'Perceuse sans fil avec 2 batteries'),
   (2, 2, 'Scie sauteuse 750W', 'Bosch', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_bTfemPHfHmxcNoaLLO3hbxaaMU1npXHsPw&s', 5, 'Précise, pour bois et métal'),
   (3, 3, 'Ponceuse excentrique 125mm', 'DeWalt', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_bTfemPHfHmxcNoaLLO3hbxaaMU1npXHsPw&s', 25, 'Avec aspiration intégrée'),
   (4, 1, 'Visseuse compacte 12V', 'Makita', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_bTfemPHfHmxcNoaLLO3hbxaaMU1npXHsPw&s', 8, 'Légère et maniable'),
   (5, 2, 'Scie circulaire 1400W', 'Ryobi', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_bTfemPHfHmxcNoaLLO3hbxaaMU1npXHsPw&s', 12, 'Pour découpes droites rapides'),
-  (6, 3, 'Ponceuse à bande 100mm', 'Black+Decker', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_bTfemPHfHmxcNoaLLO3hbxaaMU1npXHsPw&s', 15, 'Ponçage rapide et efficace'),
+  (6, 3, 'Ponceuse à bande 100mm', 'Black+Decker', 'https://www.manutan.fr/fstrz/r/s/www.manutan.fr/img/S/GRP/ST/AIG6783001.jpg?frz-v=126', 15, 'Ponçage rapide et efficace'),
   (7, 4, 'Rouleau peinture 18cm', 'Purdy', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_bTfemPHfHmxcNoaLLO3hbxaaMU1npXHsPw&s', 3, 'Rouleau professionnel haute qualité'),
-  (8, 4, 'Pinceau 5cm', 'Wooster', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_bTfemPHfHmxcNoaLLO3hbxaaMU1npXHsPw&s', 2, 'Pinceau finition soie naturelle'),
-  (9, 5, 'Multimètre digital', 'Fluke', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_bTfemPHfHmxcNoaLLO3hbxaaMU1npXHsPw&s', 20, 'Mesures précises tension/courant'),
-  (10, 5, 'Détecteur de tension', 'Klein Tools', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_bTfemPHfHmxcNoaLLO3hbxaaMU1npXHsPw&s', 5, 'Détection sans contact'),
-  (11, 6, 'Clé à molette 15cm', 'Bahco', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_bTfemPHfHmxcNoaLLO3hbxaaMU1npXHsPw&s', 4, 'Acier chromé haute résistance'),
+  (8, 4, 'Pinceau 5cm', 'Wooster', 'https://www.seguret-decoration.fr/52238-large_default/pinceau-5cm-farrow.jpg', 2, 'Pinceau finition soie naturelle'),
+  (9, 5, 'Multimètre digital', 'Fluke', 'https://m.media-amazon.com/images/I/71tbi6BftXL._AC_UF1000,1000_QL80_.jpg', 20, 'Mesures précises tension/courant'),
+  (10, 5, 'Détecteur de tension', 'Klein Tools', 'https://www.derancourt.com/cache/images/product/vat7622021-web-5109.jpg', 5, 'Détection sans contact'),
+  (11, 6, 'Clé à molette 15cm', 'Bahco', 'https://media2.master-outillage.com/372264-medium_default/cle-a-molette-150mm-e187366-expert-by-facom.jpg', 4, 'Acier chromé haute résistance'),
   (12, 6, 'Té plomberie 20mm', 'Géberit', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_bTfemPHfHmxcNoaLLO3hbxaaMU1npXHsPw&s', 6, 'Té en laiton pour raccordements')
 ON DUPLICATE KEY UPDATE name = VALUES(name), image_url = VALUES(image_url), price_per_day = VALUES(price_per_day);
 
