@@ -110,6 +110,32 @@ button[onclick="history.back()"] {
   }
 }
 
+/* Style du sélecteur de rôle */
+select[name="role"] {
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+  outline: none;
+  font-size: 1rem;
+  background-color: white;
+  color: #333;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+
+  &:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba($primary, 0.1);
+  }
+
+  option {
+    color: #333;
+    background: white;
+  }
+}
+
 /* Conditions de mot de passe */
 .password-requirements {
   text-align: left;
