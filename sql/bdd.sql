@@ -86,7 +86,7 @@ INSERT INTO models (id, category_id, name, brand, image_url, price_per_day, desc
   (8, 4, 'Pinceau 5cm', 'Wooster', 'https://www.seguret-decoration.fr/52238-large_default/pinceau-5cm-farrow.jpg', 2, 'Pinceau finition soie naturelle'),
   (9, 5, 'Multimètre digital', 'Fluke', 'https://m.media-amazon.com/images/I/71tbi6BftXL._AC_UF1000,1000_QL80_.jpg', 20, 'Mesures précises tension/courant'),
   (10, 5, 'Détecteur de tension', 'Klein Tools', 'https://www.derancourt.com/cache/images/product/vat7622021-web-5109.jpg', 5, 'Détection sans contact'),
-  (11, 6, 'Clé à molette 15cm', 'Bahco', 'https://media2.master-outillage.com/372264-medium_default/cle-a-molette-150mm-e187366-expert-by-facom.jpg', 4, 'Acier chromé haute résistance'),
+  (11, 6, 'Clé à molette 15cm Bahco', 'Bahco', 'https://media2.master-outillage.com/372264-medium_default/cle-a-molette-150mm-e187366-expert-by-facom.jpg', 4, 'Acier chromé haute résistance'),
   (12, 6, 'Té plomberie 20mm', 'Géberit', 'https://paturevision.fr/4855-large_default/te-a-90-augmente-20-x-25-x-20-mm.jpg', 6, 'Té en laiton pour raccordements'),
   (13, 1, 'Perceuse visseuse 14.4V', 'Milwaukee', 'https://www.toolnation.fr/media/catalog/product/cache/918bb768bbbb956a1722ec514f7b2742/m/i/milwaukee_4058546568474_image_1_1.jpg', 12, 'Perceuse professionnelle avec couple élevé'),
   (14, 1, 'Perceuse à colonne 550W', 'Einhell', 'https://m.media-amazon.com/images/I/71DeRGoJ+fL.jpg', 8, 'Perceuse fixe pour précision maximale'),
@@ -226,7 +226,7 @@ INSERT INTO models (id, category_id, name, brand, image_url, price_per_day, desc
   (148, 5, 'Pince à sertir 180mm', 'Crimping', '', 12, 'Pince à sertir 180mm'),
   (149, 5, 'Pince à sertir 200mm', 'Crimping', '', 13, 'Pince à sertir 200mm'),
   (150, 5, 'Détecteur de câbles 160mm', 'Bosch', '', 7, 'Détecteur de câbles 160mm'),
-  (151, 6, 'Clé à molette 15cm', 'Bahco', '', 5, 'Clé à molette 15cm'),
+  (151, 6, 'Clé à molette 15cm Expert by Facom', 'Expert by Facom', 'https://media2.master-outillage.com/372264-medium_default/cle-a-molette-150mm-e187366-expert-by-facom.jpg', 5, 'Clé à molette 15cm'),
   (152, 6, 'Clé à molette 18cm', 'Facom', '', 6, 'Clé à molette 18cm'),
   (153, 6, 'Clé à molette 22cm', 'Bahco', '', 7, 'Clé à molette 22cm'),
   (154, 6, 'Clé à molette 28cm', 'Facom', '', 9, 'Clé à molette 28cm'),
@@ -257,8 +257,8 @@ INSERT INTO models (id, category_id, name, brand, image_url, price_per_day, desc
   (179, 2, 'Scie circulaire 230mm', 'Festool', '', 45, 'Scie circulaire 230mm'),
   (180, 2, 'Scie sauteuse 1600W', 'Hilti', '', 30, 'Scie sauteuse 1600W'),
   (181, 3, 'Ponceuse orbitale 100mm', 'DeWalt', '', 16, 'Ponceuse orbitale 100mm'),
-  (182, 3, 'Ponceuse à bande 60mm', 'Bosch', '', 14, 'Ponceuse à bande 60mm'),
-  (183, 3, 'Ponceuse excentrique 100mm', 'Makita', '', 18, 'Ponceuse excentrique 100mm'),
+  (182, 3, "Bosch Ponceuse à bande PBS 75 A", 'Bosch', 'https://m.media-amazon.com/images/I/616pC8pjxrL._AC_UF1000,1000_QL80_.jpg', 14, "Ponçage efficace – le puissant moteur de 710 W offre un taux d'enlèvement de matière élevé"),
+  (183, 3, 'Ponceuse excentrique filaire 180W', 'Leroy Merlin', 'https://media.adeo.com/media/1168102/media.jpg?width=3000&height=3000&format=jpg&quality=80&fit=bounds', 18, 'Ponceuse excentrique 100mm'),
   (184, 3, 'Ponceuse vibrante 300W', 'Bosch', 'https://cdn.guedo-outillage.fr/21865-medium_default/bosch-ponceuse-vibrante-92x182-mm-300w-gss230ave-l-boxx-0601292801.jpg', 11, 'Ponceuse vibrante 300W'),
   (185, 3, 'Ponceuse orbitale 200mm', 'Rodcraft', 'https://www.centrale-directe.com/pub/media/catalog/product/cache/1e2fb8a2ea407b3ec8fe34556b0f9dce/p/o/ponceuse-pneumatique-orbitale-200mm-rc7691v-01.jpg', 20, 'Ponceuse orbitale 200mm'),
   (186, 3, 'Ponceuse à bande', 'DeWalt', 'https://m.media-amazon.com/images/I/61vo9DsGegL.jpg', 16, 'Ponceuse à bande 80mm'),
@@ -662,6 +662,7 @@ INSERT INTO items (id, model_id, status) VALUES
   (381, 198, 0),
   (382, 198, 0),
   (383, 199, 0),
+  (384, 199, 0),
   (384, 199, 0)
 ON DUPLICATE KEY UPDATE status = VALUES(status);
 
