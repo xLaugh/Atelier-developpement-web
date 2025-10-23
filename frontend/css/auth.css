@@ -1,0 +1,156 @@
+body {
+  font-family: "Segoe UI", Roboto, sans-serif;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+button[onclick="history.back()"] {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  z-index: 10;
+}
+
+button[onclick="history.back()"]:hover {
+  background-color: var(--primary-dark);
+}
+
+.form-container {
+  background-color: white;
+  padding: 40px 50px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.form-container h2 {
+  color: var(--primary-dark);
+  margin-bottom: 25px;
+  font-size: 1.6rem;
+}
+
+form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+form input:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+/* === Boutons === */
+form button[type="submit"] {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  width: 100%;
+  transition: 0.3s ease;
+  margin-top: 10px;
+}
+
+form button[type="submit"]:hover {
+  background-color: var(--primary-dark);
+}
+
+form p {
+  margin-top: 12px;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+form p a {
+  color: var(--primary-dark);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+form p a:hover {
+  text-decoration: underline;
+}
+
+#messageBox {
+  margin-bottom: 15px;
+  font-weight: 600;
+  color: var(--danger);
+}
+
+.password-requirements {
+  text-align: left;
+  background-color: #f8f9fa;
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+}
+
+.password-requirements p {
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: var(--primary-dark);
+}
+
+.password-requirements ul {
+  list-style: none;
+  padding-left: 10px;
+}
+
+.password-requirements li {
+  font-size: 0.9rem;
+}
+
+
+button[onclick="history.back()"] {
+  background-color: white;
+  color: var(--primary);
+}
+
+button[onclick="history.back()"]:hover {
+  background-color: var(--primary-dark);
+  color: white;
+}
+/* === Responsive === */
+@media screen and (max-width: 600px) {
+  .form-container {
+    padding: 30px 25px;
+    max-width: 90%;
+  }
+
+  .form-container h2 {
+    font-size: 1.4rem;
+  }
+}
