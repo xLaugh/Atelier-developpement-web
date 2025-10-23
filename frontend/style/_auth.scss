@@ -1,0 +1,134 @@
+@import "variables";
+@import "mixins";
+
+body {
+  @include flexCenter(column);
+  min-height: 100vh;
+  background: linear-gradient(135deg, $primary, $primary-dark);
+  color: white;
+  padding: 20px;
+  position: relative;
+}
+
+/* Bouton retour stylé en haut à gauche */
+.btn-retour {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: linear-gradient(135deg, #ffffff, #f8f9fa);
+  color: $primary-dark;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+
+  &:hover {
+    background: linear-gradient(135deg, $primary-dark, $primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+.form-container {
+  background: $card-bg;
+  color: $text;
+  padding: 40px;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+
+  h1 {
+    color: $primary-dark;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    font-weight: bold;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    input {
+      padding: 12px;
+      border-radius: 8px;
+      border: 2px solid #e0e0e0;
+      outline: none;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+
+      &:focus {
+        border-color: $primary;
+        box-shadow: 0 0 0 3px rgba($primary, 0.1);
+      }
+    }
+
+    button {
+      background: linear-gradient(135deg, $primary, $primary-dark);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+
+      &:hover {
+        background: linear-gradient(135deg, $primary-dark, $primary);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba($primary, 0.3);
+      }
+    }
+
+    p {
+      text-align: center;
+      font-size: 0.9rem;
+      margin-top: 20px;
+
+      a {
+        color: $primary;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: $primary-dark;
+          text-decoration: underline;
+        }
+      }
+    }
+
+    /* Conditions de mot de passe alignées à gauche */
+    .password-conditions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: 10px;
+      
+      ul {
+        margin: 5px 0;
+        padding-left: 20px;
+      }
+      
+      li {
+        margin: 3px 0;
+      }
+    }
+  }
+}

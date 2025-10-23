@@ -1,36 +1,42 @@
-/* Mixins pour les boutons */
-/* Mixin pour centrer avec flexbox */
-/* Mixin pour les cartes */
+@import "variables";
+@import "mixins";
+
 body {
   background: white !important;
-  background-image: none !important; }
+  background-image: none !important;
+}
 
 html {
   background: white !important;
-  background-image: none !important; }
+  background-image: none !important;
+}
 
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(135deg, #1d7a7a, #155d5d);
+  background: linear-gradient(135deg, $primary, $primary-dark);
   color: white;
   padding: 20px 40px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 100%; }
-  header h1 {
+  box-shadow: $shadow;
+  width: 100%;
+  
+  h1 {
     margin: 0;
     font-size: 2rem;
-    font-weight: bold; }
+    font-weight: bold;
+  }
+}
 
 #header-right {
   display: flex;
   align-items: center;
-  gap: 15px; }
+  gap: 15px;
+}
 
 .btn-login {
   background: linear-gradient(135deg, #ffffff, #f8f9fa);
-  color: #155d5d;
+  color: $primary-dark;
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 25px;
   padding: 12px 24px;
@@ -40,13 +46,16 @@ header {
   text-decoration: none;
   display: inline-block;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); }
-  .btn-login:hover {
-    background: linear-gradient(135deg, #155d5d, #1d7a7a);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    background: linear-gradient(135deg, $primary-dark, $primary);
     color: white;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-    border-color: rgba(255, 255, 255, 0.5); }
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+}
 
 .cart-counter {
   background: #dc3545;
@@ -61,10 +70,13 @@ header {
   font-weight: bold;
   font-size: 1rem;
   cursor: pointer;
-  transition: all 0.3s ease; }
-  .cart-counter:hover {
+  transition: all 0.3s ease;
+  
+  &:hover {
     background: #c82333;
-    transform: scale(1.05); }
+    transform: scale(1.05);
+  }
+}
 
 main {
   display: grid;
@@ -75,77 +87,94 @@ main {
   margin: 40px auto;
   padding: 20px;
   background-color: white !important;
-  min-height: calc(100vh - 100px); }
+  min-height: calc(100vh - 100px);
+}
 
 #categories,
 #catalogue,
 a.outil {
-  background-color: white !important; }
+  background-color: white !important;
+}
 
 #categories {
   display: flex;
   flex-direction: column;
   gap: 12px;
   align-self: start;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: $card-bg;
+  border-radius: $radius;
+  box-shadow: $shadow;
   padding: 20px;
-  height: fit-content; }
-  #categories button {
+  height: fit-content;
+
+  button {
     background-color: white;
-    border: 1.5px solid #1d7a7a;
-    color: #155d5d;
-    border-radius: 10px;
+    border: 1.5px solid $primary;
+    color: $primary-dark;
+    border-radius: $radius;
     padding: 10px;
     font-weight: 500;
     cursor: pointer;
-    transition: 0.25s ease; }
-    #categories button:hover {
-      background-color: #1d7a7a;
+    transition: $transition;
+
+    &:hover {
+      background-color: $primary;
       color: white;
-      transform: translateY(-2px); }
+      transform: translateY(-2px);
+    }
+  }
+}
 
 #catalogue {
   display: grid;
   grid-template-columns: repeat(auto-fill, 250px);
   gap: 25px;
-  justify-content: start; }
+  justify-content: start;
+}
 
 a.outil {
   display: flex;
   flex-direction: column;
   text-decoration: none;
-  color: #1e1e1e;
-  background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  color: $text;
+  background: $card-bg;
+  border-radius: $radius;
+  box-shadow: $shadow;
   overflow: hidden;
-  transition: 0.25s ease; }
-  a.outil:hover {
+  transition: $transition;
+
+  &:hover {
     transform: scale(1.03);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15); }
-  a.outil img {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  }
+
+  img {
     width: 100%;
     height: 200px;
-    object-fit: cover; }
-  a.outil h3 {
+    object-fit: cover;
+  }
+
+  h3 {
     padding: 12px;
     text-align: center;
-    font-size: 1.1rem; }
+    font-size: 1.1rem;
+  }
+}
 
 @media screen and (max-width: 900px) {
   main {
     display: flex;
-    flex-direction: column; }
+    flex-direction: column;
+  }
 
   #categories {
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center; }
+    justify-content: center;
+  }
 
   #catalogue {
     grid-template-columns: repeat(auto-fill, 180px);
-    justify-content: center; } }
-
-/*# sourceMappingURL=index.css.map */
+    justify-content: center;
+  }
+}
