@@ -20,6 +20,7 @@ use App\actions\UpdateModelAction;
 use App\actions\UpdateOutilAction;
 use App\actions\SearchOutilsAction;
 use App\actions\ListOutilsPaginatedAction;
+use App\actions\GetUserReservationsAction;
 
 $app->options('/{routes:.+}', function ($request, $response, $args) {
     return $response;
@@ -34,6 +35,7 @@ $app->get('/api/outils/{id}', GetOutilAction::class)->setName('get_outil');
 $app->post('/api/auth/login', AuthLoginAction::class)->setName('auth_login');
 $app->post('/api/auth/register', AuthRegisterAction::class)->setName('auth_register');
 $app->get('/api/auth/me', AuthMeAction::class)->setName('auth_me');
+$app->get('/api/user/reservations', GetUserReservationsAction::class)->setName('get_user_reservations');
 $app->post('/api/reservations', CreateReservationAction::class)->setName('create_reservation');
 $app->post('/api/reservations/period', CreatePeriodReservationAction::class)->setName('create_period_reservation');
 $app->get('/api/availability', CheckAvailabilityAction::class)->setName('check_availability');

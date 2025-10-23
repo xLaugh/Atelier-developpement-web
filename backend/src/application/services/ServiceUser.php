@@ -30,4 +30,36 @@ class ServiceUser implements ServiceUserInterface
     {
         return $this->createUserUseCase->execute($prenom, $nom, $email, $password, $role);
     }
+
+    public function getUserReservations(int $userId): array
+    {
+        // Connexion à la base de données
+        $db = \App\db\Database::getInstance();
+        $pdo = $db->getConnection();
+        
+        $stmt = $pdo->prepare("
+            SELECT 
+                r.id,
+                r.quantity,
+                r.start_date,
+                r.end_date,
+                r.status,
+                r.total_price,
+                r.created_at,
+                m.name as model_name,
+                m.description as model_description,
+                m.image_url,
+                c.name as category_name
+            FROM reservations r
+            JOIN models m ON r.model_id = m.id
+            JOIN categories c ON m.category_id = c.id
+            WHERE r.user_id = ?
+            ORDER BY r.created_at DESC
+        ");
+        
+        $stmt->execute([$userId]);
+        $reservations = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        
+        return $reservations;
+    }
 }
