@@ -162,6 +162,10 @@ return [
             $container->get(ReservationRepositoryInterface::class)
         );
     },
+    
+    \App\actions\GetUserReservationsAction::class => function ($container) {
+        return new \App\actions\GetUserReservationsAction($container->get(ServiceUserInterface::class));
+    },
 
     // PDO Connection
     PDO::class => function ($container) {
