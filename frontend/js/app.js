@@ -1,24 +1,35 @@
-async function chargerCatalogue(categoryId) {
+async function chargerCatalogue(categoryId, page = 1, search = '') {
   const div = document.getElementById("catalogue");
   try {
-    const url = categoryId
-      ? `${API_BASE_URL}/api/outils?category_id=${encodeURIComponent(categoryId)}`
-      : `${API_BASE_URL}/api/outils`;
+    let url;
+    if (search) {
+      url = `${API_BASE_URL}/api/outils/search?q=${encodeURIComponent(search)}&page=${page}&limit=48`;
+    } else {
+      url = `${API_BASE_URL}/api/outils/paginated?page=${page}&limit=48`;
+      if (categoryId) {
+        url += `&category_id=${categoryId}`;
+      }
+    }
+    
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
-    const outils = Array.isArray(data) ? data : data.items || [];
+    const outils = data.items || [];
 
     div.innerHTML = outils
       .map(
         (o) => `
       <a class="outil" href="page/detail.html?id=${o.id}">
-        <img src="${o.image_url || 'https://via.placeholder.com/300x200?text=Outil'}" alt="${o.name}" />
+        <img src="${o.image_url || 'https://via.placeholder.com/300x200/cccccc/666666?text=Outil'}" alt="${o.name}" />
         <h3>${o.name}</h3>
       </a>
     `
       )
       .join("");
+      
+    if (data.pagination) {
+      updatePagination(data.pagination);
+    }
   } catch (e) {
     div.innerHTML = `<p>Erreur de chargement: ${e.message}</p>`;
   }
@@ -26,11 +37,15 @@ async function chargerCatalogue(categoryId) {
 
 async function chargerCategories() {
   const nav = document.getElementById("categories");
+  const categoryMenu = document.getElementById("category-menu");
+  
   try {
     const res = await fetch(`${API_BASE_URL}/api/categories`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     const cats = Array.isArray(data) ? data : data.items || [];
+    
+    // Mise à jour du menu latéral (navigation)
     nav.innerHTML = ['<button data-cat="">Tous</button>']
       .concat(cats.map((c) => `<button data-cat="${c.id}">${c.name}</button>`))
       .join(" ");
@@ -38,8 +53,32 @@ async function chargerCategories() {
       const btn = e.target.closest("button[data-cat]");
       if (!btn) return;
       const cid = btn.getAttribute("data-cat");
-      chargerCatalogue(cid || undefined);
+      currentCategory = cid || null;
+      currentPage = 1;
+      currentSearch = '';
+      selectedCategoryId = cid || null;
+      chargerCatalogue(cid || undefined, 1);
     });
+
+    if (categoryMenu) {
+      categoryMenu.innerHTML = `
+        <div class="category-option" data-category="">Toutes les catégories</div>
+        ${cats.map(c => `<div class="category-option" data-category="${c.id}">${c.name}</div>`).join('')}
+      `;
+      categoryMenu.addEventListener('click', (e) => {
+        const option = e.target.closest('.category-option');
+        if (option) {
+          const categoryId = option.getAttribute('data-category');
+          const categoryName = option.textContent;
+          
+          selectedCategoryId = categoryId || null;
+          selectedCategoryName = categoryName;
+          document.getElementById('category-text').textContent = categoryName;
+          document.getElementById('category-dropdown').classList.remove('open');
+          categoryMenu.classList.remove('show');
+        }
+      });
+    }
   } catch (e) {
     nav.innerHTML = `<p>Erreur catégories: ${e.message}</p>`;
   }
@@ -113,7 +152,148 @@ function logout() {
 
 window.logout = logout;
 
+let currentPage = 1;
+let currentCategory = null;
+let currentSearch = '';
+
+// Variables globales pour la recherche
+let selectedCategoryId = null;
+let selectedCategoryName = 'Toutes nos catégories';
+
+function initSearch() {
+  const searchInput = document.getElementById('search-input');
+  const searchBtn = document.getElementById('search-btn');
+  const categoryDropdown = document.getElementById('category-dropdown');
+  const categoryMenu = document.getElementById('category-menu');
+  
+  if (searchInput && searchBtn) {
+    searchBtn.addEventListener('click', performSearch);
+    searchInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        performSearch();
+      }
+    });
+  }
+  
+  // Gestion du dropdown des catégories
+  if (categoryDropdown && categoryMenu) {
+    categoryDropdown.addEventListener('click', (e) => {
+      e.stopPropagation();
+      categoryDropdown.classList.toggle('open');
+      categoryMenu.classList.toggle('show');
+    });
+    
+    // Fermer le menu en cliquant ailleurs
+    document.addEventListener('click', (e) => {
+      if (!categoryDropdown.contains(e.target) && !categoryMenu.contains(e.target)) {
+        categoryDropdown.classList.remove('open');
+        categoryMenu.classList.remove('show');
+      }
+    });
+  }
+
+}
+
+
+async function performSearch() {
+  const searchInput = document.getElementById('search-input');
+  const searchTerm = searchInput.value.trim();
+  
+  if (searchTerm) {
+    currentSearch = searchTerm;
+    currentCategory = selectedCategoryId;
+    currentPage = 1;
+    await chargerCatalogue(selectedCategoryId, 1, searchTerm);
+  } else {
+    currentSearch = '';
+    currentPage = 1;
+    await chargerCatalogue(selectedCategoryId, 1);
+  }
+}
+
+function initPagination() {
+  const prevBtn = document.getElementById('prev-page');
+  const nextBtn = document.getElementById('next-page');
+  
+  if (prevBtn && nextBtn) {
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        chargerCatalogue(currentCategory, currentPage, currentSearch);
+      }
+    });
+    
+    nextBtn.addEventListener('click', () => {
+      currentPage++;
+      chargerCatalogue(currentCategory, currentPage, currentSearch);
+    });
+  }
+}
+
+function updatePagination(pagination) {
+  const prevBtn = document.getElementById('prev-page');
+  const nextBtn = document.getElementById('next-page');
+  const pageInfo = document.getElementById('page-info');
+  
+  if (prevBtn) prevBtn.disabled = currentPage <= 1;
+  if (nextBtn) nextBtn.disabled = currentPage >= pagination.total_pages;
+  if (pageInfo) pageInfo.textContent = `Page ${currentPage} sur ${pagination.total_pages}`;
+}
+
+
+function buildApiUrl(search, page, categoryId) {
+  let url;
+  if (search) {
+    url = `${API_BASE_URL}/api/outils/search?q=${encodeURIComponent(search)}&page=${page}&limit=48`;
+  } else {
+    url = `${API_BASE_URL}/api/outils/paginated?page=${page}&limit=48`;
+    if (categoryId) {
+      url += `&category_id=${categoryId}`;
+    }
+  }
+  return url;
+}
+
+async function chargerCatalogue(categoryId, page = 1, search = '') {
+  const div = document.getElementById("catalogue");
+  try {
+    let url;
+    if (search) {
+      url = `${API_BASE_URL}/api/outils/search?q=${encodeURIComponent(search)}&page=${page}&limit=48`;
+    } else {
+      url = `${API_BASE_URL}/api/outils/paginated?page=${page}&limit=48`;
+      if (categoryId) {
+        url += `&category_id=${categoryId}`;
+      }
+    }
+    
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    const outils = data.items || [];
+
+    div.innerHTML = outils
+      .map(
+        (o) => `
+      <a class="outil" href="page/detail.html?id=${o.id}">
+        <img src="${o.image_url || 'https://via.placeholder.com/300x200/cccccc/666666?text=Outil'}" alt="${o.name}" />
+        <h3>${o.name}</h3>
+      </a>
+    `
+      )
+      .join("");
+
+    if (data.pagination) {
+      updatePagination(data.pagination);
+    }
+  } catch (e) {
+    div.innerHTML = `<p>Erreur de chargement: ${e.message}</p>`;
+  }
+}
+
 chargerCategories();
-chargerCatalogue();
+chargerCatalogue(null, 1); // Charger la première page avec pagination
 initCart();
 checkAuth();
+initSearch();
+initPagination();
