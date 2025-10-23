@@ -5,13 +5,17 @@ namespace App\application\services;
 use App\application\ports\api\ServiceOutilInterface;
 use App\application\usecases\ListOutilsUseCase;
 use App\application\usecases\GetOutilUseCase;
+use App\application\usecases\CreateOutilUseCase;
+use App\application\usecases\UpdateOutilUseCase;
 use App\domain\entities\Outil;
 
 class ServiceOutil implements ServiceOutilInterface
 {
     public function __construct(
         private ListOutilsUseCase $listOutilsUseCase,
-        private GetOutilUseCase $getOutilUseCase
+        private GetOutilUseCase $getOutilUseCase,
+        private CreateOutilUseCase $createOutilUseCase,
+        private UpdateOutilUseCase $updateOutilUseCase
     ) {}
 
     public function listerOutils(): array
@@ -31,5 +35,20 @@ class ServiceOutil implements ServiceOutilInterface
         } catch (\App\domain\exceptions\OutilsNotFoundException $e) {
             return null;
         }
+    }
+
+    public function create(Outil $outil): Outil
+    {
+        return $this->createOutilUseCase->execute(
+            $outil->getName(),
+            $outil->getDescription(),
+            $outil->getCategoryId(),
+            1 // modelId par défaut
+        );
+    }
+
+    public function update(int $id, string $name, string $description, int $categoryId, int $modelId): Outil
+    {
+        return $this->updateOutilUseCase->execute($id, $name, $description, $categoryId, $modelId);
     }
 }

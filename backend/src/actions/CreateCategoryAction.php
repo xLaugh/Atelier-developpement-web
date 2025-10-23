@@ -4,13 +4,12 @@ namespace App\actions;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use App\application\services\ServiceCategory;
-use App\domain\entities\Category;
+use App\application\ports\api\ServiceCategoryInterface;
 
 class CreateCategoryAction
 {
     public function __construct(
-        private ServiceCategory $categoryService
+        private ServiceCategoryInterface $categoryService
     ) {}
 
     public function __invoke(Request $request, Response $response): Response
@@ -26,10 +25,7 @@ class CreateCategoryAction
                 return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
             }
 
-            $category = new Category();
-            $category->setName($data['name']);
-
-            $createdCategory = $this->categoryService->create($category);
+            $createdCategory = $this->categoryService->creerCategorie($data['name']);
 
             $response->getBody()->write(json_encode([
                 'success' => true,

@@ -77,6 +77,24 @@ class PDOOutilRepository implements OutilRepositoryInterface
         $stmt->execute();
     }
 
+    public function update(Outil $outil): Outil
+    {
+        $sql = "UPDATE models SET category_id = :category_id, name = :name, brand = :brand, 
+                image_url = :image_url, price_per_day = :price_per_day, description = :description 
+                WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':category_id', $outil->getCategoryId(), PDO::PARAM_INT);
+        $stmt->bindValue(':name', $outil->getName());
+        $stmt->bindValue(':brand', $outil->getBrand());
+        $stmt->bindValue(':image_url', $outil->getImageUrl());
+        $stmt->bindValue(':price_per_day', $outil->getPricePerDay());
+        $stmt->bindValue(':description', $outil->getDescription());
+        $stmt->bindValue(':id', $outil->getId(), PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $outil;
+    }
+
     private function mapRowToOutil(array $row): Outil
     {
         return new Outil(

@@ -5,27 +5,25 @@ namespace App\actions;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use App\application\ports\api\ServiceUserInterface;
-use App\application\ports\spi\UserRepositoryInterface;
+use App\application\ports\api\ServiceOutilInterface;
 
-class AuthRegisterAction
+class UpdateOutilAction
 {
     public function __construct(
-        private ServiceUserInterface $serviceUser,
-        private UserRepositoryInterface $userRepository
+        private ServiceOutilInterface $outilService
     ) {}
 
     public function __invoke(Request $request, Response $response): Response
     {
         try {
             $data = $request->getParsedBody();
-            $prenom = $data['prenom'] ?? '';
-            $nom = $data['nom'] ?? '';
-            $email = $data['email'] ?? '';
-            $password = $data['password'] ?? '';
-            $role = $data['role'] ?? 'user';
+            $id = $request->getAttribute('id');
+            $name = $data['name'] ?? '';
+            $description = $data['description'] ?? '';
+            $category_id = $data['category_id'] ?? '';
+            $model_id = $data['model_id'] ?? '';
 
-            if (empty($prenom) || empty($nom) || empty($email) || empty($password)) {
+            if (empty($name) || empty($description) || empty($category_id) || empty($model_id)) {
                 $response->getBody()->write(json_encode([
                     'error' => 'missing_fields',
                     'message' => 'Tous les champs sont requis'
@@ -33,21 +31,12 @@ class AuthRegisterAction
                 return $response->withStatus(400)->withHeader('Content-Type', 'application/json; charset=utf-8');
             }
 
-            // Vérifier si l'email existe déjà
-            if ($this->userRepository->findByEmail($email)) {
-                $response->getBody()->write(json_encode([
-                    'error' => 'email_exists',
-                    'message' => 'Cet email est déjà utilisé'
-                ], JSON_UNESCAPED_UNICODE));
-                return $response->withStatus(409)->withHeader('Content-Type', 'application/json; charset=utf-8');
-            }
-
-            $user = $this->serviceUser->createUser($prenom, $nom, $email, $password, $role);
+            $outil = $this->outilService->update($id, $name, $description, (int)$category_id, (int)$model_id);
 
             $response->getBody()->write(json_encode([
                 'success' => true,
-                'message' => 'Utilisateur créé avec succès',
-                'user' => $user->toArray()
+                'message' => 'Outil mis à jour avec succès',
+                'outil' => $outil->toArray()
             ], JSON_UNESCAPED_UNICODE));
             return $response->withHeader('Content-Type', 'application/json; charset=utf-8');
         } catch (\Exception $e) {

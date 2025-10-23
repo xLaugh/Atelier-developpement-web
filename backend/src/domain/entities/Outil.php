@@ -86,6 +86,27 @@ class Outil
         $this->exemplairesCount = $count;
     }
 
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    public function setCategoryId(int $categoryId): void
+    {
+        $this->categoryId = $categoryId;
+    }
+
+    public function setModelId(int $modelId): void
+    {
+        // Note: Cette méthode sera utilisée pour la cohérence avec l'API
+        // mais l'entité Outil n'a pas de champ modelId directement
+    }
+
     public function isAvailable(): bool
     {
         return $this->exemplairesCount > 0;

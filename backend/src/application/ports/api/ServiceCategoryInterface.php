@@ -8,4 +8,6 @@ interface ServiceCategoryInterface
 {
     public function listerCategories(): array;
     public function obtenirCategorie(int $id): ?Category;
+    public function creerCategorie(string $name): Category;
+    public function update(int $id, string $name): Category;
 }

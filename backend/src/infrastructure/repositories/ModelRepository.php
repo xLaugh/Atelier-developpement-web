@@ -49,4 +49,12 @@ class ModelRepository implements ModelRepositoryInterface
         $model->setName($row['name']);
         return $model;
     }
+
+    public function update(Model $model): Model
+    {
+        $stmt = $this->pdo->prepare("UPDATE models SET name = ? WHERE id = ?");
+        $stmt->execute([$model->getName(), $model->getId()]);
+        
+        return $model;
+    }
 }

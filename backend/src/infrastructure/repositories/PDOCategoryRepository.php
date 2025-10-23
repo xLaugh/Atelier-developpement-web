@@ -53,6 +53,18 @@ class PDOCategoryRepository implements CategoryRepositoryInterface
         $stmt->execute();
     }
 
+    public function update(Category $category): Category
+    {
+        $sql = "UPDATE categories SET name = :name, description = :description WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':name', $category->getName());
+        $stmt->bindValue(':description', $category->getDescription());
+        $stmt->bindValue(':id', $category->getId(), PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $category;
+    }
+
     private function mapRowToCategory(array $row): Category
     {
         return new Category(

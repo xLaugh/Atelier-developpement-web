@@ -5,7 +5,6 @@ namespace App\actions;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\application\services\ServiceModel;
-use App\domain\entities\Model;
 
 class CreateModelAction
 {
