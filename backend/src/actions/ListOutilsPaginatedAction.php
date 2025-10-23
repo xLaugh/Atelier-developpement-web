@@ -22,7 +22,7 @@ class ListOutilsPaginatedAction
             $categoryId = isset($queryParams['category_id']) ? (int)$queryParams['category_id'] : null;
 
             if ($categoryId !== null && $categoryId <= 0) {
-                $response->getBody()->write(json_encode([
+                $response->getBody()->write(json_encode([s
                     'error' => 'invalid_category_id',
                     'message' => 'Paramètre category_id invalide'
                 ], JSON_UNESCAPED_UNICODE));
