@@ -2,7 +2,7 @@
 @import "mixins";
 
 html, body {
-  margin: 0; /* Supprime la marge blanche par défaut */
+  margin: 0; 
   padding: 0;
   background: white !important;
   background-image: none !important;
@@ -149,9 +149,9 @@ main {
   display: grid;
   grid-template-columns: 220px 1fr;
   gap: 30px;
-  width: 100%; /* Étend le main jusqu’aux bords */
+  width: 100%; 
   max-width: 1400px;
-  margin: 0 auto; /* Supprime le décalage vertical */
+  margin: 0 auto; 
   padding: 0 20px;
   background-color: white !important;
   min-height: calc(100vh - 100px);

@@ -1,0 +1,118 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+body {
+  @include flexCenter(column);
+  min-height: 100vh;
+  background: linear-gradient(135deg, $primary, $primary-dark);
+  color: white;
+  padding: 20px;
+  position: relative;
+}
+
+.btn-back {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: linear-gradient(135deg, #ffffff, #f8f9fa);
+  color: $primary-dark;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+
+  &:hover {
+    background: linear-gradient(135deg, $primary-dark, $primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+#parametres-content {
+  background: $card-bg;
+  color: $text;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  width: 90%;
+  max-width: 700px;
+  padding: 60px;
+  text-align: center;
+
+  h1 {
+    color: $primary-dark;
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+
+  h3 {
+    color: $primary;
+    margin-bottom: 25px;
+    font-size: 1.2rem;
+  }
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+
+    label {
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: $primary-dark;
+    }
+
+    input {
+      padding: 12px;
+      border-radius: 8px;
+      border: 2px solid #e0e0e0;
+      outline: none;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+
+      &:focus {
+        border-color: $primary;
+        box-shadow: 0 0 0 3px rgba($primary, 0.1);
+      }
+    }
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, $primary, $primary-dark);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+
+    &:hover {
+      background: linear-gradient(135deg, $primary-dark, $primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba($primary, 0.3);
+    }
+  }
+}
+
+.cart-counter {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+}
