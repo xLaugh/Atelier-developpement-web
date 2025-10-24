@@ -10,30 +10,6 @@ body {
   position: relative;
 }
 
-/* Bouton retour */
-button[onclick="history.back()"] {
-  position: absolute;
-  top: 25px;
-  left: 25px;
-  background: white;
-  color: $primary-dark;
-  border: none;
-  border-radius: 30px;
-  padding: 10px 25px;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-
-  &:hover {
-    background: $primary-dark;
-    color: white;
-    transform: translateY(-2px);
-  }
-}
-
 /* Bloc principal */
 .form-container {
   background: $card-bg;

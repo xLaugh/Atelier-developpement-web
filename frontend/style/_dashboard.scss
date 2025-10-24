@@ -1,0 +1,180 @@
+@import "variables";
+@import "mixins";
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  color: $text;
+  margin: 0;
+  padding: 40px 20px;
+  min-height: 100vh;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* contenu du dashboard */
+#dashboard-content {
+  background: $card-bg;
+  padding: 40px;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  width: 100%;
+  text-align: center;
+
+  h1 {
+    color: $primary-dark;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+  }
+
+  /* panneau admin */
+  .admin-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    h2 {
+      color: $primary-dark;
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+      text-align: left;
+    }
+
+    /* lien vers la gestion */
+    .dashboard-links {
+      display: flex;
+      justify-content: center;
+
+      .admin-link {
+        background: white;
+        border-radius: $radius;
+        box-shadow: $shadow;
+        padding: 25px 30px;
+        text-decoration: none;
+        color: $primary-dark;
+        text-align: left;
+        transition: all 0.3s ease;
+        width: 100%;
+
+        &:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        h3 {
+          margin: 0 0 5px 0;
+          color: $primary;
+        }
+
+        p {
+          margin: 0;
+          color: #555;
+          font-size: 0.95rem;
+        }
+      }
+    }
+
+    /* formulaires admin */
+    .admin-form {
+      background: white;
+      border-radius: $radius;
+      box-shadow: $shadow;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      input, textarea, select {
+        padding: 10px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+
+        &:focus {
+          border-color: $primary;
+          box-shadow: 0 0 0 3px rgba($primary, 0.1);
+          outline: none;
+        }
+      }
+
+      textarea {
+        min-height: 80px;
+        resize: vertical;
+      }
+
+      button {
+        background: linear-gradient(135deg, $primary, $primary-dark);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 24px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        align-self: flex-start;
+
+        &:hover {
+          background: linear-gradient(135deg, $primary-dark, $primary);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 15px rgba($primary, 0.3);
+        }
+      }
+    }
+
+    /* statistiques */
+    #stats {
+      background: white;
+      border-radius: $radius;
+      box-shadow: $shadow;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .stat-item {
+        display: flex;
+        justify-content: space-between;
+        font-weight: 600;
+        color: $primary-dark;
+        font-size: 1rem;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 8px;
+
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+}
+
+/* responsive */
+@media (max-width: 768px) {
+  #dashboard-content {
+    padding: 25px;
+
+    .dashboard-links .admin-link {
+      padding: 20px;
+    }
+
+    .admin-form {
+      padding: 20px;
+    }
+
+    #stats {
+      padding: 20px;
+    }
+  }
+}

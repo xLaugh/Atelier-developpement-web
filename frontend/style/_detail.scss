@@ -1,6 +1,7 @@
 @use "variables" as *;
 @use "mixins" as *;
 
+/* structure générale */
 .detail-page {
   background-color: $bg;
   min-height: 100vh;
@@ -8,30 +9,7 @@
   position: relative;
 }
 
-.back-btn {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  background: linear-gradient(135deg, #ffffff, #f8f9fa);
-  color: $primary-dark;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 25px;
-  padding: 10px 22px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  text-decoration: none;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  z-index: 1000;
-
-  &:hover {
-    background: linear-gradient(135deg, $primary-dark, $primary);
-    color: white;
-    transform: translateY(-2px);
-  }
-}
-
+/* conteneur principal */
 .detail-container {
   display: flex;
   justify-content: center;
@@ -42,6 +20,7 @@
   flex-wrap: wrap;
 }
 
+/* bloc d'informations */
 .detail-info {
   flex: 1 1 55%;
   background: white;
@@ -69,6 +48,7 @@
   }
 }
 
+/* formulaire de réservation */
 .reservation-form {
   flex: 1 1 35%;
   background: white;
@@ -129,8 +109,3 @@
   }
 }
 
-.cart-counter {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-}

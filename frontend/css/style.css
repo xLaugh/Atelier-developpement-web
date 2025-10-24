@@ -1,21 +1,36 @@
 @charset "UTF-8";
-/* Mixins pour les boutons */
-/* Mixin pour centrer avec flexbox */
-/* Mixin pour les cartes */
-/* Mixins pour les boutons */
-/* Mixin pour centrer avec flexbox */
-/* Mixin pour les cartes */
+/* couleurs principales */
+/* couleurs de fond et texte */
+/* couleur d’alerte */
+/* styles globaux */
+@use "variables" as *;
+/* centrage flexible */
+/* grille adaptable */
+/* base pour les boutons */
+/* style de carte */
+/* couleurs principales */
+/* couleurs de fond et texte */
+/* couleur d’alerte */
+/* styles globaux */
+@use "variables" as *;
+/* centrage flexible */
+/* grille adaptable */
+/* base pour les boutons */
+/* style de carte */
+/* réinitialisation de base */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0; }
 
+/* style général */
 body {
   font-family: "Segoe UI", Roboto, sans-serif;
   background-color: white;
   color: #1e1e1e;
   min-height: 100vh; }
 
+/* en-tête principal */
 header {
   display: flex;
   justify-content: space-between;
@@ -29,11 +44,13 @@ header {
     font-size: 2rem;
     font-weight: bold; }
 
+/* bloc de droite dans le header */
 #header-right {
   display: flex;
   align-items: center;
   gap: 15px; }
 
+/* bouton connexion */
 .btn-login {
   background: linear-gradient(135deg, #ffffff, #f8f9fa);
   color: #155d5d;
@@ -54,6 +71,7 @@ header {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
     border-color: rgba(255, 255, 255, 0.5); }
 
+/* bouton panier */
 .cart-counter {
   background: linear-gradient(135deg, #dc3545, #c82333);
   color: white;
@@ -68,41 +86,46 @@ header {
   font-size: 1.1rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3); }
+  box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+  position: fixed;
+  top: 20px;
+  right: 20px; }
   .cart-counter:hover {
     background: linear-gradient(135deg, #c82333, #dc3545);
     transform: translateY(-2px) scale(1.05);
     box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4); }
 
+/* bouton retour */
+button[onclick="history.back()"] {
+  position: fixed !important;
+  top: 25px !important;
+  left: 25px !important;
+  z-index: 1000;
+  background: white;
+  color: #155d5d;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 25px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease; }
+  button[onclick="history.back()"]:hover {
+    background: #155d5d;
+    color: white;
+    transform: translateY(-2px); }
+
 @use "variables" as *;
 @use "mixins" as *;
+/* structure générale */
 .detail-page {
   background-color: #eef2f3;
   min-height: 100vh;
   padding: 80px 40px 60px;
   position: relative; }
 
-.back-btn {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  background: linear-gradient(135deg, #ffffff, #f8f9fa);
-  color: #155d5d;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 25px;
-  padding: 10px 22px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  text-decoration: none;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  z-index: 1000; }
-  .back-btn:hover {
-    background: linear-gradient(135deg, #155d5d, #1d7a7a);
-    color: white;
-    transform: translateY(-2px); }
-
+/* conteneur principal */
 .detail-container {
   display: flex;
   justify-content: center;
@@ -112,6 +135,7 @@ header {
   margin: 0 auto;
   flex-wrap: wrap; }
 
+/* bloc d'informations */
 .detail-info {
   flex: 1 1 55%;
   background: white;
@@ -132,6 +156,7 @@ header {
     font-size: 1rem;
     margin: 6px 0; }
 
+/* formulaire de réservation */
 .reservation-form {
   flex: 1 1 35%;
   background: white;
@@ -175,46 +200,26 @@ header {
         background: linear-gradient(135deg, #155d5d, #1d7a7a);
         transform: translateY(-2px); }
 
-.cart-counter {
-  position: fixed;
-  top: 20px;
-  right: 20px; }
-
-/* Mixins pour les boutons */
-/* Mixin pour centrer avec flexbox */
-/* Mixin pour les cartes */
+/* couleurs principales */
+/* couleurs de fond et texte */
+/* couleur d’alerte */
+/* styles globaux */
+@use "variables" as *;
+/* centrage flexible */
+/* grille adaptable */
+/* base pour les boutons */
+/* style de carte */
 body {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   gap: 0;
   min-height: 100vh;
   background: linear-gradient(135deg, #1d7a7a, #155d5d);
   color: #1e1e1e;
   padding: 20px;
   position: relative; }
-
-/* Bouton retour */
-button[onclick="history.back()"] {
-  position: absolute;
-  top: 25px;
-  left: 25px;
-  background: white;
-  color: #155d5d;
-  border: none;
-  border-radius: 30px;
-  padding: 10px 25px;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); }
-  button[onclick="history.back()"]:hover {
-    background: #155d5d;
-    color: white;
-    transform: translateY(-2px); }
 
 /* Bloc principal */
 .form-container {
@@ -312,46 +317,161 @@ select[name="role"] {
   .password-requirements li {
     margin: 3px 0; }
 
-/* Mixins pour les boutons */
-/* Mixin pour centrer avec flexbox */
-/* Mixin pour les cartes */
-.container {
-  padding: 120px 20px;
+/* couleurs principales */
+/* couleurs de fond et texte */
+/* couleur d’alerte */
+/* styles globaux */
+@use "variables" as *;
+/* centrage flexible */
+/* grille adaptable */
+/* base pour les boutons */
+/* style de carte */
+/* structure générale */
+body {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  gap: 30px; }
+  align-items: center;
+  gap: 0;
+  background: white;
+  color: #1e1e1e;
+  margin: 0;
+  padding: 40px 20px;
+  min-height: 100vh; }
 
+/* conteneur principal */
+.container {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+
+/* bloc du profil */
 #profil-content {
   background: #ffffff;
   padding: 40px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 600px; }
+  width: 100%;
+  text-align: center; }
   #profil-content h1 {
     color: #155d5d;
-    text-align: center;
+    font-size: 1.8rem;
     margin-bottom: 30px; }
-  #profil-content .user-info-card {
+
+/* carte d'informations utilisateur */
+.user-info-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  margin-bottom: 40px;
+  text-align: left; }
+  .user-info-card .user-details {
     display: flex;
     flex-direction: column;
-    gap: 15px; }
-    #profil-content .user-info-card .detail-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 8px 0;
-      border-bottom: 1px solid #ddd; }
-      #profil-content .user-info-card .detail-row label {
-        font-weight: bold;
-        color: #155d5d; }
-      #profil-content .user-info-card .detail-row span {
-        color: #1e1e1e; }
+    gap: 10px; }
+  .user-info-card .detail-row {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    padding: 8px 0;
+    font-size: 1rem; }
+    .user-info-card .detail-row label {
+      font-weight: 600;
+      color: #155d5d; }
+    .user-info-card .detail-row span {
+      color: #444; }
 
-/* Mixins pour les boutons */
-/* Mixin pour centrer avec flexbox */
-/* Mixin pour les cartes */
+/* section des réservations */
+.reservations-section h2 {
+  color: #155d5d;
+  margin-bottom: 20px; }
+
+/* liste de réservations */
+.reservations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; }
+
+/* carte de réservation */
+.reservation-item {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: left;
+  transition: all 0.2s ease;
+  /* contenu des détails */ }
+  .reservation-item:hover {
+    transform: translateY(-3px); }
+  .reservation-item .reservation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    /* statut de la réservation */ }
+    .reservation-item .reservation-header h3 {
+      margin: 0;
+      color: #155d5d;
+      font-size: 1.1rem; }
+    .reservation-item .reservation-header .status {
+      padding: 5px 12px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase; }
+    .reservation-item .reservation-header .status-confirmed {
+      background: #d4edda;
+      color: #155724; }
+    .reservation-item .reservation-header .status-pending {
+      background: #fff3cd;
+      color: #856404; }
+    .reservation-item .reservation-header .status-cancelled {
+      background: #f8d7da;
+      color: #721c24; }
+    .reservation-item .reservation-header .status-unknown {
+      background: #e2e3e5;
+      color: #383d41; }
+  .reservation-item .reservation-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+    flex-wrap: wrap; }
+    .reservation-item .reservation-details .reservation-info {
+      flex: 1; }
+      .reservation-item .reservation-details .reservation-info p {
+        margin: 5px 0;
+        font-size: 0.95rem; }
+    .reservation-item .reservation-details .reservation-image {
+      width: 120px;
+      height: 120px;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
+
+/* responsive */
+@media (max-width: 700px) {
+  .reservation-details {
+    flex-direction: column;
+    align-items: center;
+    text-align: center; }
+
+  .reservation-image {
+    width: 100%;
+    max-width: 250px;
+    height: auto; } }
+/* couleurs principales */
+/* couleurs de fond et texte */
+/* couleur d’alerte */
+/* styles globaux */
+@use "variables" as *;
+/* centrage flexible */
+/* grille adaptable */
+/* base pour les boutons */
+/* style de carte */
 html, body {
   margin: 0;
   padding: 0;
@@ -633,125 +753,179 @@ a.outil {
     font-weight: 600; }
 
 @media screen and (max-width: 900px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px 20px;
+    gap: 15px; }
+    header h1 {
+      font-size: 1.6rem; }
+    header #search-container {
+      width: 100%;
+      order: 3;
+      justify-content: space-between;
+      padding: 8px 14px;
+      height: auto;
+      flex-wrap: wrap; }
+      header #search-container #category-dropdown {
+        font-size: 0.9rem;
+        padding: 6px 10px; }
+      header #search-container #search-input {
+        flex: 1;
+        min-width: 160px;
+        font-size: 0.9rem; }
+      header #search-container #search-btn {
+        width: 32px;
+        height: 32px; }
+        header #search-container #search-btn svg {
+          width: 16px;
+          height: 16px; }
+    header #header-right {
+      width: 100%;
+      justify-content: space-between; }
+      header #header-right .btn-login {
+        font-size: 0.9rem;
+        padding: 10px 18px; }
+      header #header-right .cart-counter {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem; }
+
   main {
     display: flex;
-    flex-direction: column; }
+    flex-direction: column;
+    padding: 0 10px; }
 
   #categories {
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center; }
+    justify-content: center;
+    gap: 10px; }
 
   #catalogue {
-    grid-template-columns: repeat(auto-fill, 180px);
-    justify-content: center; } }
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    justify-content: center;
+    gap: 15px; }
+
+  a.outil h3 {
+    font-size: 0.95rem; } }
+/* couleurs principales */
+/* couleurs de fond et texte */
+/* couleur d’alerte */
+/* styles globaux */
 @use "variables" as *;
-@use "mixins" as *;
+/* centrage flexible */
+/* grille adaptable */
+/* base pour les boutons */
+/* style de carte */
+/* structure générale */
 body {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   gap: 0;
+  background: white;
+  color: #1e1e1e;
+  margin: 0;
+  min-height: 100vh; }
+
+/* conteneur principal */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #1d7a7a, #155d5d);
-  color: white;
-  padding: 20px;
-  position: relative; }
+  padding: 40px 20px; }
 
-.btn-back {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  background: linear-gradient(135deg, #ffffff, #f8f9fa);
-  color: #155d5d;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 25px;
-  padding: 10px 20px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  z-index: 10; }
-  .btn-back:hover {
-    background: linear-gradient(135deg, #155d5d, #1d7a7a);
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-    border-color: rgba(255, 255, 255, 0.5); }
-
+/* bloc principal des paramètres */
 #parametres-content {
   background: #ffffff;
-  color: #1e1e1e;
+  padding: 30px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 700px;
-  padding: 60px;
-  text-align: center; }
-  #parametres-content h1 {
-    color: #155d5d;
-    font-size: 2rem;
-    margin-bottom: 10px; }
-  #parametres-content h3 {
-    color: #1d7a7a;
-    margin-bottom: 25px;
-    font-size: 1.2rem; }
-
-.form-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px; }
-  .form-container .form-group {
-    display: flex;
-    flex-direction: column;
-    text-align: left; }
-    .form-container .form-group label {
-      font-weight: 500;
-      margin-bottom: 8px;
-      color: #155d5d; }
-    .form-container .form-group input {
-      padding: 12px;
-      border-radius: 8px;
-      border: 2px solid #e0e0e0;
-      outline: none;
-      font-size: 1rem;
-      transition: border-color 0.3s ease; }
-      .form-container .form-group input:focus {
-        border-color: #1d7a7a;
-        box-shadow: 0 0 0 3px rgba(29, 122, 122, 0.1); }
-  .form-container .btn-primary {
-    background: linear-gradient(135deg, #1d7a7a, #155d5d);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 24px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 10px; }
-    .form-container .btn-primary:hover {
-      background: linear-gradient(135deg, #155d5d, #1d7a7a);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(29, 122, 122, 0.3); }
-
-.cart-counter {
-  position: fixed;
-  top: 20px;
-  right: 20px; }
-
-/* Mixins pour les boutons */
-/* Mixin pour centrer avec flexbox */
-/* Mixin pour les cartes */
-body {
+  max-width: 600px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  /* section du formulaire */ }
+  #parametres-content h1 {
+    color: #155d5d;
+    margin-bottom: 25px; }
+  #parametres-content .settings-section {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    /* formulaire */ }
+    #parametres-content .settings-section h3 {
+      color: #155d5d;
+      margin-bottom: 20px;
+      text-align: center; }
+    #parametres-content .settings-section form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+      width: 100%; }
+      #parametres-content .settings-section form label {
+        font-weight: 600;
+        color: #155d5d;
+        text-align: left;
+        width: 100%; }
+      #parametres-content .settings-section form input {
+        padding: 10px;
+        border: 1.5px solid #ccc;
+        border-radius: 6px;
+        font-size: 1rem;
+        width: 100%; }
+        #parametres-content .settings-section form input:focus {
+          border-color: #1d7a7a;
+          outline: none; }
+      #parametres-content .settings-section form button {
+        background: linear-gradient(135deg, #1d7a7a, #155d5d);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+        width: 100%; }
+        #parametres-content .settings-section form button:hover {
+          background: #155d5d; }
+
+/* responsive */
+@media (max-width: 600px) {
+  #parametres-content {
+    padding: 20px; }
+    #parametres-content h1 {
+      font-size: 1.4rem; }
+    #parametres-content .settings-section {
+      padding: 15px;
+      max-width: 100%; } }
+/* couleurs principales */
+/* couleurs de fond et texte */
+/* couleur d’alerte */
+/* styles globaux */
+@use "variables" as *;
+/* centrage flexible */
+/* grille adaptable */
+/* base pour les boutons */
+/* style de carte */
+/* structure générale */
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 0;
   min-height: 100vh;
   background: linear-gradient(135deg, #1d7a7a, #155d5d);
@@ -759,31 +933,14 @@ body {
   padding: 40px;
   position: relative; }
 
-button[onclick="history.back()"] {
-  position: absolute;
-  top: 25px;
-  left: 25px;
-  background: white;
-  color: #155d5d;
-  border: none;
-  border-radius: 30px;
-  padding: 10px 25px;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); }
-  button[onclick="history.back()"]:hover {
-    background: #155d5d;
-    color: white;
-    transform: translateY(-2px); }
-
+/* titre principal */
 h1 {
   color: white;
   margin-bottom: 30px;
   font-size: 2rem;
   text-align: center; }
 
+/* conteneur du panier */
 #cart-content {
   background: #ffffff;
   border-radius: 10px;
@@ -792,6 +949,7 @@ h1 {
   max-width: 800px;
   padding: 30px; }
 
+/* panier vide */
 .empty-cart {
   text-align: center; }
   .empty-cart h2 {
@@ -811,11 +969,13 @@ h1 {
     .empty-cart a:hover {
       background: linear-gradient(135deg, #155d5d, #1d7a7a); }
 
+/* liste des articles */
 .cart-items {
   display: flex;
   flex-direction: column;
   gap: 20px; }
 
+/* élément d’article */
 .cart-item {
   background: white;
   border-radius: 10px;
@@ -848,6 +1008,7 @@ h1 {
       background: #c82333;
       transform: translateY(-2px); }
 
+/* résumé du panier */
 .cart-summary {
   margin-top: 30px;
   text-align: center; }
@@ -880,5 +1041,255 @@ h1 {
       .cart-summary .cart-actions .btn-clear:hover {
         background: #c82333;
         transform: translateY(-2px); }
+
+/* couleurs principales */
+/* couleurs de fond et texte */
+/* couleur d’alerte */
+/* styles globaux */
+@use "variables" as *;
+/* centrage flexible */
+/* grille adaptable */
+/* base pour les boutons */
+/* style de carte */
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  color: #1e1e1e;
+  margin: 0;
+  padding: 40px 20px;
+  min-height: 100vh; }
+
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+
+/* contenu du dashboard */
+#dashboard-content {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  text-align: center;
+  /* panneau admin */ }
+  #dashboard-content h1 {
+    color: #155d5d;
+    font-size: 1.8rem;
+    margin-bottom: 30px; }
+  #dashboard-content .admin-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    /* lien vers la gestion */
+    /* formulaires admin */
+    /* statistiques */ }
+    #dashboard-content .admin-panel h2 {
+      color: #155d5d;
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+      text-align: left; }
+    #dashboard-content .admin-panel .dashboard-links {
+      display: flex;
+      justify-content: center; }
+      #dashboard-content .admin-panel .dashboard-links .admin-link {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 25px 30px;
+        text-decoration: none;
+        color: #155d5d;
+        text-align: left;
+        transition: all 0.3s ease;
+        width: 100%; }
+        #dashboard-content .admin-panel .dashboard-links .admin-link:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); }
+        #dashboard-content .admin-panel .dashboard-links .admin-link h3 {
+          margin: 0 0 5px 0;
+          color: #1d7a7a; }
+        #dashboard-content .admin-panel .dashboard-links .admin-link p {
+          margin: 0;
+          color: #555;
+          font-size: 0.95rem; }
+    #dashboard-content .admin-panel .admin-form {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px; }
+      #dashboard-content .admin-panel .admin-form input, #dashboard-content .admin-panel .admin-form textarea, #dashboard-content .admin-panel .admin-form select {
+        padding: 10px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease; }
+        #dashboard-content .admin-panel .admin-form input:focus, #dashboard-content .admin-panel .admin-form textarea:focus, #dashboard-content .admin-panel .admin-form select:focus {
+          border-color: #1d7a7a;
+          box-shadow: 0 0 0 3px rgba(29, 122, 122, 0.1);
+          outline: none; }
+      #dashboard-content .admin-panel .admin-form textarea {
+        min-height: 80px;
+        resize: vertical; }
+      #dashboard-content .admin-panel .admin-form button {
+        background: linear-gradient(135deg, #1d7a7a, #155d5d);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 24px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        align-self: flex-start; }
+        #dashboard-content .admin-panel .admin-form button:hover {
+          background: linear-gradient(135deg, #155d5d, #1d7a7a);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 15px rgba(29, 122, 122, 0.3); }
+    #dashboard-content .admin-panel #stats {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px; }
+      #dashboard-content .admin-panel #stats .stat-item {
+        display: flex;
+        justify-content: space-between;
+        font-weight: 600;
+        color: #155d5d;
+        font-size: 1rem;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 8px; }
+        #dashboard-content .admin-panel #stats .stat-item:last-child {
+          border-bottom: none; }
+
+/* responsive */
+@media (max-width: 768px) {
+  #dashboard-content {
+    padding: 25px; }
+    #dashboard-content .dashboard-links .admin-link {
+      padding: 20px; }
+    #dashboard-content .admin-form {
+      padding: 20px; }
+    #dashboard-content #stats {
+      padding: 20px; } }
+/* couleurs principales */
+/* couleurs de fond et texte */
+/* couleur d’alerte */
+/* styles globaux */
+@use "variables" as *;
+/* centrage flexible */
+/* grille adaptable */
+/* base pour les boutons */
+/* style de carte */
+/* structure générale */
+body {
+  background: white;
+  color: #1e1e1e;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+/* conteneur principal */
+.container {
+  width: 100%;
+  max-width: 1000px;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+
+/* bloc de gestion */
+#gestion-content {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  text-align: center;
+  /* panneau admin */ }
+  #gestion-content h1, #gestion-content h2 {
+    color: #155d5d;
+    margin-bottom: 20px; }
+  #gestion-content h1 {
+    font-size: 1.8rem; }
+  #gestion-content h2 {
+    font-size: 1.3rem;
+    margin-top: 30px; }
+  #gestion-content .admin-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    /* éléments listés */ }
+    #gestion-content .admin-panel #categories-list,
+    #gestion-content .admin-panel #models-list,
+    #gestion-content .admin-panel #outils-list {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px; }
+    #gestion-content .admin-panel .admin-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 10px 15px;
+      font-size: 0.95rem;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      /* bouton modifier */ }
+      #gestion-content .admin-panel .admin-item .item-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        text-align: left; }
+        #gestion-content .admin-panel .admin-item .item-info strong {
+          color: #155d5d; }
+      #gestion-content .admin-panel .admin-item button {
+        background: linear-gradient(135deg, #1d7a7a, #155d5d);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 6px 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+        white-space: nowrap;
+        min-width: 80px;
+        text-align: center; }
+        #gestion-content .admin-panel .admin-item button:hover {
+          background: #155d5d; }
+
+/* responsive */
+@media (max-width: 768px) {
+  #gestion-content {
+    padding: 25px; }
+    #gestion-content h1 {
+      font-size: 1.5rem; }
+    #gestion-content h2 {
+      font-size: 1.1rem; }
+    #gestion-content .admin-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px; }
+      #gestion-content .admin-item button {
+        align-self: flex-end; } }
 
 /*# sourceMappingURL=style.css.map */

@@ -1,6 +1,7 @@
 @import "variables";
 @import "mixins";
 
+/* structure générale */
 body {
   @include flexCenter(column);
   min-height: 100vh;
@@ -10,28 +11,7 @@ body {
   position: relative;
 }
 
-button[onclick="history.back()"] {
-  position: absolute;
-  top: 25px;
-  left: 25px;
-  background: white;
-  color: $primary-dark;
-  border: none;
-  border-radius: 30px;
-  padding: 10px 25px;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-
-  &:hover {
-    background: $primary-dark;
-    color: white;
-    transform: translateY(-2px);
-  }
-}
-
+/* titre principal */
 h1 {
   color: white;
   margin-bottom: 30px;
@@ -39,6 +19,7 @@ h1 {
   text-align: center;
 }
 
+/* conteneur du panier */
 #cart-content {
   background: $card-bg;
   border-radius: $radius;
@@ -48,6 +29,7 @@ h1 {
   padding: 30px;
 }
 
+/* panier vide */
 .empty-cart {
   text-align: center;
 
@@ -76,12 +58,14 @@ h1 {
   }
 }
 
+/* liste des articles */
 .cart-items {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
+/* élément d’article */
 .cart-item {
   background: white;
   border-radius: $radius;
@@ -125,6 +109,7 @@ h1 {
   }
 }
 
+/* résumé du panier */
 .cart-summary {
   margin-top: 30px;
   text-align: center;
