@@ -282,13 +282,15 @@ a.outil {
     flex-shrink: 0;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
   
+    color: white; 
+    font-size: 0;
+  
     svg {
       width: 20px;
       height: 20px;
-      stroke: #fff !important;
-      fill: none !important;
-      stroke-width: 2.5px !important;
-      pointer-events: none;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.2px;
       display: block;
     }
   
@@ -360,7 +362,6 @@ a.outil {
     font-weight: 600;
   }
 }
-
 
 @media screen and (max-width: 900px) {
   header {
