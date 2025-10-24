@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\db;
 
-use PDO;              // ✅ important
-use PDOException;     // ✅ important
+use PDO;            
+use PDOException;     
 
 class Database {
     private $connection;
