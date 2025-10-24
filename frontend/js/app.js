@@ -3,9 +3,9 @@ async function chargerCatalogue(categoryId, page = 1, search = '') {
   try {
     let url;
     if (search) {
-      url = `${API_BASE_URL}/api/outils/search?q=${encodeURIComponent(search)}&page=${page}&limit=48`;
+      url = `${API_BASE_URL}/api/outils/search?q=${encodeURIComponent(search)}&page=${page}&limit=50`;
     } else {
-      url = `${API_BASE_URL}/api/outils/paginated?page=${page}&limit=48`;
+      url = `${API_BASE_URL}/api/outils/paginated?page=${page}&limit=50`;
       if (categoryId) {
         url += `&category_id=${categoryId}`;
       }
@@ -244,9 +244,9 @@ function updatePagination(pagination) {
 function buildApiUrl(search, page, categoryId) {
   let url;
   if (search) {
-    url = `${API_BASE_URL}/api/outils/search?q=${encodeURIComponent(search)}&page=${page}&limit=48`;
+    url = `${API_BASE_URL}/api/outils/search?q=${encodeURIComponent(search)}&page=${page}&limit=50`;
   } else {
-    url = `${API_BASE_URL}/api/outils/paginated?page=${page}&limit=48`;
+    url = `${API_BASE_URL}/api/outils/paginated?page=${page}&limit=50`;
     if (categoryId) {
       url += `&category_id=${categoryId}`;
     }
@@ -259,9 +259,9 @@ async function chargerCatalogue(categoryId, page = 1, search = '') {
   try {
     let url;
     if (search) {
-      url = `${API_BASE_URL}/api/outils/search?q=${encodeURIComponent(search)}&page=${page}&limit=48`;
+      url = `${API_BASE_URL}/api/outils/search?q=${encodeURIComponent(search)}&page=${page}&limit=50`;
     } else {
-      url = `${API_BASE_URL}/api/outils/paginated?page=${page}&limit=48`;
+      url = `${API_BASE_URL}/api/outils/paginated?page=${page}&limit=50`;
       if (categoryId) {
         url += `&category_id=${categoryId}`;
       }
