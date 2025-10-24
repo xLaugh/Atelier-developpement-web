@@ -100,7 +100,10 @@ button[onclick="history.back()"] {
   position: fixed !important;
   top: 25px !important;
   left: 25px !important;
+  right: auto !important;
   z-index: 1000;
+  display: inline-block;
+  width: auto;
   background: white;
   color: #155d5d;
   border: none;
@@ -489,7 +492,8 @@ header {
   header h1 {
     margin: 0;
     font-size: 2rem;
-    font-weight: bold; }
+    font-weight: bold;
+    color: white; }
 
 #header-right {
   display: flex;
@@ -1291,5 +1295,138 @@ body {
       gap: 10px; }
       #gestion-content .admin-item button {
         align-self: flex-end; } }
+/* couleurs principales */
+/* couleurs de fond et texte */
+/* couleur d’alerte */
+/* styles globaux */
+@use "variables" as *;
+/* centrage flexible */
+/* grille adaptable */
+/* base pour les boutons */
+/* style de carte */
+/* page */
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  background: white;
+  color: #1e1e1e;
+  margin: 0;
+  min-height: 100vh;
+  padding: 40px 20px;
+  font-family: "Segoe UI", Roboto, sans-serif; }
+
+/* titre + sous-titre */
+h1 {
+  color: #155d5d;
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 10px; }
+
+.muted {
+  font-size: 0.9rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 25px; }
+
+/* formulaire principal */
+form {
+  width: 100%;
+  max-width: 720px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  display: grid;
+  gap: 15px; }
+
+/* champs */
+label {
+  display: block;
+  font-weight: 600;
+  color: #155d5d;
+  font-size: 0.95rem; }
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+  input:focus,
+  select:focus {
+    border-color: #1d7a7a;
+    box-shadow: 0 0 0 3px rgba(29, 122, 122, 0.1);
+    outline: none; }
+
+/* lignes multi-champs */
+.row {
+  display: flex;
+  gap: 10px; }
+
+.row > * {
+  flex: 1; }
+
+.small {
+  max-width: 150px; }
+
+/* messages d’erreur/succès */
+#formMessages {
+  min-height: 20px;
+  font-size: 0.9rem;
+  margin-top: 5px; }
+
+.error {
+  color: #c00; }
+
+.success {
+  color: #080; }
+
+/* boutons */
+button {
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease; }
+
+#submitBtn {
+  background: linear-gradient(135deg, #1d7a7a, #155d5d);
+  color: white; }
+  #submitBtn:hover {
+    background: linear-gradient(135deg, #155d5d, #1d7a7a);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(29, 122, 122, 0.3); }
+
+#cancelBtn {
+  background: #f0f0f0;
+  color: #333; }
+  #cancelBtn:hover {
+    background: #e0e0e0;
+    transform: translateY(-2px); }
+
+/* responsive */
+@media (max-width: 650px) {
+  body {
+    padding: 20px 10px; }
+
+  form {
+    padding: 20px; }
+
+  .row {
+    flex-direction: column; }
+
+  .small {
+    max-width: 100%; }
+
+  button {
+    width: 100%; } }
 
 /*# sourceMappingURL=style.css.map */
