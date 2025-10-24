@@ -10,4 +10,5 @@ interface OutilRepositoryInterface
     public function findAll(): array;
     public function findByCategoryId(int $categoryId): array;
     public function save(Outil $outil): void;
+    public function update(Outil $outil): Outil;
 }

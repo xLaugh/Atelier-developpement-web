@@ -1,0 +1,116 @@
+@import "variables";
+@import "mixins";
+
+/* réinitialisation de base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* style général */
+body {
+  font-family: "Segoe UI", Roboto, sans-serif;
+  background-color: white;
+  color: $text;
+  min-height: 100vh;
+}
+
+/* en-tête principal */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, $primary, $primary-dark);
+  color: white;
+  padding: 20px 40px;
+  box-shadow: $shadow;
+
+  h1 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: bold;
+  }
+}
+
+/* bloc de droite dans le header */
+#header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* bouton connexion */
+.btn-login {
+  background: linear-gradient(135deg, #ffffff, #f8f9fa);
+  color: $primary-dark;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 25px;
+  padding: 12px 24px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    background: linear-gradient(135deg, $primary-dark, $primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+/* bouton panier */
+.cart-counter {
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+  position: fixed;
+  top: 20px;
+  right: 20px;
+
+  &:hover {
+    background: linear-gradient(135deg, #c82333, #dc3545);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+  }
+}
+
+/* bouton retour */
+button[onclick="history.back()"] {
+  position: fixed !important;
+  top: 25px !important;
+  left: 25px !important;
+  z-index: 1000;
+  background: white;
+  color: $primary-dark;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 25px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: $primary-dark;
+    color: white;
+    transform: translateY(-2px);
+  }
+}

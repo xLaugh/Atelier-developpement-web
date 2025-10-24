@@ -86,6 +86,33 @@ class Outil
         $this->exemplairesCount = $count;
     }
 
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    public function setCategoryId(int $categoryId): void
+    {
+        $this->categoryId = $categoryId;
+    }
+
+    private ?int $modelId = null;
+
+    public function getModelId(): ?int
+    {
+        return $this->modelId;
+    }
+
+    public function setModelId(int $modelId): void
+    {
+        $this->modelId = $modelId;
+    }
+
     public function isAvailable(): bool
     {
         return $this->exemplairesCount > 0;

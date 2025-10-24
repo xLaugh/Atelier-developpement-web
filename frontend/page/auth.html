@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Connexion / Inscription</title>
   <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../css/auth.css">
   <script src="../js/config.js"></script>
 </head>
 <body>
@@ -26,6 +25,10 @@
       <input type="text" name="nom" placeholder="Nom" required />
       <input type="email" name="email" placeholder="Adresse e-mail" required />
       <input type="password" name="password" id="registerPassword" placeholder="Mot de passe" required />
+      <select name="role" required>
+        <option value="user">Utilisateur</option>
+        <option value="admin">Administrateur</option>
+      </select>
       <div id="passwordRequirements" class="password-requirements">
         <p>Le mot de passe doit contenir :</p>
         <ul>

@@ -1,0 +1,111 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+/* structure générale */
+.detail-page {
+  background-color: $bg;
+  min-height: 100vh;
+  padding: 80px 40px 60px;
+  position: relative;
+}
+
+/* conteneur principal */
+.detail-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 50px;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+/* bloc d'informations */
+.detail-info {
+  flex: 1 1 55%;
+  background: white;
+  border-radius: 12px;
+  box-shadow: $shadow;
+  padding: 30px;
+
+  h1 {
+    font-size: 2rem;
+    color: $primary-dark;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-size: 1rem;
+    margin: 6px 0;
+  }
+}
+
+/* formulaire de réservation */
+.reservation-form {
+  flex: 1 1 35%;
+  background: white;
+  border-radius: 12px;
+  box-shadow: $shadow;
+  padding: 30px;
+
+  h3 {
+    color: $primary-dark;
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+
+      label {
+        font-weight: 500;
+        color: $primary-dark;
+      }
+
+      input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+
+      small {
+        font-size: 0.85rem;
+        color: #666;
+      }
+    }
+
+    .btn-add-cart {
+      background: linear-gradient(135deg, $primary, $primary-dark);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: linear-gradient(135deg, $primary-dark, $primary);
+        transform: translateY(-2px);
+      }
+    }
+  }
+}
+

@@ -15,6 +15,12 @@ use App\actions\CreateCategoryAction;
 use App\actions\CreateModelAction;
 use App\actions\CreateOutilAction;
 use App\actions\ListModelsAction;
+use App\actions\UpdateCategoryAction;
+use App\actions\UpdateModelAction;
+use App\actions\UpdateOutilAction;
+use App\actions\SearchOutilsAction;
+use App\actions\ListOutilsPaginatedAction;
+use App\actions\GetUserReservationsAction;
 
 $app->options('/{routes:.+}', function ($request, $response, $args) {
     return $response;
@@ -23,10 +29,13 @@ $app->options('/{routes:.+}', function ($request, $response, $args) {
 $app->get('/api/health', HealthAction::class)->setName('health');
 $app->get('/api/categories', ListCategoriesAction::class)->setName('list_categories');
 $app->get('/api/outils', ListOutilsAction::class)->setName('list_outils');
+$app->get('/api/outils/paginated', ListOutilsPaginatedAction::class)->setName('list_outils_paginated');
+$app->get('/api/outils/search', SearchOutilsAction::class)->setName('search_outils');
 $app->get('/api/outils/{id}', GetOutilAction::class)->setName('get_outil');
 $app->post('/api/auth/login', AuthLoginAction::class)->setName('auth_login');
 $app->post('/api/auth/register', AuthRegisterAction::class)->setName('auth_register');
 $app->get('/api/auth/me', AuthMeAction::class)->setName('auth_me');
+$app->get('/api/user/reservations', GetUserReservationsAction::class)->setName('get_user_reservations');
 $app->post('/api/reservations', CreateReservationAction::class)->setName('create_reservation');
 $app->post('/api/reservations/period', CreatePeriodReservationAction::class)->setName('create_period_reservation');
 $app->get('/api/availability', CheckAvailabilityAction::class)->setName('check_availability');
@@ -35,3 +44,6 @@ $app->get('/api/models', ListModelsAction::class)->setName('list_models');
 $app->post('/api/admin/categories', CreateCategoryAction::class)->setName('create_category');
 $app->post('/api/admin/models', CreateModelAction::class)->setName('create_model');
 $app->post('/api/admin/outils', CreateOutilAction::class)->setName('create_outil');
+$app->put('/api/admin/categories/{id}', UpdateCategoryAction::class)->setName('update_category');
+$app->put('/api/admin/models/{id}', UpdateModelAction::class)->setName('update_model');
+$app->put('/api/admin/outils/{id}', UpdateOutilAction::class)->setName('update_outil');

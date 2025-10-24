@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Mon Profil</title>
   <link rel="stylesheet" href="../css/style.css">
-  <script src="../js/config.js" defer></script>
+  <script src="../js/config.js"></script>
   <script src="../js/cart-counter.js" defer></script>
 </head>
 <body>
@@ -15,6 +15,13 @@
       <h1>Mon Profil</h1>
       <div id="user-info" class="user-info-card">
         <p>Chargement...</p>
+      </div>
+      
+      <div id="reservations-section" class="reservations-section">
+        <h2>Historique des réservations</h2>
+        <div id="reservations-list" class="reservations-list">
+          <p>Chargement de l'historique...</p>
+        </div>
       </div>
     </div>
   </div>
@@ -55,6 +62,90 @@
           </div>
         </div>
       `;
+      
+      // Charger l'historique des réservations
+      chargerReservations();
+    }
+
+    async function chargerReservations() {
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        document.getElementById('reservations-list').innerHTML = '<p class="text-red-600">Vous devez être connecté pour voir votre historique.</p>';
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/user/reservations`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          afficherReservations(data.reservations);
+        } else {
+          document.getElementById('reservations-list').innerHTML = '<p class="text-red-600">Erreur lors du chargement de l\'historique.</p>';
+        }
+      } catch (error) {
+        console.error('Erreur lors du chargement des réservations:', error);
+        document.getElementById('reservations-list').innerHTML = '<p class="text-red-600">Erreur lors du chargement de l\'historique.</p>';
+      }
+    }
+
+    function afficherReservations(reservations) {
+      if (reservations.length === 0) {
+        document.getElementById('reservations-list').innerHTML = '<p class="text-gray-600">Aucune réservation trouvée.</p>';
+        return;
+      }
+
+      const reservationsHTML = reservations.map(reservation => {
+        const statusClass = getStatusClass(reservation.status);
+        const statusText = getStatusText(reservation.status);
+        
+        return `
+          <div class="reservation-item">
+            <div class="reservation-header">
+              <h3>${reservation.model_name}</h3>
+              <span class="status ${statusClass}">${statusText}</span>
+            </div>
+            <div class="reservation-details">
+              <div class="reservation-info">
+                <p><strong>Catégorie:</strong> ${reservation.category_name}</p>
+                <p><strong>Quantité:</strong> ${reservation.quantity}</p>
+                <p><strong>Période:</strong> ${new Date(reservation.start_date).toLocaleDateString('fr-FR')} - ${new Date(reservation.end_date).toLocaleDateString('fr-FR')}</p>
+                <p><strong>Prix total:</strong> ${reservation.total_price ? reservation.total_price + '€' : 'Non défini'}</p>
+                <p><strong>Date de réservation:</strong> ${new Date(reservation.created_at).toLocaleDateString('fr-FR')}</p>
+              </div>
+              ${reservation.image_url ? `<img src="${reservation.image_url}" alt="${reservation.model_name}" class="reservation-image">` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('reservations-list').innerHTML = reservationsHTML;
+    }
+
+    function getStatusClass(status) {
+      switch (status) {
+        case 'confirmed': return 'status-confirmed';
+        case 'pending': return 'status-pending';
+        case 'cancelled': return 'status-cancelled';
+        default: return 'status-unknown';
+      }
+    }
+
+    function getStatusText(status) {
+      switch (status) {
+        case 'confirmed': return 'Confirmée';
+        case 'pending': return 'En attente';
+        case 'cancelled': return 'Annulée';
+        default: return 'Inconnu';
+      }
     }
 
     chargerProfil();

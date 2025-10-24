@@ -23,6 +23,7 @@ class AuthRegisterAction
             $nom = $data['nom'] ?? '';
             $email = $data['email'] ?? '';
             $password = $data['password'] ?? '';
+            $role = $data['role'] ?? 'user';
 
             if (empty($prenom) || empty($nom) || empty($email) || empty($password)) {
                 $response->getBody()->write(json_encode([
@@ -41,7 +42,7 @@ class AuthRegisterAction
                 return $response->withStatus(409)->withHeader('Content-Type', 'application/json; charset=utf-8');
             }
 
-            $user = $this->serviceUser->createUser($prenom, $nom, $email, $password, 'user');
+            $user = $this->serviceUser->createUser($prenom, $nom, $email, $password, $role);
 
             $response->getBody()->write(json_encode([
                 'success' => true,

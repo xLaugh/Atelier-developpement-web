@@ -5,7 +5,6 @@ namespace App\actions;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\application\services\ServiceModel;
-use App\domain\entities\Model;
 
 class CreateModelAction
 {
@@ -26,8 +25,18 @@ class CreateModelAction
                 return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
             }
 
+            if (!isset($data['category_id']) || empty($data['category_id'])) {
+                $response->getBody()->write(json_encode([
+                    'success' => false,
+                    'message' => 'La catégorie est requise'
+                ]));
+                return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
+            }
+
             $model = new Model();
+            $model->setCategoryId((int)$data['category_id']);
             $model->setName($data['name']);
+            $model->setImageUrl($data['image_url'] ?? null);
 
             $createdModel = $this->modelService->create($model);
 

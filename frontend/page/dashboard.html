@@ -15,6 +15,13 @@
     <div id="dashboard-content">
       <h1>Dashboard Admin</h1>
       <div class="admin-panel">
+        <div class="dashboard-links">
+          <a href="gestion.html" class="admin-link">
+            <h3>Gestion des éléments</h3>
+            <p>Modifier les catégories, modèles et outils existants</p>
+          </a>
+        </div>
+        
         <h2>Créer une catégorie</h2>
         <form id="create-category-form" class="admin-form">
           <input type="text" name="name" placeholder="Nom de la catégorie" required>
@@ -23,7 +30,11 @@
         
         <h2>Créer un modèle</h2>
         <form id="create-model-form" class="admin-form">
+          <select name="category_id" id="model-category-select" required>
+            <option value="">Sélectionner une catégorie</option>
+          </select>
           <input type="text" name="name" placeholder="Nom du modèle" required>
+          <input type="url" name="image_url" placeholder="URL de l'image (optionnel)">
           <button type="submit">Créer le modèle</button>
         </form>
         

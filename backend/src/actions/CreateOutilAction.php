@@ -4,13 +4,12 @@ namespace App\actions;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use App\application\services\ServiceOutil;
-use App\domain\entities\Outil;
+use App\application\ports\api\ServiceOutilInterface;
 
 class CreateOutilAction
 {
     public function __construct(
-        private ServiceOutil $outilService
+        private ServiceOutilInterface $outilService
     ) {}
 
     public function __invoke(Request $request, Response $response): Response
@@ -29,11 +28,16 @@ class CreateOutilAction
                 }
             }
 
-            $outil = new Outil();
-            $outil->setName($data['name']);
-            $outil->setDescription($data['description']);
-            $outil->setCategoryId($data['category_id']);
-            $outil->setModelId($data['model_id']);
+            $outil = new Outil(
+                id: 0,
+                categoryId: (int)$data['category_id'],
+                name: $data['name'],
+                brand: '',
+                imageUrl: '',
+                pricePerDay: null,
+                description: $data['description'],
+                createdAt: new \DateTimeImmutable()
+            );
 
             $createdOutil = $this->outilService->create($outil);
 

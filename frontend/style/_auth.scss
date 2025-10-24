@@ -1,0 +1,138 @@
+@import "variables";
+@import "mixins";
+
+body {
+  @include flexCenter(column);
+  min-height: 100vh;
+  background: linear-gradient(135deg, $primary, $primary-dark);
+  color: $text;
+  padding: 20px;
+  position: relative;
+}
+
+/* Bloc principal */
+.form-container {
+  background: $card-bg;
+  color: $text;
+  padding: 40px;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+
+  h2 {
+    color: $primary-dark;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    input {
+      padding: 12px;
+      border-radius: 8px;
+      border: 2px solid #e0e0e0;
+      outline: none;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+
+      &:focus {
+        border-color: $primary;
+        box-shadow: 0 0 0 3px rgba($primary, 0.1);
+      }
+    }
+
+    button {
+      background: linear-gradient(135deg, $primary, $primary-dark);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 5px;
+
+      &:hover {
+        background: linear-gradient(135deg, $primary-dark, $primary);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba($primary, 0.3);
+      }
+    }
+
+    p {
+      text-align: center;
+      font-size: 0.9rem;
+      margin-top: 10px;
+
+      a {
+        color: $primary;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: $primary-dark;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+/* Style du sélecteur de rôle */
+select[name="role"] {
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+  outline: none;
+  font-size: 1rem;
+  background-color: white;
+  color: #333;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+
+  &:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba($primary, 0.1);
+  }
+
+  option {
+    color: #333;
+    background: white;
+  }
+}
+
+/* Conditions de mot de passe */
+.password-requirements {
+  text-align: left;
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 5px;
+  line-height: 1.4;
+
+  p {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: $primary-dark;
+  }
+
+  ul {
+    list-style-type: disc;
+    margin: 0;
+    padding-left: 20px;
+  }
+
+  li {
+    margin: 3px 0;
+  }
+}

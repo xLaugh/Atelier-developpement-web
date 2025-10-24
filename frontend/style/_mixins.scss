@@ -1,0 +1,44 @@
+@use "variables" as *;
+
+/* centrage flexible */
+@mixin flexCenter($direction: row, $gap: 0) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: center;
+  align-items: center;
+  gap: $gap;
+}
+
+/* grille adaptable */
+@mixin gridAdaptive($min: 260px, $gap: 25px) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax($min, 1fr));
+  gap: $gap;
+}
+
+/* base pour les boutons */
+@mixin buttonBase($bg: $primary, $color: white) {
+  background-color: $bg;
+  color: $color;
+  border: none;
+  border-radius: $radius;
+  padding: 10px 20px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: $transition;
+
+  &:hover {
+    background-color: $primary-dark;
+    color: white;
+  }
+}
+
+/* style de carte */
+@mixin cardStyle {
+  background: $card-bg;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  padding: 20px;
+  transition: $transition;
+}

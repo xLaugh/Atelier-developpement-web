@@ -1,0 +1,120 @@
+@import "variables";
+@import "mixins";
+
+/* structure générale */
+body {
+  background: white;
+  color: $text;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* conteneur principal */
+.container {
+  width: 100%;
+  max-width: 1000px;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* bloc de gestion */
+#gestion-content {
+  background: $card-bg;
+  padding: 40px;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  width: 100%;
+  text-align: center;
+
+  h1, h2 {
+    color: $primary-dark;
+    margin-bottom: 20px;
+  }
+
+  h1 { font-size: 1.8rem; }
+  h2 { font-size: 1.3rem; margin-top: 30px; }
+
+  /* panneau admin */
+  .admin-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+
+    #categories-list,
+    #models-list,
+    #outils-list {
+      background: white;
+      border-radius: $radius;
+      box-shadow: $shadow;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    /* éléments listés */
+    .admin-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 10px 15px;
+      font-size: 0.95rem;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+
+      .item-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        text-align: left;
+
+        strong { color: $primary-dark; }
+      }
+
+      /* bouton modifier */
+      button {
+        background: linear-gradient(135deg, $primary, $primary-dark);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 6px 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+        white-space: nowrap;
+        min-width: 80px;
+        text-align: center;
+
+        &:hover { background: $primary-dark; }
+      }
+    }
+  }
+}
+
+/* responsive */
+@media (max-width: 768px) {
+  #gestion-content {
+    padding: 25px;
+
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.1rem; }
+
+    .admin-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+
+      button {
+        align-self: flex-end;
+      }
+    }
+  }
+}

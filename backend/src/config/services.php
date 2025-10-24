@@ -22,6 +22,12 @@ use App\application\usecases\FindUserByIdUseCase;
 use App\application\usecases\ListOutilsUseCase;
 use App\application\usecases\GetOutilUseCase;
 use App\application\usecases\ListCategoriesUseCase;
+use App\application\usecases\CreateCategoryUseCase;
+use App\application\usecases\CreateModelUseCase;
+use App\application\usecases\CreateOutilUseCase;
+use App\application\usecases\UpdateCategoryUseCase;
+use App\application\usecases\UpdateModelUseCase;
+use App\application\usecases\UpdateOutilUseCase;
 
 use App\infrastructure\repositories\PDOUserRepository;
 use App\infrastructure\repositories\PDOOutilRepository;
@@ -86,6 +92,30 @@ return [
     ListCategoriesUseCase::class => function ($container) {
         return new ListCategoriesUseCase($container->get(CategoryRepositoryInterface::class));
     },
+    
+    CreateCategoryUseCase::class => function ($container) {
+        return new CreateCategoryUseCase($container->get(CategoryRepositoryInterface::class));
+    },
+    
+    CreateModelUseCase::class => function ($container) {
+        return new CreateModelUseCase($container->get(ModelRepositoryInterface::class));
+    },
+    
+    CreateOutilUseCase::class => function ($container) {
+        return new CreateOutilUseCase($container->get(OutilRepositoryInterface::class));
+    },
+    
+    UpdateCategoryUseCase::class => function ($container) {
+        return new UpdateCategoryUseCase($container->get(CategoryRepositoryInterface::class));
+    },
+    
+    UpdateModelUseCase::class => function ($container) {
+        return new UpdateModelUseCase($container->get(ModelRepositoryInterface::class));
+    },
+    
+    UpdateOutilUseCase::class => function ($container) {
+        return new UpdateOutilUseCase($container->get(OutilRepositoryInterface::class));
+    },
 
     // Services
     ServiceUserInterface::class => function ($container) {
@@ -99,12 +129,18 @@ return [
     ServiceOutilInterface::class => function ($container) {
         return new ServiceOutil(
             $container->get(ListOutilsUseCase::class),
-            $container->get(GetOutilUseCase::class)
+            $container->get(GetOutilUseCase::class),
+            $container->get(CreateOutilUseCase::class),
+            $container->get(UpdateOutilUseCase::class)
         );
     },
     
     ServiceCategoryInterface::class => function ($container) {
-        return new ServiceCategory($container->get(ListCategoriesUseCase::class));
+        return new ServiceCategory(
+            $container->get(ListCategoriesUseCase::class),
+            $container->get(CreateCategoryUseCase::class),
+            $container->get(UpdateCategoryUseCase::class)
+        );
     },
     
     ServiceModel::class => function ($container) {
@@ -137,6 +173,10 @@ return [
             $container->get(ItemRepositoryInterface::class),
             $container->get(ReservationRepositoryInterface::class)
         );
+    },
+    
+    \App\actions\GetUserReservationsAction::class => function ($container) {
+        return new \App\actions\GetUserReservationsAction($container->get(ServiceUserInterface::class));
     },
 
     // PDO Connection

@@ -4,25 +4,43 @@
   <meta charset="UTF-8">
   <title>Catalogue</title>
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/index.css">
+  <script src="js/config.js"></script>
   <script src="js/cart-counter.js" defer></script>
   <script src="js/app.js" defer></script>
-  <script src="js/config.js"></script>
 </head>
 <body>
   <header>
-  <h1>Catalogue</h1>
+    <h1>Catalogue</h1>
+    <div id="search-container">
+      <div id="category-dropdown">
+        <span id="category-text">Toutes nos catégories</span>
+        <span id="category-arrow">▼</span>
+      </div>
+      <input type="text" id="search-input" placeholder="Rechercher un outil..." />
+      <button id="search-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+      </button>
+      <div id="category-menu" class="category-menu">
+        <div class="category-option" data-category="">Toutes les catégories</div>
+      </div>
+    </div>
+    <div id="header-right">
+      <a href="page/auth.html" class="btn-login" id="login-btn">Se connecter</a>
+      <div id="cart-counter" class="cart-counter clickable">0</div>
+    </div>
+  </header>
 
-  <div id="header-right">
-    <a href="page/auth.html" class="btn-login" id="login-btn">Se connecter</a>
-    <div id="cart-counter" class="cart-counter clickable">0</div>
-    <span id="user-info" style="display: none;">
-      <span id="username"></span>
-      <button onclick="logout()" class="btn-logout">Déconnexion</button>
-    </span>
-  </div>
-</header>
-  <nav id="categories"></nav>
-  <div id="catalogue"></div>
+  <main>
+    <aside id="categories"></aside>
+    <section id="catalogue"></section>
+    <div id="pagination" class="pagination">
+      <button id="prev-page" disabled>← Précédent</button>
+      <span id="page-info">Page 1</span>
+      <button id="next-page">Suivant →</button>
+    </div>
+  </main>
 </body>
 </html>
