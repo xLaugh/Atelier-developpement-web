@@ -1,0 +1,89 @@
+<?php
+// payment_info.php
+declare(strict_types=1);
+?>
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Informations de paiement</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    body{font-family: Arial, sans-serif; margin:2rem; max-width:720px}
+    form{display:grid; gap:.75rem}
+    label{display:block; font-size:.9rem}
+    input, select {padding:.6rem; font-size:1rem; width:100%; box-sizing:border-box}
+    .row{display:flex; gap:.5rem}
+    .row > *{flex:1}
+    .small{max-width:140px}
+    .error{color:#c00;font-size:.9rem}
+    .success{color:#080;font-size:.95rem}
+    button{padding:.7rem 1rem;font-size:1rem;border-radius:6px}
+    .muted{font-size:.85rem;color:#666}
+  </style>
+</head>
+<body>
+  <h1>Renseigner vos informations bancaires (sandbox)</h1>
+  <p class="muted">Page de test — ne pas utiliser en production. Les données transmises ici sont simulées et tokenisées côté serveur.</p>
+
+  <form id="paymentForm" autocomplete="off" novalidate>
+    <label>
+      Titulaire de la carte
+      <input id="cardholder" name="cardholder" type="text" required maxlength="100" placeholder="Nom tel qu'il apparaît sur la carte">
+    </label>
+
+    <label>
+      Numéro de carte
+      <input id="cardNumber" name="cardNumber" inputmode="numeric" autocomplete="off" maxlength="23" placeholder="XXXX XXXX XXXX XXXX" required>
+    </label>
+
+    <div class="row">
+      <label>
+        Date d'expiration (MM/AA)
+        <input id="expiry" name="expiry" inputmode="numeric" autocomplete="off" maxlength="5" placeholder="MM/AA" required>
+      </label>
+      <label class="small">
+        CVC
+        <input id="cvc" name="cvc" inputmode="numeric" autocomplete="off" maxlength="4" placeholder="CVC" required>
+      </label>
+    </div>
+
+    <label>
+      Adresse de facturation (ligne 1)
+      <input id="address" name="address" type="text" maxlength="200" placeholder="Adresse">
+    </label>
+
+    <div class="row">
+      <label>
+        Ville
+        <input id="city" name="city" type="text" maxlength="100">
+      </label>
+      <label class="small">
+        Code postal
+        <input id="postal" name="postal" type="text" maxlength="20">
+      </label>
+    </div>
+
+    <label>
+      Pays
+      <select id="country" name="country">
+        <option value="FR">France</option>
+        <option value="BE">Belgique</option>
+        <option value="LU">Luxembourg</option>
+        <option value="CH">Suisse</option>
+        <option value="DE">Allemagne</option>
+      </select>
+    </label>
+
+    <div id="formMessages" role="status" aria-live="polite"></div>
+
+    <div style="display:flex;gap:.5rem">
+      <button type="submit" id="submitBtn">Tokeniser et payer (sandbox)</button>
+      <button type="button" id="cancelBtn">Annuler</button>
+    </div>
+  </form>
+  <script src="../js/config.js"></script>
+  <script src="../js/payment.js"></script>
+</body>
+</html>

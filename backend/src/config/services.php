@@ -14,6 +14,7 @@ use App\application\services\ServiceUser;
 use App\application\services\ServiceOutil;
 use App\application\services\ServiceCategory;
 use App\application\services\ServiceModel;
+use App\application\services\ServicePayment; // ✅ Service paiement factice
 
 use App\application\usecases\AuthenticateUserUseCase;
 use App\application\usecases\CreateUserUseCase;
@@ -54,7 +55,8 @@ return [
     ModelRepositoryInterface::class => function ($container) {
         return new ModelRepository($container->get(PDO::class));
     },
-    
+
+    // Use cases
     AuthenticateUserUseCase::class => function ($container) {
         return new AuthenticateUserUseCase($container->get(UserRepositoryInterface::class));
     },
@@ -109,14 +111,24 @@ return [
         return new ServiceModel($container->get(ModelRepositoryInterface::class));
     },
 
+    // ✅ Service de paiement factice
+    ServicePayment::class => function ($container) {
+        return new ServicePayment();
+    },
+
+    // Actions
     \App\actions\CreateReservationAction::class => function ($container) {
-        return new \App\actions\CreateReservationAction($container->get(ItemRepositoryInterface::class));
+        return new \App\actions\CreateReservationAction(
+            $container->get(ItemRepositoryInterface::class),
+            $container->get(ServicePayment::class) // ✅ Injection paiement
+        );
     },
     
     \App\actions\CreatePeriodReservationAction::class => function ($container) {
         return new \App\actions\CreatePeriodReservationAction(
             $container->get(ReservationRepositoryInterface::class),
-            $container->get(ItemRepositoryInterface::class)
+            $container->get(ItemRepositoryInterface::class),
+            $container->get(ServicePayment::class) // ✅ Injection paiement
         );
     },
     

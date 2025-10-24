@@ -6,19 +6,21 @@ namespace App\actions;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\application\ports\spi\ItemRepositoryInterface;
+use App\application\services\ServicePayment; // ✅ Nouveau service pour paiement simulé
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
 class CreateReservationAction
 {
     public function __construct(
-        private ItemRepositoryInterface $itemRepository
+        private ItemRepositoryInterface $itemRepository,
+        private ServicePayment $paymentService // ✅ Injection du service de paiement
     ) {}
 
     public function __invoke(Request $request, Response $response): Response
     {
         try {
-            // test l'authentification
+            // 🔐 Vérification du token JWT
             $authHeader = $request->getHeaderLine('Authorization');
             if (!$authHeader || !str_starts_with($authHeader, 'Bearer ')) {
                 $response->getBody()->write(json_encode([
@@ -31,7 +33,7 @@ class CreateReservationAction
             $token = substr($authHeader, 7);
             $settings = require __DIR__ . '/../../config/settings.php';
             $jwtConfig = $settings['jwt'];
-            
+
             try {
                 $decoded = JWT::decode($token, new Key($jwtConfig['secret'], $jwtConfig['algorithm']));
                 $userId = $decoded->data->id;
@@ -43,9 +45,10 @@ class CreateReservationAction
                 return $response->withStatus(401)->withHeader('Content-Type', 'application/json; charset=utf-8');
             }
 
-            // Récupérer les données de la réservation
+            // 📦 Données de la réservation
             $data = $request->getParsedBody();
             $items = $data['items'] ?? [];
+            $paymentToken = $data['payment_token'] ?? null;
 
             if (empty($items)) {
                 $response->getBody()->write(json_encode([
@@ -55,10 +58,36 @@ class CreateReservationAction
                 return $response->withStatus(400)->withHeader('Content-Type', 'application/json; charset=utf-8');
             }
 
+            if (!$paymentToken) {
+                $response->getBody()->write(json_encode([
+                    'error' => 'missing_payment_token',
+                    'message' => 'Le token de paiement est requis'
+                ], JSON_UNESCAPED_UNICODE));
+                return $response->withStatus(400)->withHeader('Content-Type', 'application/json; charset=utf-8');
+            }
+
+            // 💳 Simulation du paiement avant la réservation
+            $totalAmount = 0;
+            foreach ($items as $item) {
+                $quantite = $item['quantite'] ?? 0;
+                $prixUnitaire = $item['prix'] ?? 10.0; // prix fictif
+                $totalAmount += $prixUnitaire * $quantite;
+            }
+
+            $paymentSuccess = $this->paymentService->processPayment($paymentToken, $totalAmount);
+
+            if (!$paymentSuccess) {
+                $response->getBody()->write(json_encode([
+                    'error' => 'payment_failed',
+                    'message' => 'Le paiement a échoué (simulation)'
+                ], JSON_UNESCAPED_UNICODE));
+                return $response->withStatus(402)->withHeader('Content-Type', 'application/json; charset=utf-8');
+            }
+
+            // ✅ Si paiement ok → réserver les items
             $reservedItems = [];
             $errors = [];
 
-            // Traiter chaque article
             foreach ($items as $item) {
                 $outilId = $item['outil_id'] ?? null;
                 $quantite = $item['quantite'] ?? 0;
@@ -71,13 +100,13 @@ class CreateReservationAction
 
                 // Vérifier la disponibilité
                 $itemsLibres = $this->itemRepository->findLibresByModelId($outilId);
-                
+
                 if (count($itemsLibres) < $quantite) {
                     $errors[] = "Pas assez d'exemplaires disponibles pour l'outil ID: $outilId";
                     continue;
                 }
 
-                // Réserver les items (mettre le statut à 1)
+                // Réserver les items
                 $itemsToReserve = array_slice($itemsLibres, 0, $quantite);
                 foreach ($itemsToReserve as $itemToReserve) {
                     $itemToReserve->prendre();
@@ -100,13 +129,15 @@ class CreateReservationAction
                 return $response->withStatus(400)->withHeader('Content-Type', 'application/json; charset=utf-8');
             }
 
+            // 🧾 Réponse finale
             $response->getBody()->write(json_encode([
                 'success' => true,
-                'message' => 'Réservation confirmée avec succès',
+                'message' => 'Réservation confirmée et paiement validé (simulation)',
+                'payment_token' => $paymentToken,
                 'reserved_items' => $reservedItems,
                 'total_items' => count($reservedItems)
             ], JSON_UNESCAPED_UNICODE));
-            
+
             return $response->withHeader('Content-Type', 'application/json; charset=utf-8');
 
         } catch (\Exception $e) {

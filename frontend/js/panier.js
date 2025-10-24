@@ -1,7 +1,7 @@
 function chargerPanier() {
   const panier = JSON.parse(localStorage.getItem('panier') || '[]');
   const cartContent = document.getElementById('cart-content');
-  
+
   if (panier.length === 0) {
     cartContent.innerHTML = `
       <div class="empty-cart">
@@ -12,10 +12,10 @@ function chargerPanier() {
     `;
     return;
   }
-  
+
   // Calculer le total
   const total = panier.reduce((sum, item) => sum + (item.prixTotal ? item.prixTotal : (item.prixUnitaire * item.quantite)), 0);
-  
+
   cartContent.innerHTML = `
     <div class="cart-items">
       ${panier.map((item, index) => `
@@ -31,13 +31,12 @@ function chargerPanier() {
             <p><strong>Quantité:</strong> ${item.quantite} exemplaire${item.quantite > 1 ? 's' : ''}</p>
             <p><strong>Prix unitaire:</strong> ${item.prixUnitaire}€/jour</p>
             <p><strong>Prix total:</strong> ${(item.prixTotal ? item.prixTotal : (item.prixUnitaire * item.quantite)).toFixed(2)}€</p>
-            ${item.duration && item.duration > 1 ? `<p><strong>Prix par exemplaire:</strong> ${(item.prixTotal / item.quantite).toFixed(2)}€</p>` : ''}
           </div>
           <button class="btn-remove" onclick="supprimerArticle(${index})">Supprimer</button>
         </div>
       `).join('')}
     </div>
-    
+
     <div class="cart-summary">
       <div class="total">
         <h2>Total: ${total.toFixed(2)}€</h2>
@@ -52,14 +51,11 @@ function chargerPanier() {
 
 window.supprimerArticle = function(index) {
   let panier = JSON.parse(localStorage.getItem('panier') || '[]');
-  
   if (index >= 0 && index < panier.length) {
     panier.splice(index, 1);
     localStorage.setItem('panier', JSON.stringify(panier));
     chargerPanier();
-    if (typeof updateCartCounter === 'function') {
-      updateCartCounter();
-    }
+    if (typeof updateCartCounter === 'function') updateCartCounter();
   }
 }
 
@@ -67,69 +63,32 @@ window.viderPanier = function() {
   if (confirm('Êtes-vous sûr de vouloir vider le panier ?')) {
     localStorage.removeItem('panier');
     chargerPanier();
-    if (typeof updateCartCounter === 'function') {
-      updateCartCounter();
-    }
+    if (typeof updateCartCounter === 'function') updateCartCounter();
   }
 }
 
-window.confirmerReservation = async function() {
+window.confirmerReservation = function() {
   const panier = JSON.parse(localStorage.getItem('panier') || '[]');
   const token = localStorage.getItem('token');
-  
+
   if (!token) {
     alert('Vous devez être connecté pour confirmer une réservation');
     window.location.href = 'auth.html';
     return;
   }
-  
+
   if (panier.length === 0) {
     alert('Votre panier est vide');
     return;
   }
-  
-  if (!confirm('Confirmer la réservation ? Cette action est définitive.')) {
-    return;
-  }
-  
-  try {
-    // Préparer les données de réservation
-    const reservationData = {
-      items: panier.map(item => ({
-        outil_id: item.outil.id,
-        start_date: item.startDate || item.date,
-        end_date: item.endDate || item.date,
-        quantite: item.quantite,
-        duration: item.duration || 1,
-        prix_total: item.prixTotal || (item.prixUnitaire * item.quantite)
-      }))
-    };
-    
-    const response = await fetch(`${API_BASE_URL}/api/reservations/period`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify(reservationData)
-    });
-    
-    if (response.ok) {
-      const result = await response.json();
-      alert('Réservation confirmée avec succès !');
-      localStorage.removeItem('panier');
-      chargerPanier();
-      if (typeof updateCartCounter === 'function') {
-        updateCartCounter();
-      }
-    } else {
-      const error = await response.json();
-      alert(`Erreur: ${error.message || 'Impossible de confirmer la réservation'}`);
-    }
-  } catch (error) {
-    alert('Erreur de connexion. Veuillez réessayer.');
-    console.error('Erreur:', error);
-  }
+
+  // ✅ Sauvegarde du panier avant de passer au paiement
+  localStorage.setItem('pendingReservation', JSON.stringify(panier));
+
+  // ✅ Redirection vers la page de paiement
+  window.location.href = 'payment.html';
 }
+
+
 
 chargerPanier();
