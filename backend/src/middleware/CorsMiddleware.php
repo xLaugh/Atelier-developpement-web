@@ -17,6 +17,7 @@ class CorsMiddleware
 
         return $response
             ->withHeader('Access-Control-Allow-Origin', 'http://docketu.iutnc.univ-lorraine.fr:13014')
+            ->withHeader('Access-Control-Allow-Origin', 'http://localhost:13014')
             ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
             ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
             ->withHeader('Access-Control-Allow-Credentials', 'true');

@@ -1,3 +1,4 @@
+# === ROUTAGE SLIM ===
 RewriteEngine On
 
 RewriteCond %{REQUEST_METHOD} OPTIONS
@@ -6,10 +7,3 @@ RewriteRule ^(.*)$ index.php [QSA,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [QSA,L]
-
-SetEnvIfNoCase Origin "^https?://(localhost(:[0-9]+)?|127\.0\.0\.1(:[0-9]+)?)$" ACAO=$0
-Header always set Access-Control-Allow-Origin "%{ACAO}e" env=ACAO
-Header always set Access-Control-Allow-Methods "GET, POST, PUT, PATCH, DELETE, OPTIONS"
-Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With, Accept, Origin"
-Header always set Access-Control-Max-Age "86400"
-Header always set Vary "Origin"
