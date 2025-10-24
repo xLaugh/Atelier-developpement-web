@@ -96,7 +96,10 @@ button[onclick="history.back()"] {
   position: fixed !important;
   top: 25px !important;
   left: 25px !important;
+  right: auto !important;
   z-index: 1000;
+  display: inline-block;
+  width: auto;
   background: white;
   color: $primary-dark;
   border: none;

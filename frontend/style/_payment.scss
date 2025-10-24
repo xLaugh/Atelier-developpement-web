@@ -1,0 +1,149 @@
+@import "variables";
+@import "mixins";
+
+/* page */
+body {
+  @include flexCenter(column);
+  background: white;
+  color: $text;
+  margin: 0;
+  min-height: 100vh;
+  padding: 40px 20px;
+  font-family: "Segoe UI", Roboto, sans-serif;
+}
+
+/* titre + sous-titre */
+h1 {
+  color: $primary-dark;
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.muted {
+  font-size: 0.9rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+/* formulaire principal */
+form {
+  width: 100%;
+  max-width: 720px;
+  background: $card-bg;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  padding: 30px;
+  display: grid;
+  gap: 15px;
+}
+
+/* champs */
+label {
+  display: block;
+  font-weight: 600;
+  color: $primary-dark;
+  font-size: 0.95rem;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba($primary, 0.1);
+    outline: none;
+  }
+}
+
+/* lignes multi-champs */
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+.row > * {
+  flex: 1;
+}
+
+.small {
+  max-width: 150px;
+}
+
+/* messages d’erreur/succès */
+#formMessages {
+  min-height: 20px;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+.error {
+  color: #c00;
+}
+
+.success {
+  color: #080;
+}
+
+/* boutons */
+button {
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#submitBtn {
+  background: linear-gradient(135deg, $primary, $primary-dark);
+  color: white;
+
+  &:hover {
+    background: linear-gradient(135deg, $primary-dark, $primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba($primary, 0.3);
+  }
+}
+
+#cancelBtn {
+  background: #f0f0f0;
+  color: #333;
+
+  &:hover {
+    background: #e0e0e0;
+    transform: translateY(-2px);
+  }
+}
+
+/* responsive */
+@media (max-width: 650px) {
+  body {
+    padding: 20px 10px;
+  }
+
+  form {
+    padding: 20px;
+  }
+
+  .row {
+    flex-direction: column;
+  }
+
+  .small {
+    max-width: 100%;
+  }
+
+  button {
+    width: 100%;
+  }
+}
