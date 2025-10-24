@@ -38,6 +38,7 @@ use App\infrastructure\repositories\PDOCategoryRepository;
 use App\infrastructure\repositories\PDOItemRepository;
 use App\infrastructure\repositories\PDOReservationRepository;
 use App\infrastructure\repositories\ModelRepository;
+use App\infrastructure\repositories\PDOLogRepository;
 
 return [
     // Repositories
@@ -63,6 +64,11 @@ return [
     
     ModelRepositoryInterface::class => function ($container) {
         return new ModelRepository($container->get(PDO::class));
+    },
+
+    // Repository de logs
+    PDOLogRepository::class => function ($container) {
+        return new PDOLogRepository($container->get(PDO::class));
     },
 
     // Use cases
@@ -181,7 +187,8 @@ return [
         return new \App\actions\CreatePeriodReservationAction(
             $container->get(ReservationRepositoryInterface::class),
             $container->get(ItemRepositoryInterface::class),
-            $container->get(ServicePayment::class) // ✅ Injection paiement
+            $container->get(ServicePayment::class),
+            $container->get(PDOLogRepository::class)
         );
     },
     
@@ -200,6 +207,12 @@ return [
         return new \App\actions\ProcessPaymentAction(
             $container->get(ProcessPaymentUseCase::class),
             $container->get(TokenizeCardUseCase::class)
+        );
+    },
+
+    \App\actions\GetUserLogsAction::class => function ($container) {
+        return new \App\actions\GetUserLogsAction(
+            $container->get(PDOLogRepository::class)
         );
     },
 

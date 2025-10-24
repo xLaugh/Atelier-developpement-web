@@ -7,15 +7,17 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\application\ports\spi\ReservationRepositoryInterface;
 use App\application\ports\spi\ItemRepositoryInterface;
-use App\application\services\ServicePayment; // ✅ Ajout du service de paiement simulé
+use App\application\services\ServicePayment; 
 use App\domain\entities\Reservation;
+use App\infrastructure\repositories\PDOLogRepository;
 
 class CreatePeriodReservationAction
 {
     public function __construct(
         private ReservationRepositoryInterface $reservationRepository,
         private ItemRepositoryInterface $itemRepository,
-        private ServicePayment $paymentService // ✅ Injection du service
+        private ServicePayment $paymentService,
+        private PDOLogRepository $logRepository
     ) {}
 
     public function __invoke(Request $request, Response $response): Response
@@ -23,8 +25,8 @@ class CreatePeriodReservationAction
         try {
             $data = $request->getParsedBody();
             $items = $data['items'] ?? [];
-            $paymentToken = $data['payment_token'] ?? null; // ✅ Ajout du token
-            $userId = 1; // ⚠️ à remplacer plus tard par l’utilisateur authentifié
+            $paymentToken = $data['payment_token'] ?? null;
+            $userId = 1;
 
             if (empty($items)) {
                 $response->getBody()->write(json_encode([
@@ -111,6 +113,9 @@ class CreatePeriodReservationAction
 
                 $this->reservationRepository->save($reservation);
                 $created[] = $reservation->toArray();
+                
+                // Log de la création de réservation
+                $this->logRepository->logAction($userId, $modelId, 'create', "Réservation créée pour {$quantity} exemplaire(s)");
             }
 
             if ($errors) {

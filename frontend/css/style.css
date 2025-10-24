@@ -1432,4 +1432,55 @@ button {
   button {
     width: 100%; } }
 
+/* Styles pour les logs d'activité */
+.logs-section {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.log-item {
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease;
+}
+
+.log-item:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.log-action {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 0.95rem;
+}
+
+.log-date {
+  color: #6c757d;
+  font-size: 0.85rem;
+}
+
+.log-details {
+  color: #495057;
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+.log-details:not(:last-child) {
+  margin-bottom: 0.25rem;
+}
+
 /*# sourceMappingURL=style.css.map */

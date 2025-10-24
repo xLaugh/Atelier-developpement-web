@@ -22,6 +22,7 @@ use App\actions\SearchOutilsAction;
 use App\actions\ListOutilsPaginatedAction;
 use App\actions\GetUserReservationsAction;
 use App\actions\ProcessPaymentAction;
+use App\actions\GetUserLogsAction;
 
 $app->options('/{routes:.+}', function ($request, $response, $args) {
     return $response;
@@ -37,6 +38,7 @@ $app->post('/api/auth/login', AuthLoginAction::class)->setName('auth_login');
 $app->post('/api/auth/register', AuthRegisterAction::class)->setName('auth_register');
 $app->get('/api/auth/me', AuthMeAction::class)->setName('auth_me');
 $app->get('/api/user/reservations', GetUserReservationsAction::class)->setName('get_user_reservations');
+$app->get('/api/user/logs', GetUserLogsAction::class)->setName('get_user_logs');
 $app->post('/api/reservations', CreateReservationAction::class)->setName('create_reservation');
 $app->post('/api/reservations/period', CreatePeriodReservationAction::class)->setName('create_period_reservation');
 $app->get('/api/availability', CheckAvailabilityAction::class)->setName('check_availability');
