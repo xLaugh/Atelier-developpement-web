@@ -14,7 +14,10 @@ use App\application\services\ServiceUser;
 use App\application\services\ServiceOutil;
 use App\application\services\ServiceCategory;
 use App\application\services\ServiceModel;
-use App\application\services\ServicePayment; // ✅ Service paiement factice
+use App\application\services\ServicePayment;
+use App\application\ports\api\ServicePaymentInterface;
+use App\application\usecases\ProcessPaymentUseCase;
+use App\application\usecases\TokenizeCardUseCase;
 
 use App\application\usecases\AuthenticateUserUseCase;
 use App\application\usecases\CreateUserUseCase;
@@ -152,11 +155,25 @@ return [
         return new ServicePayment();
     },
 
+    // Interface de paiement
+    ServicePaymentInterface::class => function ($container) {
+        return $container->get(ServicePayment::class);
+    },
+
+    // Use cases de paiement
+    ProcessPaymentUseCase::class => function ($container) {
+        return new ProcessPaymentUseCase($container->get(ServicePaymentInterface::class));
+    },
+
+    TokenizeCardUseCase::class => function ($container) {
+        return new TokenizeCardUseCase($container->get(ServicePaymentInterface::class));
+    },
+
     // Actions
     \App\actions\CreateReservationAction::class => function ($container) {
         return new \App\actions\CreateReservationAction(
             $container->get(ItemRepositoryInterface::class),
-            $container->get(ServicePayment::class) // ✅ Injection paiement
+            $container->get(ServicePayment::class)
         );
     },
     
@@ -177,6 +194,13 @@ return [
     
     \App\actions\GetUserReservationsAction::class => function ($container) {
         return new \App\actions\GetUserReservationsAction($container->get(ServiceUserInterface::class));
+    },
+
+    \App\actions\ProcessPaymentAction::class => function ($container) {
+        return new \App\actions\ProcessPaymentAction(
+            $container->get(ProcessPaymentUseCase::class),
+            $container->get(TokenizeCardUseCase::class)
+        );
     },
 
     // PDO Connection

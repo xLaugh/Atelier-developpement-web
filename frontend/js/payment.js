@@ -7,32 +7,56 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     message.textContent = "Traitement du paiement...";
 
-    // Récupérer les données du formulaire
-    const formData = Object.fromEntries(new FormData(form).entries());
-
-    // Génération d'un token factice (simulation de paiement)
-    const paymentToken = "tok_" + Math.floor(Math.random() * 1000000);
-
-    // Récupère le panier depuis le localStorage
-    const panier = JSON.parse(localStorage.getItem("panier") || "[]");
-
-    const reservationData = {
-      items: panier.map((item) => ({
-        outil_id: item.outil.id,
-        start_date: item.startDate || item.date,
-        end_date: item.endDate || item.date,
-        quantite: item.quantite,
-        duration: item.duration || 1,
-        prix_total: item.prixTotal || item.prixUnitaire * item.quantite,
-      })),
-      payment_token: paymentToken,
-    };
-
-    // Récupération du token JWT si utilisé pour l'authentification
-    const tokenJWT = localStorage.getItem("jwt") || "";
-
     try {
-      const res = await fetch(`${API_BASE_URL}/api/reservations/period`, {
+      // Récupérer les données du formulaire
+      const formData = Object.fromEntries(new FormData(form).entries());
+
+      // Récupère le panier depuis le localStorage pour calculer le montant
+      const panier = JSON.parse(localStorage.getItem("panier") || "[]");
+      const totalAmount = panier.reduce((total, item) => {
+        return total + (item.prixTotal || item.prixUnitaire * item.quantite);
+      }, 0);
+
+      // Étape 1: Traitement du paiement via l'architecture
+      const paymentData = {
+        cardholder: formData.cardholder,
+        cardNumber: formData.cardNumber,
+        expiry: formData.expiry,
+        cvc: formData.cvc,
+        amount: totalAmount
+      };
+
+      const paymentRes = await fetch(`${API_BASE_URL}/api/payment/process`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(paymentData),
+      });
+
+      const paymentResult = await paymentRes.json();
+
+      if (!paymentRes.ok) {
+        throw new Error(paymentResult.message || "Erreur de paiement");
+      }
+
+      // Étape 2: Si paiement réussi, créer la réservation
+      const reservationData = {
+        items: panier.map((item) => ({
+          outil_id: item.outil.id,
+          start_date: item.startDate || item.date,
+          end_date: item.endDate || item.date,
+          quantite: item.quantite,
+          duration: item.duration || 1,
+          prix_total: item.prixTotal || item.prixUnitaire * item.quantite,
+        })),
+        payment_token: paymentResult.token,
+      };
+
+      // Récupération du token JWT si utilisé pour l'authentification
+      const tokenJWT = localStorage.getItem("jwt") || "";
+
+      const reservationRes = await fetch(`${API_BASE_URL}/api/reservations/period`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,21 +65,19 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify(reservationData),
       });
 
-      const data = await res.json();
+      const reservationResult = await reservationRes.json();
 
-      if (res.ok) {
-        // ✅ Succès
+      if (reservationRes.ok) {
         alert("✅ Paiement réussi ! Votre réservation a bien été enregistrée.");
         localStorage.removeItem("panier"); // on vide le panier
         window.location.href = "../index.html"; // redirection vers l'accueil
       } else {
-        // ❌ Erreur renvoyée par le serveur
-        alert("❌ Erreur : " + (data.message || data.error || "Paiement refusé."));
-        message.innerHTML = `<p class="error">Erreur : ${data.message || data.error}</p>`;
+        alert("❌ Paiement validé mais erreur lors de la réservation : " + (reservationResult.message || reservationResult.error));
+        message.innerHTML = `<p class="error">Erreur réservation : ${reservationResult.message || reservationResult.error}</p>`;
       }
     } catch (err) {
       console.error(err);
-      alert("⚠️ Erreur de communication avec le serveur : " + err.message);
+      alert("⚠️ Erreur : " + err.message);
       message.innerHTML = `<p class="error">Erreur : ${err.message}</p>`;
     }
   });

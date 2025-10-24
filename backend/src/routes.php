@@ -21,6 +21,7 @@ use App\actions\UpdateOutilAction;
 use App\actions\SearchOutilsAction;
 use App\actions\ListOutilsPaginatedAction;
 use App\actions\GetUserReservationsAction;
+use App\actions\ProcessPaymentAction;
 
 $app->options('/{routes:.+}', function ($request, $response, $args) {
     return $response;
@@ -39,6 +40,7 @@ $app->get('/api/user/reservations', GetUserReservationsAction::class)->setName('
 $app->post('/api/reservations', CreateReservationAction::class)->setName('create_reservation');
 $app->post('/api/reservations/period', CreatePeriodReservationAction::class)->setName('create_period_reservation');
 $app->get('/api/availability', CheckAvailabilityAction::class)->setName('check_availability');
+$app->post('/api/payment/process', ProcessPaymentAction::class)->setName('process_payment');
 
 $app->get('/api/models', ListModelsAction::class)->setName('list_models');
 $app->post('/api/admin/categories', CreateCategoryAction::class)->setName('create_category');
