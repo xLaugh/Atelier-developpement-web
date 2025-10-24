@@ -270,28 +270,33 @@ a.outil {
 
   #search-btn {
     background: #ffc107;
-    color: #333;
     border: none;
     border-radius: 50%;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s ease;
-
+    flex-shrink: 0;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  
+    svg {
+      width: 20px;
+      height: 20px;
+      stroke: #fff !important;
+      fill: none !important;
+      stroke-width: 2.5px !important;
+      pointer-events: none;
+      display: block;
+    }
+  
     &:hover {
       background: darken(#ffc107, 8%);
       transform: scale(1.05);
     }
-
-    svg {
-      width: 18px;
-      height: 18px;
-    }
   }
-
   .category-menu {
     display: none;
     position: absolute;
