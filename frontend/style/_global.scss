@@ -91,6 +91,13 @@ header {
   }
 }
 
+/* Quand le panier est placé dans le header, on le garde inline */
+header #header-right .cart-counter {
+  position: static;
+  top: auto;
+  right: auto;
+}
+
 /* bouton retour */
 button[onclick="history.back()"] {
   position: fixed !important;

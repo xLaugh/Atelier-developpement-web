@@ -1,4 +1,4 @@
-@use "variables" as *;
+@import "variables";
 
 /* centrage flexible */
 @mixin flexCenter($direction: row, $gap: 0) {
