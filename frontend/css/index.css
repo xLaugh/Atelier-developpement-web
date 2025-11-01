@@ -11,75 +11,20 @@
 /* grille adaptable */
 /* base pour les boutons */
 /* style de carte */
-html, body {
-  margin: 0;
-  padding: 0;
-  background: white !important;
-  background-image: none !important;
-}
-
+/* Styles spécifiques au header sur la page index */
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: linear-gradient(135deg, #1d7a7a, #155d5d);
-  color: white;
   width: 100%;
   margin-bottom: 40px;
 }
 header h1 {
-  margin: 0;
-  font-size: 2rem;
-  font-weight: bold;
   color: white;
 }
 
-#header-right {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.btn-login {
-  background: linear-gradient(135deg, #ffffff, #f8f9fa);
-  color: #155d5d;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 25px;
-  padding: 12px 24px;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-.btn-login:hover {
-  background: linear-gradient(135deg, #155d5d, #1d7a7a);
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-  border-color: rgba(255, 255, 255, 0.5);
-}
-
-.cart-counter {
-  background: #dc3545;
-  color: white;
-  border: none;
-  border-radius: 50%;
+/* Style du panier dans le header (plus petit que le panier fixe) */
+header #header-right .cart-counter {
   width: 40px;
   height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
   font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.cart-counter:hover {
-  background: #c82333;
-  transform: scale(1.05);
 }
 
 .user-menu {

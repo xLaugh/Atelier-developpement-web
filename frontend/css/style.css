@@ -579,6 +579,22 @@ body {
 /* grille adaptable */
 /* base pour les boutons */
 /* style de carte */
+/* Styles spécifiques au header sur la page index */
+header {
+  width: 100%;
+  margin-bottom: 40px;
+}
+header h1 {
+  color: white;
+}
+
+/* Style du panier dans le header (plus petit que le panier fixe) */
+header #header-right .cart-counter {
+  width: 40px;
+  height: 40px;
+  font-size: 1rem;
+}
+
 .user-menu {
   position: relative;
   display: inline-block;
