@@ -76,7 +76,7 @@ Atelier-developpement-web/
 
 **Arrêter les conteneurs** :
 ```bash
-docker-compose down
+docker-compose down -v
 ```
 
 **Voir les logs** :
