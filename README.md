@@ -2,6 +2,9 @@
 
 Application web de gestion et location d'outils développée par Alexandre, Arman, Baptiste et Mathias
 
+<img width="1620" height="778" alt="image" src="https://github.com/user-attachments/assets/cf09f9f1-5754-4f43-8545-dd939b20fe07" />
+
+
 ## Description
 
 Cette application permet de gérer un catalogue d'outils et de permettre aux utilisateurs de les réserver pour une période donnée. Le système comprend une API REST backend en PHP (Slim Framework) et une interface frontend en HTML/CSS/JavaScript.
