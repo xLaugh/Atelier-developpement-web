@@ -82,10 +82,10 @@ window.confirmerReservation = function() {
     return;
   }
 
-  // ✅ Sauvegarde du panier avant de passer au paiement
+  // Sauvegarde du panier avant de passer au paiement
   localStorage.setItem('pendingReservation', JSON.stringify(panier));
 
-  // ✅ Redirection vers la page de paiement
+  // Redirection vers la page de paiement
   window.location.href = 'payment.html';
 }
 
