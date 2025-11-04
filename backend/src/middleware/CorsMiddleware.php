@@ -18,7 +18,7 @@ class CorsMiddleware
             'http://docketu.iutnc.univ-lorraine.fr:13014'
         ];
 
-        // Si c’est une requête OPTIONS → réponse vide
+        // Si c’est une requête OPTIONS réponse vide
         if ($request->getMethod() === 'OPTIONS') {
             $response = new SlimResponse(204);
         } else {
